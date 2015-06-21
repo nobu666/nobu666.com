@@ -1,0 +1,13 @@
+baseurl: "http://nobu666.com"
+languageCode: "ja"
+title: "Real Beat"
+uglyurls: true
+
+params:
+  ProfilePicture: "https://avatars0.githubusercontent.com/u/51591?v=3&s=460"
+  links:
+    Home: "/"
+
+  twitter: "https://twitter.com/nobu666"
+  facebook: "https://www.facebook.com/nobutoshi.ogata"
+  github: "https://github.com/nobu666"
