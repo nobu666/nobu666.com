@@ -18,9 +18,6 @@ class Time
 end
 
 doc = Document.new File.new(ARGV[0])
-FileUtils.mkdir_p 'post'
-FileUtils.mkdir_p 'page'
-
 doc.elements.each("rss/channel/item[wp:status = 'publish' and (wp:post_type = 'post' or wp:post_type = 'page')]") do |e|
   post = e.elements
 
@@ -36,8 +33,14 @@ doc.elements.each("rss/channel/item[wp:status = 'publish' and (wp:post_type = 'p
   category  = ''
 
   # Replace absolute path to relative path
-  content = content.gsub(/src="http:\/\/nobu666.com\/wp-content\/uploads\/(\d+)\/(\d+)\/(.+?)"/, 'src="/images/\1/\2/\3"')
-  content = content.gsub(/\[\/?sourcecode\]/, '```')
+  content.gsub!(/src="http:\/\/nobu666.com\/wp-content\/uploads\/(\d+)\/(\d+)\/(.+?)"/, 'src="/images/\1/\2/\3"')
+  content.gsub!(/^\[sourcecode lang="([a-z]+)"\].*$/, '```\1')
+  content.gsub!(/^\[sourcecode lang='([a-z]+)'\].*$/, '```\1')
+  content.gsub!(/\[\/?sourcecode\].*/, '```')
+  content.gsub!(/&amp;/, '&')
+  content.gsub!(/&quot;/, '"')
+  content.gsub!(/&lt;/, '<')
+  content.gsub!(/&gt;/, '>')
 
   # Page not have category tag
   if defined?(post['category'].text)

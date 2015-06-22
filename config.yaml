@@ -1,13 +1,22 @@
 baseurl: "http://nobu666.com"
-languageCode: "ja"
+languageCode: "ja-JP"
 title: "Real Beat"
+theme: "vienna"
+paginate: 10
 uglyurls: true
+copyright: "&copy; nobu666.com"
 
 params:
-  ProfilePicture: "https://avatars0.githubusercontent.com/u/51591?v=3&s=460"
-  links:
-    Home: "/"
+  author: "nobu666"
+  avatar: "https://avatars0.githubusercontent.com/u/51591?v=3&s=460"
+  contact: "ogata.nobu@gmail.com"
+  bio: ""
+  subtitle: ""
 
-  twitter: "https://twitter.com/nobu666"
-  facebook: "https://www.facebook.com/nobutoshi.ogata"
-  github: "https://github.com/nobu666"
+  twitter: "nobu666"
+  facebook: "nobutoshi.ogata"
+  github: "nobu666"
+  linkedin: "nobu666"
+  stackoverflow: ""
+  ga_api_key: "UA-57485-1"
+  mixpanel_api_key: ""
