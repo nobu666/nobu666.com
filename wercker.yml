@@ -1,7 +1,8 @@
-box: wercker/default
+box: debian
 build:
     steps:
         - arjen/hugo-build:
             version: "0.14"
             theme: vienna
-            flags: --buildDrafts=true
+            config: config.yaml
+            flags: --buildDrafts=false
