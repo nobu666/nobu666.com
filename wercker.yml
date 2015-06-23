@@ -1,7 +1,7 @@
 box: wercker/default
 build:
-  steps:
-    - arjen/hugo-build:
-      version: 1.4.0
-      theme: vienna
-      flags: --buildDrafts=true
+    steps:
+        - arjen/hugo-build:
+            version: 1.4.0
+            theme: vienna
+            flags: --buildDrafts=true
