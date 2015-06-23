@@ -3,5 +3,5 @@ build:
   steps:
     - arjen/hugo-build:
       version: 1.4.0
-      theme: herring-cove
+      theme: vienna
       flags: --buildDrafts=true

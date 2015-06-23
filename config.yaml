@@ -5,6 +5,7 @@ theme: "vienna"
 paginate: 10
 uglyurls: true
 copyright: "&copy; nobu666.com"
+disqusShortname: "realbeat"
 
 params:
   author: "nobu666"
