@@ -6,3 +6,9 @@ build:
             theme: vienna
             config: config.yaml
             flags: --buildDrafts=false
+deploy:
+    steps:
+        - lukevivier/gh-pages@0.2.1:
+            token: $GIT_TOKEN
+            domain: nobu666.com
+            basedir: public
