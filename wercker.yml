@@ -1,4 +1,4 @@
-box: ruudk/ubuntu14.04
+box: debian
 build:
     steps:
         - arjen/hugo-build:
@@ -8,6 +8,7 @@ build:
             flags: --buildDrafts=false
 deploy:
     steps:
+        - apt-get install git-core
         - lukevivier/gh-pages:
             token: $GIT_TOKEN
             domain: nobu666.com
