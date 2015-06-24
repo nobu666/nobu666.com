@@ -1,4 +1,4 @@
-box: debian
+box: wercker/default
 build:
     steps:
         - arjen/hugo-build:
@@ -8,7 +8,7 @@ build:
             flags: --buildDrafts=false
 deploy:
     steps:
-        - lukevivier/gh-pages@0.2.1:
+        - lukevivier/gh-pages:
             token: $GIT_TOKEN
             domain: nobu666.com
             basedir: public
