@@ -10,7 +10,7 @@ deploy:
     steps:
         - script:
             name: git install
-            code: sudo apt-get update && sudo apt-get install git-core
+            code: sudo apt-get update && sudo apt-get -y install git
         - lukevivier/gh-pages:
             token: $GIT_TOKEN
             domain: nobu666.com
