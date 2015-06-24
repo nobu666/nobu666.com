@@ -8,7 +8,9 @@ build:
             flags: --buildDrafts=false
 deploy:
     steps:
-        - apt-get install git-core
+        - script:
+            name: git install
+            code: sudo apt-get install git-core
         - lukevivier/gh-pages:
             token: $GIT_TOKEN
             domain: nobu666.com
