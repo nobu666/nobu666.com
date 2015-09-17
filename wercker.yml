@@ -15,3 +15,4 @@ deploy:
             token: $GIT_TOKEN
             domain: nobu666.com
             basedir: public
+            repo: nobu666/nobu666.github.io
