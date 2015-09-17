@@ -11,7 +11,7 @@ deploy:
         - script:
             name: git install
             code: sudo apt-get update && sudo apt-get -y install git
-        - lukevivier/gh-pages:
+        - uetchy/gh-pages@0.2.3:
             token: $GIT_TOKEN
             domain: nobu666.com
             basedir: public
