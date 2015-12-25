@@ -15,7 +15,7 @@ deployment:
   master:
     branch: master
     commands:
-      - git clone git@github.com:nobu666/nobu666.github.io.git publish
+      - git clone git@github.com:nobu666/nobu666.github.io.git public
       - hugo
       - cd public && git add .
       - cd public && git commit -m "[ci skip] publish"
