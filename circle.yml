@@ -21,6 +21,4 @@ deployment:
     commands:
       - git clone git@github.com:nobu666/nobu666.github.io.git public
       - hugo
-      - cd public && git add .
-      - cd public && git commit -m "[ci skip] publish"
-      - cd public && git push origin master
+      - cd public && git add . && git commit -m "[ci skip] publish"; if [ $? -eq 0 ]; then git push origin master; else :; fi
