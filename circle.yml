@@ -11,6 +11,9 @@ dependencies:
     - git config --global user.name "nobu666"
     - git config --global user.email "ogata.nobu@gmail.com"
 
+test:
+  override:
+   - echo
 deployment:
   master:
     branch: master
