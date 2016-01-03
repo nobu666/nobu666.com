@@ -6,6 +6,7 @@ paginate: 10
 uglyurls: true
 copyright: "&copy; nobu666.com"
 disqusShortname: "realbeat"
+rssuri: "feed.xml"
 
 params:
   author: "nobu666"
