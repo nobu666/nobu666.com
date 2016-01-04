@@ -8,8 +8,6 @@ copyright: "&copy; nobu666.com"
 disqusShortname: "realbeat"
 rssuri: "feed.xml"
 hasCJKLanguage: true
-pygmentscodefences: true
-pygmentsstyle: "monokai"
 
 params:
   author: "nobu666"
