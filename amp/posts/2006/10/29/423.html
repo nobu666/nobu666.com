@@ -1,0 +1,172 @@
+<!doctype html><html lang=ja itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>[修正版][memo] postfix + dovecotでSMTP AUTH & IMAPなメールサーバを立ち上げる -</title><meta name=description content="[memo] postfix + dovecotでSMTP AUTH & IMAPなメールサーバを立ち上げるがあまり正しくないので修正版。 emerge -C ssmtp emerge -pv postfix dovecot echo &#34;mmail-mta/postfix -mysql sasl&#34; >> /etc/portage/package.use echo &#34;dev-libs/cyrus-sasl -mysql -java -gdbm -crypt&#34; >> /etc/portage/package.use"><meta name=author content="nobu666"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Real Beat","url":"https:\/\/nobu666.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/nobu666.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/nobu666.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/nobu666.com\/amp\/posts\/2006\/10\/29\/423.html","name":"[修正版][memo] postfix \u002b dovecotで s m t p a u t h \u0026 i m a pなメールサーバを立ち上げる"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"nobu666"},"headline":"[修正版][memo] postfix \u002b dovecotでSMTP AUTH \u0026 IMAPなメールサーバを立ち上げる","description":"[memo] postfix \u002b dovecotでSMTP AUTH \u0026amp; IMAPなメールサーバを立ち上げるがあまり正しくないので修正版。 emerge -C ssmtp emerge -pv postfix dovecot echo \u0026#34;mmail-mta\/postfix -mysql sasl\u0026#34; \u0026gt;\u0026gt; \/etc\/portage\/package.use echo \u0026#34;dev-libs\/cyrus-sasl -mysql -java -gdbm -crypt\u0026#34; \u0026gt;\u0026gt; \/etc\/portage\/package.use","inLanguage":"ja","wordCount":1156,"datePublished":"2006-10-29T17:42:48","dateModified":"2006-10-29T17:42:48","image":"https:\/\/avatars0.githubusercontent.com\/u\/51591?v=3\u0026s=460","keywords":[""],"mainEntityOfPage":"https:\/\/nobu666.com\/amp\/posts\/2006\/10\/29\/423.html","publisher":{"@type":"Organization","name":"https:\/\/nobu666.com\/","logo":{"@type":"ImageObject","url":"https:\/\/avatars0.githubusercontent.com\/u\/51591?v=3\u0026s=460","height":60,"width":60}}}</script><meta property="og:title" content="[修正版][memo] postfix + dovecotでSMTP AUTH & IMAPなメールサーバを立ち上げる"><meta property="og:description" content="[memo] postfix + dovecotでSMTP AUTH & IMAPなメールサーバを立ち上げるがあまり正しくないので修正版。 emerge -C ssmtp emerge -pv postfix dovecot echo &#34;mmail-mta/postfix -mysql sasl&#34; >> /etc/portage/package.use echo &#34;dev-libs/cyrus-sasl -mysql -java -gdbm -crypt&#34; >> /etc/portage/package.use"><meta property="og:image" content="https://avatars0.githubusercontent.com/u/51591?v=3&s=460"><meta property="og:url" content="https://nobu666.com/amp/posts/2006/10/29/423.html"><meta property="og:type" content="website"><meta property="og:site_name" content="Real Beat"><meta name=twitter:title content="[修正版][memo] postfix + dovecotでSMTP AUTH & IMAPなメールサーバを立ち上げる"><meta name=twitter:description content="[memo] postfix + dovecotでSMTP AUTH & IMAPなメールサーバを立ち上げるがあまり正しくないので修正版。 emerge -C ssmtp emerge -pv postfix dovecot echo &#34;mmail-mta/postfix -mysql sasl&#34; >> /etc/portage/package.use echo …"><meta name=twitter:image content="https://avatars0.githubusercontent.com/u/51591?v=3&s=460"><meta name=twitter:card content="summary_large_image"><meta name=twitter:site content="@nobu666"><meta name=twitter:creator content="@nobu666"><meta name=generator content="Hugo 0.74.1"><link rel=alternate href=https://nobu666.com/index.xml type=application/rss+xml title="Real Beat"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css integrity=sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css integrity=sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu crossorigin=anonymous><link rel=stylesheet href=https://nobu666.com/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://nobu666.com/css/syntax.css><link rel=stylesheet href=https://nobu666.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-57485-1','auto');ga('send','pageview');}</script></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<span class=sr-only>メニューを切り替え</span>
+<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
+<a class=navbar-brand href=https://nobu666.com/>Real Beat</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Categories href=/categories.html>Categories</a></li><li><a title=Tags href=/tags.html>Tags</a></li></ul></div><div class=avatar-container><div class=avatar-img-border><a title="Real Beat" href=https://nobu666.com/><img class=avatar-img src="https://avatars0.githubusercontent.com/u/51591?v=3&s=460" alt="Real Beat"></a></div></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=posts-heading><h1>[修正版][memo] postfix + dovecotでSMTP AUTH & IMAPなメールサーバを立ち上げる</h1><hr class=small></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><p>[memo] postfix + dovecotでSMTP AUTH & IMAPなメールサーバを立ち上げるがあまり正しくないので修正版。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>emerge -C ssmtp
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>emerge -pv postfix dovecot
+echo <span style=color:#e6db74>&#34;mmail-mta/postfix -mysql sasl&#34;</span> &gt;&gt; /etc/portage/package.use
+echo <span style=color:#e6db74>&#34;dev-libs/cyrus-sasl -mysql -java -gdbm -crypt&#34;</span> &gt;&gt; /etc/portage/package.use
+emerge postfix dovecot
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>mkdir /etc/certs
+chmod <span style=color:#ae81ff>700</span> /etc/certs 
+cd /etc/certs
+cp /etc/ssl/misc/CA.pl .
+perl ./CA.pl -newca
+CA certificate filename <span style=color:#f92672>(</span>or enter to create<span style=color:#f92672>)</span>
+<span style=color:#f92672>(</span>ENTER<span style=color:#f92672>)</span>
+Making CA certificate ...
+Generating a <span style=color:#ae81ff>1024</span> bit RSA private key
+..................................++++++
+.......................++++++
+writing new private key to <span style=color:#e6db74>&#39;./demoCA/private/cakey.pem&#39;</span>
+Enter PEM pass phrase:<span style=color:#f92672>(</span>パスフレーズを入力<span style=color:#f92672>)</span>
+Verifying - Enter PEM pass phrase:<span style=color:#f92672>(</span>同じパスフレーズをもう一度入力<span style=color:#f92672>)</span>
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter <span style=color:#e6db74>&#39;.&#39;</span>, the field will be left blank.
+-----
+Country Name <span style=color:#f92672>(</span><span style=color:#ae81ff>2</span> letter code<span style=color:#f92672>)</span> <span style=color:#f92672>[</span>AU<span style=color:#f92672>]</span>:JP
+State or Province Name <span style=color:#f92672>(</span>full name<span style=color:#f92672>)</span> <span style=color:#f92672>[</span>Some-State<span style=color:#f92672>]</span>:Kanagawa
+Locality Name <span style=color:#f92672>(</span>eg, city<span style=color:#f92672>)</span> <span style=color:#f92672>[]</span>:Yokohama
+Organization Name <span style=color:#f92672>(</span>eg, company<span style=color:#f92672>)</span> <span style=color:#f92672>[</span>Internet Widgits Pty Ltd<span style=color:#f92672>]</span>:Private
+Organizational Unit Name <span style=color:#f92672>(</span>eg, section<span style=color:#f92672>)</span> <span style=color:#f92672>[]</span>:Private
+Common Name <span style=color:#f92672>(</span>eg, YOUR name<span style=color:#f92672>)</span> <span style=color:#f92672>[]</span>:nobu666.fam.cx
+Email Address <span style=color:#f92672>[]</span>:root@nobu666.fam.cx
+
+Please enter the following <span style=color:#e6db74>&#39;extra&#39;</span> attributes
+to be sent with your certificate request
+A challenge password <span style=color:#f92672>[]</span>:<span style=color:#f92672>(</span>ENTER<span style=color:#f92672>)</span>
+An optional company name <span style=color:#f92672>[]</span>:<span style=color:#f92672>(</span>ENTER<span style=color:#f92672>)</span>
+Using configuration from /etc/ssl/openssl.cnf
+Enter pass phrase <span style=color:#66d9ef>for</span> ./demoCA/private/cakey.pem:
+Check that the request matches the signature
+Signature ok
+Certificate Details:
+ <span style=color:#f92672>(</span>略<span style=color:#f92672>)</span>
+Certificate is to be certified <span style=color:#66d9ef>until</span> Oct <span style=color:#ae81ff>28</span> 06:15:58 <span style=color:#ae81ff>2009</span> GMT <span style=color:#f92672>(</span><span style=color:#ae81ff>1095</span> days<span style=color:#f92672>)</span>
+
+Write out database with <span style=color:#ae81ff>1</span> new entries
+Data Base Updated
+</code></pre></div><p>Please enter the following &lsquo;extra&rsquo; attributes
+to be sent with your certificate request
+A challenge password []:(ENTER)
+An optional company name []:(ENTER)
+Request is in newreq.pem, private key is in newkey.pem</p><pre><code>
+&lt;h4&gt;リクエストファイルからX.509サーバ証明書の作成と署名&lt;/h4&gt;
+```bash
+perl ./CA.pl -sign
+Using configuration from /etc/ssl/openssl.cnf
+Enter pass phrase for ./demoCA/private/cakey.pem:
+Check that the request matches the signature
+Signature ok
+Certificate Details:
+        Serial Number:
+            ce:db:05:2a:6a:dc:75:17
+        Validity
+            Not Before: Oct 29 06:51:11 2006 GMT
+            Not After : Oct 29 06:51:11 2007 GMT
+        Subject:
+            countryName               = JP
+            stateOrProvinceName       = Kanagawa
+            localityName              = Yokohama
+            organizationName          = nobu666.fam.cx
+            organizationalUnitName    = Admin
+            commonName                = nobu666.fam.cx
+            emailAddress              = root@nobu666.fam.cx
+        X509v3 extensions:
+            X509v3 Basic Constraints:
+                CA:FALSE
+            Netscape Comment:
+                OpenSSL Generated Certificate
+            X509v3 Subject Key Identifier:
+                7B:0E:46:62:02:FB:B6:A6:05:DC:DE:75:2E:2D:5A:29:5D:31:79:F8
+            X509v3 Authority Key Identifier:
+                keyid:A7:51:EC:0A:BD:B6:70:68:A5:01:ED:8E:76:1F:FE:0C:4D:B2:A0:19
+
+Certificate is to be certified until Oct 29 06:51:11 2007 GMT (365 days)
+Sign the certificate? [y/n]:y
+
+
+1 out of 1 certificate requests certified, commit? [y/n]y
+Write out database with 1 new entries
+Data Base Updated
+Signed certificate is in newcert.pem
+
+openssl x509 -in newcert.pem -out server.crt
+</code></pre><p>queue_directory = /var/spool/postfix
+command_directory = /usr/sbin
+daemon_directory = /usr/lib/postfix
+mail_owner = postfix
+myhostname = nobu666.fam.cx
+mydomain = nobu666.fam.cx
+myorigin = $mydomain
+inet_interfaces = all
+mydestination = $myhostname, localhost.$mydomain, $mydomain, mail.$mydomain, localhost
+unknown_local_recipient_reject_code = 550
+mynetworks_style = subnet
+mynetworks = 192.168.0.0/24, 127.0.0.0/8
+relay_domains = $mydestination
+alias_maps = hash:/etc/mail/aliases
+alias_database = hash:/etc/mail/aliases
+home_mailbox = .Maildir/</p><p>header_checks = regexp:/etc/postfix/header_checks
+smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)
+mydestination = $myhostname, localhost.$mydomain, $myhostname.$mydomain, mail.$mydomain, localhost
+debug_peer_level = 2
+debugger_command =
+PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
+xxgdb $daemon_directory/$process_name $process_id & sleep 5
+sendmail_path = /usr/sbin/sendmail
+mailq_path = /usr/bin/mailq
+setgid_group = postdrop
+html_directory = /usr/share/doc/postfix-2.2.10/html
+manpage_directory = /usr/share/man
+sample_directory = /etc/postfix
+readme_directory = /usr/share/doc/postfix-2.2.10/readme
+smtpd_use_tls = yes
+smtpd_tls_loglevel = 1
+smtpd_tls_cert_file = /etc/ssl/postfix/server.crt
+smtpd_tls_key_file = /etc/ssl/postfix/server.key
+smtpd_tls_session_cache_database = btree:/etc/postfix/smtpd_scache
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtp_sasl_security_options = noanonymous
+allow_mail_to_commands = alias,forward,include
+message_size_limit = 1024000
+smtpd_client_restrictions =
+permit_mynetworks,
+permit_sasl_authenticated,
+permit_auth_destination,
+reject</p><p>vi /etc/postfix/master.cf</p><p>submission inet n - n - - smtpd
+-o smtpd_etrn_restrictions=reject
+-o smtpd_client_restrictions=permit_sasl_authenticated,reject</p><pre><code>
+&lt;h4&gt;saslの設定&lt;/h4&gt;
+```bash
+vi /etc/sasl2/smtpd.conf
+
+pwcheck_method: saslauthd
+
+mkdir /var/state/saslauthd
+chmod 700 /var/state/saslauthd
+chown postfix /var/state/saslauthd
+</code></pre><p>protocols = pop3 imap
+ssl_disable = no
+ssl_cert_file = /etc/ssl/postfix/server.crt
+ssl_key_file = /etc/ssl/postfix/server.key
+default_mail_env = maildir:%h/.Maildir</p><p>chmod 755 /var/run/dovecot
+chmod 750 /var/run/dovecot/login</p><pre><code>
+あとはデフォルトのまま。
+
+&lt;h4&gt;クライアントの設定&lt;/h4&gt;
+まずはオレオレ認証局の証明書をクライアントに入れる必要がある（やらなくてもいいが警告が出るので…）。別にどうやってクライアントに渡してもOK。FTPとかSCPとかで適当に。メーラによって操作が違うがThunderbirdの場合は、ツール→オプション→プライバシー→セキュリティ→証明書を表示→認証局証明書→インポートと進んで、cacert.derを選択すればOK。あとはIMAPでアカウントを作って、受信は143番ポートでTLSを使うようにし、送信は587番ポートで同じくTLSを使うように設定する。送信テストするとユーザ名とパスワードが聞かれるので「パスワード無しで送信できないこと」「間違ったパスワードを入れて送信できないこと」「正しいパスワードを入れて送信できること」の3つを確認して終了。
+</code></pre><hr><section id=social-share><div class="list-inline footer-links"><div class=share-box aria-hidden=true><ul class=share><li><a href="//twitter.com/share?url=https%3a%2f%2fnobu666.com%2famp%2fposts%2f2006%2f10%2f29%2f423.html&text=%5b%e4%bf%ae%e6%ad%a3%e7%89%88%5d%5bmemo%5d%20postfix%20%2b%20dovecot%e3%81%a7SMTP%20AUTH%20%26%20IMAP%e3%81%aa%e3%83%a1%e3%83%bc%e3%83%ab%e3%82%b5%e3%83%bc%e3%83%90%e3%82%92%e7%ab%8b%e3%81%a1%e4%b8%8a%e3%81%92%e3%82%8b&via=nobu666" target=_blank title="Share on Twitter"><i class="fab fa-twitter"></i></a></li><li><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fnobu666.com%2famp%2fposts%2f2006%2f10%2f29%2f423.html" target=_blank title="Share on Facebook"><i class="fab fa-facebook"></i></a></li><li><a href="//reddit.com/submit?url=https%3a%2f%2fnobu666.com%2famp%2fposts%2f2006%2f10%2f29%2f423.html&title=%5b%e4%bf%ae%e6%ad%a3%e7%89%88%5d%5bmemo%5d%20postfix%20%2b%20dovecot%e3%81%a7SMTP%20AUTH%20%26%20IMAP%e3%81%aa%e3%83%a1%e3%83%bc%e3%83%ab%e3%82%b5%e3%83%bc%e3%83%90%e3%82%92%e7%ab%8b%e3%81%a1%e4%b8%8a%e3%81%92%e3%82%8b" target=_blank title="Share on Reddit"><i class="fab fa-reddit"></i></a></li><li><a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fnobu666.com%2famp%2fposts%2f2006%2f10%2f29%2f423.html&title=%5b%e4%bf%ae%e6%ad%a3%e7%89%88%5d%5bmemo%5d%20postfix%20%2b%20dovecot%e3%81%a7SMTP%20AUTH%20%26%20IMAP%e3%81%aa%e3%83%a1%e3%83%bc%e3%83%ab%e3%82%b5%e3%83%bc%e3%83%90%e3%82%92%e7%ab%8b%e3%81%a1%e4%b8%8a%e3%81%92%e3%82%8b" target=_blank title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a></li><li><a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fnobu666.com%2famp%2fposts%2f2006%2f10%2f29%2f423.html&title=%5b%e4%bf%ae%e6%ad%a3%e7%89%88%5d%5bmemo%5d%20postfix%20%2b%20dovecot%e3%81%a7SMTP%20AUTH%20%26%20IMAP%e3%81%aa%e3%83%a1%e3%83%bc%e3%83%ab%e3%82%b5%e3%83%bc%e3%83%90%e3%82%92%e7%ab%8b%e3%81%a1%e4%b8%8a%e3%81%92%e3%82%8b" target=_blank title="Share on StumbleUpon"><i class="fab fa-stumbleupon"></i></a></li><li><a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fnobu666.com%2famp%2fposts%2f2006%2f10%2f29%2f423.html&description=%5b%e4%bf%ae%e6%ad%a3%e7%89%88%5d%5bmemo%5d%20postfix%20%2b%20dovecot%e3%81%a7SMTP%20AUTH%20%26%20IMAP%e3%81%aa%e3%83%a1%e3%83%bc%e3%83%ab%e3%82%b5%e3%83%bc%e3%83%90%e3%82%92%e7%ab%8b%e3%81%a1%e4%b8%8a%e3%81%92%e3%82%8b" target=_blank title="Share on Pinterest"><i class="fab fa-pinterest"></i></a></li></ul></div></div></section></article><ul class="pager blog-pager"><li class=previous><a href=https://nobu666.com/amp/posts/2006/10/28/422.html data-toggle=tooltip data-placement=top title="links for 2006-10-28">&larr; 前ページ</a></li><li class=next><a href=https://nobu666.com/amp/posts/2006/10/30/424.html data-toggle=tooltip data-placement=top title="[memo] GentooでUPS(APC ES 500)を使う">次ページ &rarr;</a></li></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=https://www.facebook.com/nobutoshi.ogata title=Facebook><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/nobu666 title=GitHub><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://twitter.com/nobu666 title=Twitter><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-twitter fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://linkedin.com/in/nobutoshi.ogata title=LinkedIn><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href title=RSS><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted"><a href=https://nobu666.com>nobu666</a>
+&nbsp;&bull;&nbsp;&copy;
+2018
+&nbsp;&bull;&nbsp;
+<a href=https://nobu666.com/>Real Beat</a></p><p class="credits theme-by text-muted">起動力に<a href=https://gohugo.io>Hugo v0.74.1</a> &nbsp;&bull;&nbsp; テーマに<a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a>に基づいている<a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js integrity=sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous onload=renderMathInElement(document.body);></script><script src=https://code.jquery.com/jquery-3.7.0.slim.min.js integrity=sha384-w5y/xIeYixWvfM+A1cEbmHPURnvyqmVg5eVENruEdDjcyRLUSNej7512JQGspFUr crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js integrity=sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd crossorigin=anonymous></script><script src=https://nobu666.com/js/main.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://nobu666.com/js/load-photoswipe.js></script></body></html>

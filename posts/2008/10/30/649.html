@@ -1,0 +1,395 @@
+<!doctype html><html lang=ja itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>PukiWiki1.4.7 WikiFarmEngine -</title><meta name=description content="HikiやFSWikiにはあるんだけどPukiWikiにはないので、どうにかならないかなぁと試行錯誤した結果。会社で社内Wiki用にまとめた"><meta name=author content="nobu666"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Real Beat","url":"https:\/\/nobu666.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/nobu666.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/nobu666.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/nobu666.com\/posts\/2008\/10\/30\/649.html","name":"Puki wiki1.4.7 wiki farm engine"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"nobu666"},"headline":"PukiWiki1.4.7 WikiFarmEngine","description":"HikiやFSWikiにはあるんだけどPukiWikiにはないので、どうにかならないかなぁと試行錯誤した結果。会社で社内Wiki用にまとめた","inLanguage":"ja","wordCount":2400,"datePublished":"2008-10-30T00:17:50","dateModified":"2008-10-30T00:17:50","image":"https:\/\/avatars0.githubusercontent.com\/u\/51591?v=3\u0026s=460","keywords":[""],"mainEntityOfPage":"https:\/\/nobu666.com\/posts\/2008\/10\/30\/649.html","publisher":{"@type":"Organization","name":"https:\/\/nobu666.com\/","logo":{"@type":"ImageObject","url":"https:\/\/avatars0.githubusercontent.com\/u\/51591?v=3\u0026s=460","height":60,"width":60}}}</script><meta property="og:title" content="PukiWiki1.4.7 WikiFarmEngine"><meta property="og:description" content="HikiやFSWikiにはあるんだけどPukiWikiにはないので、どうにかならないかなぁと試行錯誤した結果。会社で社内Wiki用にまとめた"><meta property="og:image" content="https://avatars0.githubusercontent.com/u/51591?v=3&s=460"><meta property="og:url" content="https://nobu666.com/posts/2008/10/30/649.html"><meta property="og:type" content="website"><meta property="og:site_name" content="Real Beat"><meta name=twitter:title content="PukiWiki1.4.7 WikiFarmEngine"><meta name=twitter:description content="HikiやFSWikiにはあるんだけどPukiWikiにはないので、どうにかならないかなぁと試行錯誤した結果。会社で社内Wiki用にまとめた"><meta name=twitter:image content="https://avatars0.githubusercontent.com/u/51591?v=3&s=460"><meta name=twitter:card content="summary_large_image"><meta name=twitter:site content="@nobu666"><meta name=twitter:creator content="@nobu666"><meta name=generator content="Hugo 0.74.1"><link rel=alternate href=https://nobu666.com/index.xml type=application/rss+xml title="Real Beat"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css integrity=sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css integrity=sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu crossorigin=anonymous><link rel=stylesheet href=https://nobu666.com/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://nobu666.com/css/syntax.css><link rel=stylesheet href=https://nobu666.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-57485-1','auto');ga('send','pageview');}</script></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<span class=sr-only>メニューを切り替え</span>
+<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
+<a class=navbar-brand href=https://nobu666.com/>Real Beat</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Categories href=/categories.html>Categories</a></li><li><a title=Tags href=/tags.html>Tags</a></li></ul></div><div class=avatar-container><div class=avatar-img-border><a title="Real Beat" href=https://nobu666.com/><img class=avatar-img src="https://avatars0.githubusercontent.com/u/51591?v=3&s=460" alt="Real Beat"></a></div></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=posts-heading><h1>PukiWiki1.4.7 WikiFarmEngine</h1><hr class=small></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><p>HikiやFSWikiにはあるんだけどPukiWikiにはないので、どうにかならないかなぁと試行錯誤した結果。会社で社内Wiki用にまとめたけど、こっちにも書いておく。URLとかPathとかは適宜読み替えてください。ま、こんなもの参考にする人は何かあったときの未来の俺くらいだとは思うが。</p><p><a href=http://www.aksum.jp/pukiwiki/index.php?%E3%83%8F%E3%83%83%E3%82%AF%2F04-WikiFarmEngine>http://www.aksum.jp/pukiwiki/index.php?%E3%83%8F%E3%83%83%E3%82%AF%2F04-WikiFarmEngine</a></p><p>こんなものがあるにはあるのだけども、残念ながらPukiWiki1.4.6ベースで、文字コードがEUC。今時EUCはねーだろう、ということでどうにか1.4.7UTF-8ベースにする</p><p>+$adminpage = &lsquo;:config/admin&rsquo;;
++
+/////////////////////////////////////////////////
+// Functionality settings</p><p>@@ -77,7 +79,7 @@
+define(&lsquo;UPLOAD_DIR&rsquo;, DATA_HOME . &lsquo;attach/&rsquo; ); // Attached files and logs
+define(&lsquo;COUNTER_DIR&rsquo;, DATA_HOME . &lsquo;counter/&rsquo; ); // Counter plugin&rsquo;s counts
+define(&lsquo;TRACKBACK_DIR&rsquo;, DATA_HOME . &lsquo;trackback/'); // TrackBack logs
+-define(&lsquo;PLUGIN_DIR&rsquo;, DATA_HOME . &lsquo;plugin/&rsquo; ); // Plugin directory
++define(&lsquo;PLUGIN_DIR&rsquo;, COMMON_DIR . &lsquo;plugin/&rsquo; ); // Plugin directory</p><p>/////////////////////////////////////////////////
+// Directory settings II (ended with &lsquo;/')
+@@ -89,8 +91,10 @@
+// CSSs(<em>.css) and JavaScripts(</em>.js) are needed at
+// ./SKIN_DIR from index.php.</p><p>+require(CONFIG_DIR . &lsquo;skin.ini.php&rsquo;);
++
+// Static image files
+-define(&lsquo;IMAGE_DIR&rsquo;, &lsquo;image/');
++define(&lsquo;IMAGE_DIR&rsquo;, COMMON_DIR . &lsquo;image/');
+// Keep this directory shown via web browsers like
+// ./IMAGE_DIR from index.php.</p><p>@@ -190,7 +194,7 @@
+// Admin password for this Wikisite</p><p>// Default: always fail
+-$adminpass = &lsquo;{x-php-md5}!';
++//$adminpass = &lsquo;{x-php-md5}!';</p><p>// Sample:
+//$adminpass = &lsquo;pass&rsquo;; // Cleartext
+@@ -230,42 +234,6 @@
+$pagereading_config_dict = &lsquo;:config/PageReading/dict&rsquo;;</p><p>/////////////////////////////////////////////////
+-// User definition
+-$auth_users = array(</p><ul><li><pre><code>  // Username =&gt; password
+</code></pre></li><li><pre><code>  'foo'   =&gt; 'foo_passwd', // Cleartext
+</code></pre></li><li><pre><code>  'bar'   =&gt; '{x-php-md5}f53ae779077e987718cc285b14dfbe86', // PHP md5() 'bar_passwd'
+</code></pre></li><li><pre><code>  'hoge'  =&gt; '{SMD5}OzJo/boHwM4q5R+g7LCOx2xGMkFKRVEx',      // LDAP SMD5 'hoge_passwd'
+</code></pre></li></ul><h2 id=->-);</h2><h2 id=--authentication-method>-/////////////////////////////////////////////////
+-// Authentication method</h2><h2 id=-auth_method_type-----contents----by-page-contents>-$auth_method_type = &lsquo;pagename&rsquo;; // By Page name
+-//$auth_method_type = &lsquo;contents&rsquo;; // By Page contents</h2><h2 id=-read_auth--0>-/////////////////////////////////////////////////
+-// Read auth (0:Disable, 1:Enable)
+-$read_auth = 0;</h2><p>-$read_auth_pages = array(</p><ul><li><pre><code>  // Regex                   Username
+</code></pre></li><li><pre><code>  '#HogeHoge#'            =&gt; 'hoge',
+</code></pre></li><li><pre><code>  '#(NETABARE|NetaBare)#' =&gt; 'foo,bar,hoge',
+</code></pre></li></ul><h2 id=--1>-);</h2><h2 id=-edit_auth--0>-/////////////////////////////////////////////////
+-// Edit auth (0:Disable, 1:Enable)
+-$edit_auth = 0;</h2><p>-$edit_auth_pages = array(</p><ul><li><pre><code>  // Regex                   Username
+</code></pre></li><li><pre><code>  '#BarDiary#'            =&gt; 'bar',
+</code></pre></li><li><pre><code>  '#HogeHoge#'            =&gt; 'hoge',
+</code></pre></li><li><pre><code>  '#(NETABARE|NetaBare)#' =&gt; 'foo,bar,hoge',
+</code></pre></li></ul><h2 id=--2>-);</h2><p>-/////////////////////////////////////////////////
+// Search auth
+// 0: Disabled (Search read-prohibited page contents)
+// 1: Enabled (Search only permitted pages for the user)
+@@ -530,4 +498,12 @@</p><pre><code>    array('pattern'=&gt;'#^#', 'profile'=&gt;'default'),  // Sentinel
+</code></pre><p>);
++
++require(DATA_HOME . &lsquo;userauth.php&rsquo;);
++$auth_users = $userauth->get_auth_users();
++$auth_method_type = $userauth->get_auth_method_type();
++$read_auth = $userauth->get_read_auth();
++$read_auth_pages = $userauth->get_read_auth_pages();
++$edit_auth = $userauth->get_edit_auth();
++$edit_auth_pages = $userauth->get_edit_auth_pages();
+?></p><pre><code>
+&lt;h3&gt;ja.lng.php&lt;/h3&gt;
+```diff
+--- pukiwiki-1.4.7_notb_utf8/ja.lng.php   2006-10-22 05:40:24.000000000 +0900
++++ common/config/ja.lng.php    2008-10-09 11:28:33.000000000 +0900
+@@ -81,8 +81,8 @@
+ 
+ ///////////////////////////////////////
+ // Page name
+-$rule_page = 'FormattingRules';        // Formatting rules
+-$help_page = 'Help';           // Help
++$rule_page = '整形ルール';     // Formatting rules
++$help_page = 'ヘルプ';         // Help
+ 
+ ///////////////////////////////////////
+ // TrackBack (REMOVED)
+@@ -442,4 +442,6 @@
+ // yetlist.inc.php
+$_title_yetlist = '未作成のページ一覧';
+$_err_notexist  = '未作成のページはありません。';
++
++$_LANG['skin']['admin']       = '管理';
+ ?&gt;
+</code></pre><ul><li><pre><code>  if (PKWK_READONLY ||
+</code></pre></li><li><pre><code>          ! isset($_SERVER['PHP_AUTH_USER']) ||
+</code></pre></li></ul><p>+// if (PKWK_READONLY ||</p><ul><li><pre><code>  if(     ! isset($_SERVER['PHP_AUTH_USER']) ||
+          ! in_array($_SERVER['PHP_AUTH_USER'], $user_list) ||
+          ! isset($auth_users[$_SERVER['PHP_AUTH_USER']]) ||
+          pkwk_hash_compute(
+</code></pre></li></ul><pre><code>
+&lt;h3&gt;lib/html.php&lt;/h3&gt;
+```diff
+--- pukiwiki-1.4.7_notb_utf8/lib/html.php 2006-10-22 05:40:25.000000000 +0900
++++ common/lib/html.php 2008-10-09 16:34:57.000000000 +0900
+@@ -37,6 +37,9 @@
+        $r_page = rawurlencode($_page); 
+ 
+        // Set $_LINK for skin
++
++        $_LINK['admin']      = &quot;$script?%3Aconfig%2Fadmin&quot;;
++
+        $_LINK['add']      = &quot;$script?cmd=add&amp;page=$r_page&quot;;
+        $_LINK['backup']   = &quot;$script?cmd=backup&amp;page=$r_page&quot;;
+        $_LINK['copy']     = &quot;$script?plugin=template&amp;refer=$r_page&quot;;
+</code></pre><ul><li>include_once( COMMON_DIR . &lsquo;plugin/paraedit.inc.php&rsquo;);</li><li>$post[&ldquo;msg&rdquo;] = _plugin_paraedit_parse_postmsg($post[&ldquo;msg_before&rdquo;], $post[&ldquo;msg&rdquo;], $post[&ldquo;msg_after&rdquo;]);</li><li></li></ul><p>/////////////////////////////////////////////////
+// Main</p><pre><code>
+&lt;h3&gt;skin/pukiwiki.skin.php&lt;/h3&gt;
+```diff
+--- pukiwiki-1.4.7_notb_utf8/skin/pukiwiki.skin.php       2006-10-22 05:40:28.000000000 +0900
++++ common/skin/pukiwiki.skin.php       2008-10-08 19:31:22.000000000 +0900
+@@ -76,8 +76,8 @@
+  &lt;title&gt;&lt;?php echo $title ?&gt; - &lt;?php echo $page_title ?&gt;&lt;/title&gt;
+ 
+  &lt;link rel=&quot;SHORTCUT ICON&quot; href=&quot;&lt;?php echo $image['favicon'] ?&gt;&quot; /&gt;
+- &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;skin/pukiwiki.css.php?charset=&lt;?php echo $css_charset ?&gt;&quot; charset=&quot;&lt;?php echo $css_charset ?&gt;&quot; /&gt;
+- &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;print&quot;  href=&quot;skin/pukiwiki.css.php?charset=&lt;?php echo $css_charset ?&gt;&amp;media=print&quot; charset=&quot;&lt;?php echo $css_charset ?&gt;&quot; /&gt;
++ &lt;link rel=&quot;stylesheet&quot; href=&quot;&lt;?php echo CSS_FILE ?&gt;?charset=&lt;?php echo $css_charset ?&gt;&quot; type=&quot;text/css&quot; media=&quot;screen&quot; charset=&quot;&lt;?php echo $css_charset ?&gt;&quot; /&gt;
++ &lt;link rel=&quot;stylesheet&quot; href=&quot;&lt;?php echo CSS_FILE ?&gt;?charset=&lt;?php echo $css_charset ?&gt;&amp;media=print&quot; type=&quot;text/css&quot; media=&quot;print&quot; charset=&quot;&lt;?php echo $css_charset ?&gt;&quot; /&gt;
+   &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;RSS&quot; href=&quot;&lt;?php echo $link['rss'] ?&gt;&quot; /&gt;&lt;?php // RSS auto-discovery ?&gt;
+ 
+  &lt;?php if (PKWK_ALLOW_JAVASCRIPT &amp;&amp; $trackback_javascript) { ?&gt; &lt;script type=&quot;text/javascript&quot; src=&quot;skin/trackback.js&quot;&gt;&lt;/script&gt;&lt;?php } ?&gt;
+@@ -154,6 +154,8 @@
+  | &lt;?php _navigator('help')   ?&gt;
+  ]
+ 
++ [ &lt;?php _navigator('admin') ?&gt; ]
++
+ &lt;?php if ($trackback) { ?&gt;
+  [ &lt;?php _navigator('trackback', $lang['trackback'] . '(' . tb_count($_page) . ')',
+        ($trackback_javascript == 1) ? 'onclick=&quot;OpenTrackback(this.href); return false&quot;' : '') ?&gt; ]
+</code></pre><p>-div.ie5 { text-align:center; }
++div.ie5 { text-align:left; }</p><p>span.noexists {
+color:inherit;</p><pre><code>
+&lt;h2&gt;1.4.7からじゃなくてPukiFarmからの差分&lt;/h2&gt;
+PukiFarmのソースはEUC-JPなので、単純にコピーするだけでなく
+&lt;code&gt;&lt;pre&gt;
+nkf --overwrite -w0 コピーしたソース
+</code></pre><p>とか必ずやる</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff>common/plugin/add_site.inc.php [#v644fe5c]
+<span style=color:#f92672>--- ~/pukifarm/common/plugin/add_site.inc.php   2008-10-09 18:44:16.137051769 +0900
+</span><span style=color:#f92672></span><span style=color:#a6e22e>+++ common/plugin/add_site.inc.php      2008-10-09 16:05:55.000000000 +0900
+</span><span style=color:#a6e22e></span><span style=color:#75715e>@@ -14,7 +14,7 @@
+</span><span style=color:#75715e></span> // サイトの元データ
+ define(&#39;INIT_DIR&#39;, &#39;../datasource/&#39; );
+ // PukiFarm の URL (編集必須)
+<span style=color:#f92672>-define(&#39;FARM_URL&#39;, &#39;http://aksum.jp/pukifarm/admin/&#39;);
+</span><span style=color:#f92672></span><span style=color:#a6e22e>+define(&#39;FARM_URL&#39;, &#39;http://wiki/farm/&#39;);
+</span><span style=color:#a6e22e></span>
+ function plugin_add_site_convert()
+ {
+<span style=color:#75715e>@@ -73,8 +73,8 @@
+</span><span style=color:#75715e></span>     closedir($dir);
+
+     plugin_add_site_create_site($id);
+<span style=color:#f92672>-
+</span><span style=color:#f92672>-    $retval[&#39;msg&#39;] = $_registed;
+</span><span style=color:#f92672></span><span style=color:#a6e22e>+
+</span><span style=color:#a6e22e>+       $retval[&#39;msg&#39;] = $_registed;
+</span><span style=color:#a6e22e></span>     $retval[&#39;body&#39;] = convert_html(&#39;登録完了しました。&#39;.FARM_URL.$id.&#39;/ からアクセスして下さい。&#39;);
+
+     return $retval;
+<span style=color:#75715e>@@ -120,9 +120,7 @@
+</span><span style=color:#75715e></span>
+ \$site_id = &#39;{$id}&#39;;
+
+ require(CONFIG_DIR . &#39;password.ini.php&#39;);
+ require(CONFIG_DIR . &#39;baseconf.ini.php&#39;);
+<span style=color:#f92672>-require(CONFIG_DIR . &#39;amazon_id.ini.php&#39;);
+</span><span style=color:#f92672></span>
+ /////////////////////////////////////////////////
+ require(LIB_DIR . &#39;pukiwiki.php&#39;);
+</code></pre></div><p>function plugin_farmlist_convert()
+{
+$path = &lsquo;/var/www/html/farm/';
+$count = 0;
+foreach (glob($path . &ldquo;*&rdquo;, GLOB_ONLYDIR) as $dirname) {
+//最初からある3つのディレクトリは除外
+if (ereg(&ldquo;admin$&rdquo;, $dirname));
+elseif (ereg(&ldquo;datasource$&rdquo;, $dirname));
+elseif (ereg(&ldquo;common$&rdquo;, $dirname));
+else {
+$list[] = array(&lsquo;name&rsquo; => basename($dirname), &lsquo;time&rsquo; => get_mtime($dirname));
+$count++;
+}
+}
+usort($list, &ldquo;cmp&rdquo;);
+$liststr = &lsquo;';
+foreach ($list as $key => $value) {
+$liststr = $liststr . &ldquo;\n&rdquo;;
+$liststr = $liststr . " &lt;td class="style_td">&lt;a href="http://wiki/farm/&rdquo; . $value[&lsquo;name&rsquo;] . &ldquo;/">&rdquo; . $value[&lsquo;name&rsquo;] . &ldquo;\n&rdquo;;
+$liststr = $liststr . " &lt;td class="style_td">&rdquo; . $value[&lsquo;time&rsquo;] . &ldquo;\n&rdquo;;
+$liststr = $liststr . &ldquo;\n&rdquo;;
+}
+$string = &#171;&lt;EOD</p><p>function cmp($a, $b)
+{
+if ($a[&lsquo;time&rsquo;] == $b[&lsquo;time&rsquo;]) {
+return 0;
+}
+$datea = strptime($a[&lsquo;time&rsquo;], &ldquo;%Y/%m/%d %H:%M:%S&rdquo;);
+$dateb = strptime($b[&lsquo;time&rsquo;], &ldquo;%Y/%m/%d %H:%M:%S&rdquo;);
+return ($datea > $dateb) ? -1 : 1;
+}</p><p>function get_mtime($path)
+{
+$mtime = filemtime($path);
+return date(&ldquo;Y/m/d H:i:s&rdquo;, $mtime);
+}
+?></p><pre><code>
+&lt;h2&gt;datasource/wikiとadmin/wikiのファイル名変換&lt;/h2&gt;
+PukiFarmから持ってくるとEUC-JPなので、UTF-8ではうまく日本語が読めない。http://d.hatena.ne.jp/kohiro2/20080711/p1 からスクリプトを拝借、*/wikiのところだけ。
+
+```perl
+#!/usr/bin/perl -w
+
+use strict;
+use warnings;
+use Encode;
+use File::Basename;
+use File::Copy;
+use IO::File;
+use Path::Class::Dir;
+use Path::Class::File;
+
+use constant REGEX_SUFFIX =&gt; qw(\..+$);&gt;	# 【最初】の . 以降を拡張子とする
+#use constant REGEX_SUFFIX =&gt; qw(\.[^\.]+$);	# 【最後】の . 以降を拡張子とする
+
+&amp;main();
+
+sub main {
+	if ( $#ARGV != 1 ){
+		print &quot;error: $0 [source_dir] [target_dir]\n&quot;;
+		exit 1;
+	}
+
+	(my $src_dir_root, my $trg_dir_root) = @ARGV;
+	my $subdir_name;
+	my @suffixes;
+	my $src_dir;
+	my $trg_dir;
+
+	####### */wiki #######
+	$subdir_name = &quot;wiki&quot;;
+	@suffixes = (&quot;.txt&quot;);
+	($src_dir, $trg_dir) = &amp;set_dir($src_dir_root, $trg_dir_root, $subdir_name);
+	foreach my $src_file ($src_dir-&gt;children) {
+		if ($src_file-&gt;is_dir) { next; }
+		(my $hexname, undef, my $suffix) = fileparse($src_file-&gt;basename, REGEX_SUFFIX);
+		next if ( grep( /$suffix/, @suffixes) == 0 );
+		my $trg_file = Path::Class::File-&gt;new($trg_dir, &amp;hexEUCtoUTF8($hexname) . $suffix);
+		&amp;fileEUCtoUTF8($src_file-&gt;open('r'), $trg_file-&gt;open('w'));
+		utime $src_file-&gt;stat-&gt;atime, $src_file-&gt;stat-&gt;mtime, $trg_file;
+	}
+}
+ 
+### 元先ディレクトリを設定
+sub set_dir {
+	my $src_rootdir = shift;
+	my $trg_rootdir = shift;
+	my $subdir = shift;
+
+	my $src_dir = Path::Class::Dir-&gt;new($src_rootdir, $subdir);
+	my $trg_dir = Path::Class::Dir-&gt;new($trg_rootdir, $subdir);
+
+	# 元ディレクトリ確認
+	if ( ! -e $src_dir ) {
+		print &quot;ERROR: Can't locate source directory.\n&quot;;
+		exit 1;
+	}
+
+	# 先ディレクトリ確認
+	$trg_dir-&gt;mkpath if ( ! -e $trg_dir );
+
+	return ($src_dir, $trg_dir);
+}
+
+
+### File EUC-JP =&gt; UTF-8
+sub fileEUCtoUTF8 {
+	my $src_fh = shift;
+	my $trg_fh = shift;
+
+	while (&lt;$src_fh&gt;) {
+		chomp;
+		my $tmp = encode('utf-8', decode(&quot;euc-jp&quot;, $_));
+		$trg_fh-&gt;print(&quot;$tmp\n&quot;);
+	}
+
+	$trg_fh-&gt;close;
+	$src_fh-&gt;close;
+}
+
+
+### HEX =&gt; EUC-JP =&gt; UTF-8 =&gt; HEX =&gt; UPPER CASE
+sub hexEUCtoUTF8 {
+	my $string = shift;
+
+	# 変換: 16進 → バイナリ
+	$string =~ s/([0-9A-Fa-f][0-9A-Fa-f])/pack(&quot;C&quot;, hex($1) )/eg;
+	# 変換: EUC-JP → UTF-8
+	$string = encode('utf-8', decode(&quot;euc-jp&quot;, $string));
+	# 変換: バイナリ → 16進
+	$string = unpack(&quot;H*&quot;, $string);
+ 	# 変換: 小文字 → 大文字
+	$string =~ tr/a-z/A-Z/;
+
+	return $string;
+}
+
+1;
+</code></pre><p>// データ区切り記号(変える必要はありません)</p><pre><code>
+&lt;h3&gt;userauth_admin.php&lt;/h3&gt;
+```diff
+--- -   2008-10-09 19:07:01.886083742 +0900
++++ datasource/userauth_admin.php       2008-10-09 17:16:53.000000000 +0900
+@@ -26,10 +26,11 @@
+ //           md5('0123')       ←0123の部分がパスワード
+ //       のような記述でも使用できます。
+ // $adminpass = 'eb62f6b9306db575c2d596b1279627a4';    //例
+-$adminpass = md5('0123');
++require('config/password.ini.php');
+
+ // * 戻るボタンの行き先
+-$backurl = 'http://';
++$backurl = 'index.php';
+
+ // * 認証データのファイル名指定
+ //
+@@ -49,7 +50,7 @@
+ //       なら他の対策を考える必要があります。)
+ //
+ //       なお、この値と userauth.php 内の設定は同じにして下さい。
+-$file = 'userauth.txt';
++$file = 'config/userauth.txt';
+
+ // * userauth.phpのファイル名(保存後のチェックで使用)
+ $checkscript = 'userauth.php';
+@@ -523,19 +524,13 @@
+
+ function admin_auth( &amp;$mes, $logout = FALSE ){
+        global $adminpass;
+-
+-       // adminpassがデフォルトのままなら認証失敗
+        $dmes = '';
+-       if($adminpass == 'eb62f6b9306db575c2d596b1279627a4'){
+-               $mes = '&lt;b&gt;$adminpass&lt;/b&gt;の設定を変更して下さい'.&quot;\n&quot;;
+-               $logout = TRUE;
+-       }
+
+        if(!$logout &amp;&amp; !isset($_GET['logout']) &amp;&amp; isset($_SESSION['login'])){
+                $mes = 'login';
+                return TRUE;
+        } elseif(!$logout &amp;&amp; !isset($_GET['logout']) &amp;&amp; isset($_POST['lpassword'])){
+-               $in_passwd = md5(rtrim($_POST['lpassword']));
++               $in_passwd = '{x-php-md5}' . md5(rtrim($_POST['lpassword']));
+                if($in_passwd == $adminpass){
+                        $_SESSION['login'] = 1;
+                        $mes = 'login';
+</code></pre><p>これで管理者パスワードと共通化できる。あとは :config/admin から呼び出したいので、リンクを張るだけのpluginを書く。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=color:#75715e>&lt;?php</span>
+<span style=color:#75715e>// PukiWiki - Yet another WikiWikiWeb clone
+</span><span style=color:#75715e>// $Id: comment.inc.php,v 1.0 2008/10/08 ogata.nobutoshi Exp $
+</span><span style=color:#75715e>// Copyright (C)
+</span><span style=color:#75715e>//   2002-2005 PukiWiki Developers Team
+</span><span style=color:#75715e>//   2001-2002 Originally written by yu-ji
+</span><span style=color:#75715e>// License: GPL v2 or (at your option) any later version
+</span><span style=color:#75715e>//
+</span><span style=color:#75715e>// WikiFarm List plugin
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>plugin_userauth_admin_convert</span>()
+{
+    <span style=color:#66d9ef>global</span> $site_id;
+    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;&lt;a href=</span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74>http://wiki/farm/&#34;</span> <span style=color:#f92672>.</span> $site_id <span style=color:#f92672>.</span> <span style=color:#e6db74>&#34;/userauth_admin.php</span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74>&gt;ユーザー認証管理室&lt;/a&gt;&#34;</span>;
+}
+<span style=color:#75715e>?&gt;</span>
+</code></pre></div><p>:config/adminに余計なものがついてるので編集</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>*管理画面 [#u0e4cc19]
+
+**管理者パスワードの変更 [#zfee523b]
+#ch_password
+
+**その他のユーザー認証管理 [#v31ac382]
+#userauth_admin
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>&lt;Directory /&gt;
+    AllowOverride All
+&lt;/Directory&gt;
+&lt;Directory &#34;/var/www/html/farm&#34;&gt;
+    Options +ExecCGI +FollowSymLinks
+    AddHandler cgi-script .cgi
+    DirectoryIndex index.php
+&lt;/Directory&gt;
+</code></pre></div><hr><section id=social-share><div class="list-inline footer-links"><div class=share-box aria-hidden=true><ul class=share><li><a href="//twitter.com/share?url=https%3a%2f%2fnobu666.com%2fposts%2f2008%2f10%2f30%2f649.html&text=PukiWiki1.4.7%20WikiFarmEngine&via=nobu666" target=_blank title="Share on Twitter"><i class="fab fa-twitter"></i></a></li><li><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fnobu666.com%2fposts%2f2008%2f10%2f30%2f649.html" target=_blank title="Share on Facebook"><i class="fab fa-facebook"></i></a></li><li><a href="//reddit.com/submit?url=https%3a%2f%2fnobu666.com%2fposts%2f2008%2f10%2f30%2f649.html&title=PukiWiki1.4.7%20WikiFarmEngine" target=_blank title="Share on Reddit"><i class="fab fa-reddit"></i></a></li><li><a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fnobu666.com%2fposts%2f2008%2f10%2f30%2f649.html&title=PukiWiki1.4.7%20WikiFarmEngine" target=_blank title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a></li><li><a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fnobu666.com%2fposts%2f2008%2f10%2f30%2f649.html&title=PukiWiki1.4.7%20WikiFarmEngine" target=_blank title="Share on StumbleUpon"><i class="fab fa-stumbleupon"></i></a></li><li><a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fnobu666.com%2fposts%2f2008%2f10%2f30%2f649.html&description=PukiWiki1.4.7%20WikiFarmEngine" target=_blank title="Share on Pinterest"><i class="fab fa-pinterest"></i></a></li></ul></div></div></section></article><ul class="pager blog-pager"><li class=previous><a href=https://nobu666.com/posts/2008/10/27/646.html data-toggle=tooltip data-placement=top title=WordPressをAutoPagerizeとはてなスターに対応させる>&larr; 前ページ</a></li><li class=next><a href=https://nobu666.com/posts/2008/10/31/650.html data-toggle=tooltip data-placement=top title=人間ドック行ってきた>次ページ &rarr;</a></li></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=https://www.facebook.com/nobutoshi.ogata title=Facebook><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-facebook fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/nobu666 title=GitHub><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://twitter.com/nobu666 title=Twitter><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-twitter fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://linkedin.com/in/nobutoshi.ogata title=LinkedIn><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href title=RSS><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i><i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted"><a href=https://nobu666.com>nobu666</a>
+&nbsp;&bull;&nbsp;&copy;
+2018
+&nbsp;&bull;&nbsp;
+<a href=https://nobu666.com/>Real Beat</a></p><p class="credits theme-by text-muted">起動力に<a href=https://gohugo.io>Hugo v0.74.1</a> &nbsp;&bull;&nbsp; テーマに<a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a>に基づいている<a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js integrity=sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous onload=renderMathInElement(document.body);></script><script src=https://code.jquery.com/jquery-3.7.0.slim.min.js integrity=sha384-w5y/xIeYixWvfM+A1cEbmHPURnvyqmVg5eVENruEdDjcyRLUSNej7512JQGspFUr crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js integrity=sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd crossorigin=anonymous></script><script src=https://nobu666.com/js/main.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://nobu666.com/js/load-photoswipe.js></script></body></html>
