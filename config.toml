@@ -1,0 +1,68 @@
+baseurl = "https://nobu666.com/"
+DefaultContentLanguage = "ja"
+title = "Real Beat"
+theme = "beautifulhugo"
+uglyurls = true
+copyright = "&copy; nobu666.com"
+hasCJKLanguage = true
+enableHighlight = true
+
+[service.disqus]
+shortname = "realbeat"
+
+[services.googleAnalytics]
+ID = "UA-57485-1"
+
+[Params]
+  description = ""
+  subtitle = ""
+  logo = "https://avatars0.githubusercontent.com/u/51591?v=3&s=460"
+  commit = false
+  rss = true
+  comments = true
+  readingTime = true
+  wordCount = true
+  useHLJS = false
+  socialShare = true
+  delayDisqus = true
+  showRelatedPosts = true
+  copyright = "nobu666" # Footer copyright holder, otherwise will use site title
+  opengraph = true # Enable OpenGraph if true
+  schema = true # Enable Schema
+  twitter_cards = true # Enable Twitter Cards if true
+  readmore = false # Show "Read more" button in list if true
+  authorbox = true # Show authorbox at bottom of pages if true
+  toc = true # Enable Table of Contents
+  pager = true # Show pager navigation (prev/next links) at the bottom of pages if true
+  post_meta = ["author", "date", "categories", "translations"] # Order of post meta information
+  mainSections = ["posts"] # Specify section pages to show on home page and the "Recent articles" widget
+  dateformat = "2006-01-02" # Change the format of dates
+  mathjax = true # Enable MathJax
+  mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js" # Specify MathJax path
+  mathjaxConfig = "TeX-AMS-MML_HTMLorMML" # Specify MathJax config
+  googleFontsLink = "https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" # Load Google Fonts
+  customCSS = ["css/custom.css"] # Include custom CSS files
+  customJS = ["js/custom.js"] # Include custom JS files
+
+[Author]
+avatar = "https://avatars0.githubusercontent.com/u/51591?v=3&s=460"
+name = "nobu666"
+bio = ""
+website = "https://nobu666.com"
+github = "nobu666"
+twitter = "nobu666"
+facebook = "nobutoshi.ogata"
+linkedin = "nobutoshi.ogata"
+
+[[menu.main]]
+    name = "Categories"
+    url = "categories.html"
+    weight = 2
+
+[[menu.main]]
+    name = "Tags"
+    url = "tags.html"
+    weight = 3
+
+[outputs]
+page = [ "HTML", "AMP" ]

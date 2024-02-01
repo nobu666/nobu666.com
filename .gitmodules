@@ -1,3 +1,6 @@
-[submodule "themes/vienna"]
-	path = themes/vienna
-	url = git@github.com:nobu666/vienna.git
+[submodule "Mainroad"]
+	path = Mainroad
+	url = git@github.com:Vimux/Mainroad.git
+[submodule "themes/beautifulhugo"]
+	path = themes/beautifulhugo
+	url = git@github.com:halogenica/beautifulhugo.git
