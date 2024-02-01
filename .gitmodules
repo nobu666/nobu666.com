@@ -19,3 +19,15 @@
 [submodule "themes/lightbi-hugo"]
 	path = themes/lightbi-hugo
 	url = git@github.com:binokochumolvarghese/lightbi-hugo.git
+[submodule "themes/slick"]
+	path = themes/slick
+	url = git@github.com:spookey/slick.git
+[submodule "themes/Lowkey-Hugo-Theme"]
+	path = themes/Lowkey-Hugo-Theme
+	url = git@github.com:nixentric/Lowkey-Hugo-Theme.git
+[submodule "themes/plague"]
+	path = themes/plague
+	url = git@github.com:brianreumere/plague.git
+[submodule "themes/hugo-flex"]
+	path = themes/hugo-flex
+	url = git@github.com:ldeso/hugo-flex.git

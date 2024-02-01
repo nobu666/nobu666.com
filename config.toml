@@ -1,7 +1,7 @@
 baseurl = "/"
 DefaultContentLanguage = "ja"
 title = "Real Beat"
-theme = "lightbi-hugo"
+theme = "hugo-flex"
 uglyurls = true
 canonifyURLs = true
 copyright = "&copy; nobu666.com"
@@ -16,9 +16,9 @@ shortname = "realbeat"
 ID = "UA-57485-1"
 
 [Params]
+  favicon = "favicon.ico"
   description = ""
   subtitle = ""
-  logo = "https://avatars0.githubusercontent.com/u/51591?v=3&s=460"
   commit = false
   rss = true
   comments = true
@@ -45,6 +45,9 @@ ID = "UA-57485-1"
   googleFontsLink = "https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" # Load Google Fonts
   customCSS = ["css/custom.css"] # Include custom CSS files
   customJS = ["js/custom.js"] # Include custom JS files
+
+[Params.meta]
+favicon = "/favicon.ico"
 
 [Author]
 avatar = "https://avatars0.githubusercontent.com/u/51591?v=3&s=460"
