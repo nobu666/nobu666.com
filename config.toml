@@ -1,5 +1,6 @@
 baseurl = "/"
 DefaultContentLanguage = "ja"
+LanguageCode = "ja-JP"
 title = "Real Beat"
 theme = "hugo-flex"
 uglyurls = true
