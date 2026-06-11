@@ -71,6 +71,11 @@ linkedin = "nobutoshi.ogata"
     url = "tags.html"
     weight = 3
 
+[[menu.main]]
+    name = "RSS"
+    url = "feed.xml"
+    weight = 4
+
 [outputs]
 page = [ "HTML", "AMP" ]
 
