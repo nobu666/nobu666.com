@@ -1,0 +1,39 @@
+<meta charset="utf-8">
+
+{{ if and .IsHome .Paginator.HasPrev }}
+  <meta name="robots" content="noindex, nofollow, noarchive">
+{{ else if or .Params.noindex (in (slice "taxonomy" "term" "section") .Kind) }}
+  {{/* Keep navigation/archive listing pages (Categories, Tags, year archives)
+       out of search results so site search returns articles, not listings. */}}
+  <meta name="robots" content="noindex, follow, noarchive">
+{{ end }}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{{ with .Description }}
+  <meta name="description" content="{{ . }}">
+{{ else }}
+  {{ if .IsPage }}
+    <meta name="description" content="{{ .Summary }}">
+  {{ else }}
+    {{ with site.Params.description }}
+      <meta name="description" content="{{ . }}">
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<meta name="color-scheme" content="light dark">
+
+{{ if site.Params.schema }}
+  {{ template "_internal/schema.html" . }}
+{{ end }}
+
+{{ if site.Params.opengraph }}
+  {{ template "_internal/opengraph.html" . }}
+{{ end }}
+
+{{ if site.Params.twittercards }}
+  {{ template "_internal/twitter_cards.html" . }}
+{{ end }}
+
+{{ hugo.Generator }}
