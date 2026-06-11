@@ -34,6 +34,7 @@ ID = "UA-57485-1"
   opengraph = true # Enable OpenGraph if true
   schema = true # Enable Schema
   twitter_cards = true # Enable Twitter Cards if true
+  twittercards = true # hugo-flex のテーマが参照するキー（Twitter Cards 有効化）
   readmore = false # Show "Read more" button in list if true
   authorbox = true # Show authorbox at bottom of pages if true
   toc = true # Enable Table of Contents
