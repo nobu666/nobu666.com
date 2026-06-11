@@ -30,6 +30,13 @@
 
 {{ if site.Params.opengraph }}
   {{ template "_internal/opengraph.html" . }}
+  {{/* Explicit image dimensions so Facebook renders the card without
+       deferring on an image download. Defaults to the 1200x630 OGP size;
+       override per post with ogwidth/ogheight if a different size is used. */}}
+  {{ with .Params.images }}
+    <meta property="og:image:width" content="{{ $.Params.ogwidth | default 1200 }}">
+    <meta property="og:image:height" content="{{ $.Params.ogheight | default 630 }}">
+  {{ end }}
 {{ end }}
 
 {{ if site.Params.twittercards }}
