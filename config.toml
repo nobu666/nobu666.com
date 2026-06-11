@@ -72,3 +72,8 @@ linkedin = "nobutoshi.ogata"
 
 [outputs]
 page = [ "HTML", "AMP" ]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
