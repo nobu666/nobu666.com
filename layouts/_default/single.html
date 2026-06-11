@@ -13,11 +13,11 @@
         <nav class="Pager">
           {{ if gt $i 0 }}
             {{ $prev := index $posts (sub $i 1) }}
-            <a class="Pagination u-clickable" href="{{ $prev.RelPermalink }}" rel="prev">&laquo; {{ $prev.Title }}</a>
+            <a class="Pagination u-clickable" href="{{ $prev.RelPermalink }}" rel="prev">&laquo; Prev</a>
           {{ end }}
           {{ if lt (add $i 1) $len }}
             {{ $next := index $posts (add $i 1) }}
-            <a class="Pagination Pagination--right u-clickable" href="{{ $next.RelPermalink }}" rel="next">{{ $next.Title }} &raquo;</a>
+            <a class="Pagination Pagination--right u-clickable" href="{{ $next.RelPermalink }}" rel="next">Next &raquo;</a>
           {{ end }}
         </nav>
       {{ end }}

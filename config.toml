@@ -21,6 +21,7 @@ ID = "UA-57485-1"
   description = ""
   subtitle = ""
   commit = false
+  divider = "•••" # Divider shown between summaries on the home page
   rss = true
   comments = true
   readingTime = true
