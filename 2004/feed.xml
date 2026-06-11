@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2004s on Real Beat</title><link>https://nobu666.com/2004.html</link><description>Recent content in 2004s on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>水, 15 9月 2004 12:08:15 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/2004/feed.xml" type="application/rss+xml"/><item><title>ポルシェ911をうっかり買って半年経った</title><link>https://nobu666.com/2018/06/10/1030.html</link><pubDate>日, 03 6月 2018 00:40:00 +0900</pubDate><guid>https://nobu666.com/2018/06/10/1030.html</guid><description>&lt;h1 id="買ったもの">
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2004s on Real Beat</title><link>https://nobu666.com/2004.html</link><description>Recent content in 2004s on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>水, 15 9月 2004 12:08:15 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/2004/feed.xml" type="application/rss+xml"/><item><title>8年放置したブログをClaudeにサクッと直してもらった話</title><link>https://nobu666.com/2026/06/12/1031.html</link><pubDate>金, 12 6月 2026 00:13:37 +0900</pubDate><guid>https://nobu666.com/2026/06/12/1031.html</guid><description>&lt;p>気づけば最終更新が2018年。8年である。8年も放置していた。久々に自分のブログを開いてみたら、そもそもまともに表示すらされていなかった。ビルドはコケっぱなし、記事を開けば写真は全滅、コードブロックはぐちゃぐちゃ。我が城かと思ったら廃墟だった。&lt;/p>
+&lt;p>さすがに見かねて、Claude Code に「CircleCIで失敗してる、GitHub Actionsで直せる?」と雑に投げた。そうしたら想像の3倍くらい働いてくれたので、記録しておく。&lt;/p>
+&lt;h2 id="そもそもビルドが通らない">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/12/1031.html#%e3%81%9d%e3%82%82%e3%81%9d%e3%82%82%e3%83%93%e3%83%ab%e3%83%89%e3%81%8c%e9%80%9a%e3%82%89%e3%81%aa%e3%81%84">そもそもビルドが通らない&lt;/a>
+&lt;/h2>
+&lt;p>調べてもらったら、CircleCI はとっくに GitHub Actions へ移行済みで、その Actions の方が壊れていた。移行した記憶すらない。Hugo のバージョンが 0.74 に固定されている。0.74。2020年である。今のテーマが対応するわけがない。おまけに submodule の URL が &lt;code>git@github.com&lt;/code> の SSH 指定で、CI からは鍵がなくて取れない。&lt;/p>
+&lt;p>この辺を Claude が全部自力で特定して、Hugo を上げ、submodule を https に直し、何事もなかったかのようにビルドからデプロイまで通してしまった。こっちは「CircleCIで失敗してる」としか言っていないのに。&lt;/p>
+&lt;h2 id="写真が全部消えていた">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/12/1031.html#%e5%86%99%e7%9c%9f%e3%81%8c%e5%85%a8%e9%83%a8%e6%b6%88%e3%81%88%e3%81%a6%e3%81%84%e3%81%9f">写真が全部消えていた&lt;/a>
+&lt;/h2>
+&lt;p>ビルドが通ったら通ったで、今度は記事の写真が一枚も出ない。原因は2つあった。ひとつは Hugo の Markdown エンジンが新しくなって、本文に直書きした HTML（昔の俺は img タグをベタ書きしていた）を安全のために消す設定になっていたこと。もうひとつは画像が &lt;code>http://&lt;/code> 参照で、https のサイトからは混在コンテンツとしてブロックされること。&lt;/p>
+&lt;p>しかもこっちは「この記事を直して」と一本ずつ指示したわけではない。該当する記事を勝手に全部洗い出して（60本くらいあったらしい）、Flickr も Amazon の商品画像も https に張り替え、まとめて復活させた。とっくにサービス終了している Amazon の広告ウィジェットは、ちゃんと生きてる商品ページへのリンクに置換してくれた。地味に嬉しい。&lt;/p>
+&lt;h2 id="wordpress-時代の負債が出るわ出るわ">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/12/1031.html#wordpress-%e6%99%82%e4%bb%a3%e3%81%ae%e8%b2%a0%e5%82%b5%e3%81%8c%e5%87%ba%e3%82%8b%e3%82%8f%e5%87%ba%e3%82%8b%e3%82%8f">WordPress 時代の負債が出るわ出るわ&lt;/a>
+&lt;/h2>
+&lt;p>掘れば掘るほど過去の自分のツケが出てくる。コードブロックが &lt;code>[sourcecode]&lt;/code> で始まって ``` で閉じていて表示が崩壊していたり（WordPress のショートコードの消し残し）、見出しが Markdown ではなく生の &lt;code>&amp;lt;h2&amp;gt;&lt;/code> だったり。極めつけは、かつて存在した delicious（ソーシャルブックマークサービス。若い人は知らないかもしれないが、もうとっくに無い）の日次まとめ記事が350本くらい、全部死んだリンクを抱えたまま並んでいたこと。よくもまあ溜め込んだものである。この辺も全部、文句ひとつ言わず掃除してくれた。&lt;/p>
+&lt;h2 id="ついでに現代化までしてもらった">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/12/1031.html#%e3%81%a4%e3%81%84%e3%81%a7%e3%81%ab%e7%8f%be%e4%bb%a3%e5%8c%96%e3%81%be%e3%81%a7%e3%81%97%e3%81%a6%e3%82%82%e3%82%89%e3%81%a3%e3%81%9f">ついでに現代化までしてもらった&lt;/a>
+&lt;/h2>
+&lt;p>直すだけのつもりが、流れで色々足してもらった。記事の前後ナビ、トップを全文表示からサマリ+「続きを読む」に、サイト内検索（Google の &lt;code>site:&lt;/code> 検索に飛ばすだけ。インデックスもサーバも要らない）、月別アーカイブのサイドバー、RSS アイコン。サイトマップも絶対URLに直して Search Console に怒られないようにしてもらった。8年前の俺より圧倒的に仕事が早い。&lt;/p>
+&lt;h2 id="最後に一番感心したやつ">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/12/1031.html#%e6%9c%80%e5%be%8c%e3%81%ab%e4%b8%80%e7%95%aa%e6%84%9f%e5%bf%83%e3%81%97%e3%81%9f%e3%82%84%e3%81%a4">最後に一番感心したやつ&lt;/a>
+&lt;/h2>
+&lt;p>ひととおり終わってから「masterに直接 push する前は確認を入れてほしい」と頼んだら、設定フックを書いて仕込んでくれた。次からは push の前にちゃんと止まって聞いてくる。言われたことをやるだけじゃなく、こっちの運用に合わせて環境ごと整えてくるあたりが地味に怖い。&lt;/p>
+&lt;p>8年分の放置と WordPress 移行の傷跡を、ほぼ雑談だけで片付けてしまった。白状すると、この一連の作業で俺は一行もコードを直していない。ひたすらチャットで「これ直して」「次これ」と言っていただけである。自分で全部やっていたら週末が3回は消えていたと思う。&lt;/p>
+&lt;p>……で、ここまで読んでお気づきかもしれないが、この記事の下書きも Claude に書かせているのであったｗ&lt;/p></description></item><item><title>ポルシェ911をうっかり買って半年経った</title><link>https://nobu666.com/2018/06/10/1030.html</link><pubDate>日, 03 6月 2018 00:40:00 +0900</pubDate><guid>https://nobu666.com/2018/06/10/1030.html</guid><description>&lt;h1 id="買ったもの">
 &lt;a class="Heading-link u-clickable" href="https://nobu666.com/2018/06/10/1030.html#%e8%b2%b7%e3%81%a3%e3%81%9f%e3%82%82%e3%81%ae">買ったもの&lt;/a>
 &lt;/h1>
 &lt;p>ポルシェ 911 Type 996 カレラ4S 後期型、’04 登録のハイパフォーマンスキットを装着したもの。通常 320 ps のところ、ハイパフォーマンスキットにより 345 ps になっている。&lt;/p>
