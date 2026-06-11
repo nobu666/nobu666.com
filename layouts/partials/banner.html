@@ -13,7 +13,7 @@
         {{ end }}
         <li class="Banner-item">
           {{ if eq .Name "RSS" }}
-            <a class="Banner-link u-clickable" href="{{ $url }}" aria-label="RSS フィード" title="RSS">
+            <a class="Banner-link u-clickable" href="{{ $url }}" aria-label="RSS フィード" title="RSS" style="display:inline-flex;align-items:center;box-sizing:border-box;height:3rem;">
               <svg viewBox="0 0 512 512" role="img" aria-label="RSS" style="display:block;width:1.4rem;height:1.4rem;"><rect width="512" height="512" rx="96" fill="#ee802f"/><g transform="translate(96 64) scale(0.72)" fill="#fff"><path d="M0 64C0 46.3 14.3 32 32 32c229.8 0 416 186.2 416 416c0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96C14.3 96 0 81.7 0 64zM0 416a64 64 0 1 1 128 0A64 64 0 1 1 0 416zM0 224c0-17.7 14.3-32 32-32c141.4 0 256 114.6 256 256c0 17.7-14.3 32-32 32s-32-14.3-32-32c0-106-86-192-192-192c-17.7 0-32-14.3-32-32z"/></g></svg>
             </a>
           {{ else }}
