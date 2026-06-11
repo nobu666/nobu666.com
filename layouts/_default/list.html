@@ -1,0 +1,18 @@
+{{ define "main" }}
+
+  {{ partial "heading.html" . }}
+
+  {{ .Content }}
+
+  {{ range .Pages.GroupByPublishDate "2006-01" }}
+    <h3 id="{{ .Key }}">{{ time.Format "2006年1月" (index .Pages 0).PublishDate }}</h3>
+    <ul>
+      {{ range .Pages }}
+        <li>
+          {{ time.Format "2006-01-02" .PublishDate }} – <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+
+{{ end }}

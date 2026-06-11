@@ -1,0 +1,18 @@
+<aside class="Sidebar">
+  <h2 class="Sidebar-title">月別アーカイブ</h2>
+  {{ $posts := where site.RegularPages "Section" "in" site.Params.mainSections }}
+  {{ range $posts.GroupByPublishDate "2006" }}
+    {{ $year := .Key }}
+    <details class="Sidebar-year">
+      <summary>{{ $year }}年 <span class="Sidebar-count">({{ len .Pages }})</span></summary>
+      <ul class="Sidebar-months">
+        {{ range .Pages.GroupByPublishDate "01" }}
+          <li>
+            <a href="/{{ $year }}.html#{{ $year }}-{{ .Key }}">{{ strings.TrimPrefix "0" .Key }}月</a>
+            <span class="Sidebar-count">({{ len .Pages }})</span>
+          </li>
+        {{ end }}
+      </ul>
+    </details>
+  {{ end }}
+</aside>

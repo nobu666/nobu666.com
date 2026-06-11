@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.LanguageCode }}">
+
+<head>
+  {{ block "load_paginator" . }}{{ end }}
+  {{ partial "meta.html" . }}
+  {{ partial "title.html" . }}
+  {{ partial "link.html" . }}
+  {{ partial "load_site_assets.html" . }}
+  {{ block "load_page_assets" . }}
+    {{ with .Content }}{{ end }}
+  {{ end }}
+  {{ partial "assets.html" . }}
+  <style>
+    .u-wrapper { max-width: 58rem; }
+    .Layout { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .Layout-content { flex: 1 1 auto; min-width: 0; max-width: 42rem; }
+    .Layout-sidebar { flex: 0 0 15rem; }
+    @media (max-width: 48rem) {
+      .Layout { flex-direction: column; }
+      .Layout-content { max-width: none; }
+      .Layout-sidebar { flex: 1 1 auto; width: 100%; }
+    }
+    .Sidebar { font-size: 0.95rem; }
+    .Sidebar-title { margin: 1rem 0 0.5rem; }
+    .Sidebar-year { border-bottom: 1px solid #e5e5e5; }
+    .Sidebar-year > summary { cursor: pointer; padding: 0.4rem 0; font-weight: bold; }
+    .Sidebar-months { list-style: none; margin: 0.1rem 0 0.6rem; padding-left: 1rem; }
+    .Sidebar-months li { padding: 0.15rem 0; }
+    .Sidebar-count { color: gray; font-size: 0.85em; }
+  </style>
+</head>
+
+<body>
+  {{ partialCached "banner.html" . }}
+  <main>
+    <div class="u-wrapper">
+      <div class="Layout">
+        <div class="Layout-content u-padding">
+          {{ block "main" . }}{{ end }}
+        </div>
+        <div class="Layout-sidebar u-padding">
+          {{ partialCached "sidebar.html" . }}
+        </div>
+      </div>
+    </div>
+  </main>
+  {{ partialCached "footer.html" . }}
+</body>
+
+</html>
