@@ -1034,61 +1034,56 @@ Primaryからdebファイルをscpするなりこっちでもwgetするなりし
 さてフェイルオーバーさせてみます。いくつか方法がありますが、とりあえず手動でやります。Secondary側で、opscode-pgsqlユーザーで操作します。SecondaryはRead-Onlyなので、 CREATE TABLE test (i integer) とかやって失敗→切り替え→もっかいやったら成功、でPrimaryになったことを確認できます。
 &lt;pre tabindex="0">&lt;code>$ /opt/chef-server/embedded/bin/pg_ctl promote -D /var/opt/chef-server/postgresql/data&lt;/code>&lt;/pre>
 &lt;p>こんだけ。また2台構成に戻すには、同じ事をやってやればいいはずです。が、時間経ちすぎてWALファイルがなくなっちゃったとか、転送前にコケてて欠落してるとか、そういう場合はその限りではありません。ていうかそれはChefと関係ないんでそっち方面のマニュアルみるなり調べるなりしてください。&lt;/p></description></item><item><title>UbuntuにOpenGrokをinstall</title><link>/2013/03/05/974.html</link><pubDate>火, 05 3月 2013 14:36:15 +0900</pubDate><guid>/2013/03/05/974.html</guid><description>&lt;p>俺メモ&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;bash&amp;rdquo;]
-sudo apt-get update
-sudo apt-get install openjdk-6-jdk
-sudo apt-get install tomcat7
-wget &lt;a href="http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz">http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz&lt;/a>
-tar xf ctags-5.8.tar.gz
-cd ctags-5.8/
-./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; sudo make install
-cd ..
-wget &lt;a href="http://hub.opensolaris.org/bin/download/Project+opengrok/files/opengrok-0.11.1.tar.gz">http://hub.opensolaris.org/bin/download/Project+opengrok/files/opengrok-0.11.1.tar.gz&lt;/a>
-tar xf opengrok-0.11.1.tar.gz
-wget &lt;a href="http://jflex.de/jflex-1.4.3.tar.gz">http://jflex.de/jflex-1.4.3.tar.gz&lt;/a>
-tar xf jflex-1.4.3.tar.gz
-cp jflex-1.4.3/lib/JFlex.jar opengrok-0.11.1/lib/lib/
-echo &amp;ldquo;export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64&amp;rdquo; &amp;raquo; .bashrc
-echo &amp;ldquo;EXUBERANT_CTAGS=/usr/local/bin/ctags&amp;rdquo; &amp;raquo; .bashrc
-sudo sed -i &amp;ldquo;s/port=&amp;quot;8080&amp;quot;/port=&amp;quot;2424&amp;quot;/&amp;rdquo; /etc/tomcat7/server.xml
-sudo /etc/init.d/tomcat restart
-sudo mkdir -p /var/opengrok/{etc,data,src}
-sudo chown -R tomcat7:tomcat7 /var/opengrok
-sudo chown -R &lt;code>whoami&lt;/code>:&lt;code>whoami&lt;/code> /var/opengrok/src
-sudo -u tomcat7 opengrok-0.11/bin/OpenGrok index
-sudo -u tomcat7 OPENGROK_TOMCAT_BASE=/var/lib/tomcat7 opengrok-0.11/bin/OpenGrok deploy&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-あとは /var/opengrok-0.11.1/src に検索対象のソースコード突っ込んでOpenGrok indexし直すだけ。&lt;/code>&lt;/pre></description></item><item><title>ChefでRoleやRecipeを実行するとき渡すべき必須のattributesをチェックする</title><link>/2013/02/21/959.html</link><pubDate>木, 21 2月 2013 16:06:57 +0900</pubDate><guid>/2013/02/21/959.html</guid><description>&lt;p>例えばlvsを構築するときに、その下にぶら下がるreal serverたちのIPアドレスとかって、chef-client実行するときに-jオプション使ってjsonでattributes渡して欲しいわけですが、実際に実行する前に必須のものがなければ弾きたい、と思って色々ためした結果&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo apt-get update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install openjdk-6-jdk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install tomcat7
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>wget http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar xf ctags-5.8.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ctags-5.8/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>./configure &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> make &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> sudo make install
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ..
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>wget http://hub.opensolaris.org/bin/download/Project+opengrok/files/opengrok-0.11.1.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar xf opengrok-0.11.1.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>wget http://jflex.de/jflex-1.4.3.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar xf jflex-1.4.3.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cp jflex-1.4.3/lib/JFlex.jar opengrok-0.11.1/lib/lib/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64&amp;#34;&lt;/span> &amp;gt;&amp;gt; .bashrc
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>echo &lt;span style="color:#e6db74">&amp;#34;EXUBERANT_CTAGS=/usr/local/bin/ctags&amp;#34;&lt;/span> &amp;gt;&amp;gt; .bashrc
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo sed -i &lt;span style="color:#e6db74">&amp;#34;s/port=\&amp;#34;8080\&amp;#34;/port=\&amp;#34;2424\&amp;#34;/&amp;#34;&lt;/span> /etc/tomcat7/server.xml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo /etc/init.d/tomcat restart
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo mkdir -p /var/opengrok/&lt;span style="color:#f92672">{&lt;/span>etc,data,src&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo chown -R tomcat7:tomcat7 /var/opengrok
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo chown -R &lt;span style="color:#e6db74">`&lt;/span>whoami&lt;span style="color:#e6db74">`&lt;/span>:&lt;span style="color:#e6db74">`&lt;/span>whoami&lt;span style="color:#e6db74">`&lt;/span> /var/opengrok/src
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo -u tomcat7 opengrok-0.11/bin/OpenGrok index
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo -u tomcat7 OPENGROK_TOMCAT_BASE&lt;span style="color:#f92672">=&lt;/span>/var/lib/tomcat7 opengrok-0.11/bin/OpenGrok deploy&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>あとは /var/opengrok-0.11.1/src に検索対象のソースコード突っ込んでOpenGrok indexし直すだけ。&lt;/p></description></item><item><title>ChefでRoleやRecipeを実行するとき渡すべき必須のattributesをチェックする</title><link>/2013/02/21/959.html</link><pubDate>木, 21 2月 2013 16:06:57 +0900</pubDate><guid>/2013/02/21/959.html</guid><description>&lt;p>例えばlvsを構築するときに、その下にぶら下がるreal serverたちのIPアドレスとかって、chef-client実行するときに-jオプション使ってjsonでattributes渡して欲しいわけですが、実際に実行する前に必須のものがなければ弾きたい、と思って色々ためした結果&lt;/p>
 &lt;p>Roleならjsonに、Recipeならattributes/default.rbに、__required__とかそういう感じの名前でattributesを作って、そこに配列で指定必須のattributesを並べて書いておく。&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;javascript&amp;rdquo;]
-{
-&amp;ldquo;name&amp;rdquo;: &amp;ldquo;nannchara-kannchara&amp;rdquo;,
-&amp;ldquo;default_attributes&amp;rdquo;: {
-},
-&amp;ldquo;json_class&amp;rdquo;: &amp;ldquo;Chef::Role&amp;rdquo;,
-&amp;ldquo;env_run_lists&amp;rdquo;: {
-},
-&amp;ldquo;run_list&amp;rdquo;: [
-&amp;ldquo;recipe[foo]&amp;rdquo;,
-&amp;ldquo;recipe[bar::baz]&amp;rdquo;
-],
-&amp;ldquo;description&amp;rdquo;: &amp;ldquo;hogeraccho&amp;rdquo;,
-&amp;ldquo;chef_type&amp;rdquo;: &amp;ldquo;role&amp;rdquo;,
-&amp;ldquo;override_attributes&amp;rdquo;: {
-&amp;ldquo;&lt;strong>required&lt;/strong>&amp;rdquo;: [
-&amp;ldquo;test&amp;rdquo;,
-&amp;ldquo;test1&amp;rdquo;,
-&amp;ldquo;test2&amp;rdquo;
-]
-}
-}&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-んで knife role from file nannchara-kannchara.json すると、knife search コマンドで取り出せるようになるので、あとは適当に整形すれば一覧として取り出せる
-[sourcecode language=&amp;#34;bash&amp;#34;]
-$ knife search role -F json -q &amp;#34;name:nannchara-kannchara AND __required__:*&amp;#34; | tr -d &amp;#39;\n&amp;#39; | tr -d &amp;#39; &amp;#39; | grep -oE &amp;#34;required[^]]+&amp;#34; | awk -F[ &amp;#39;{print $2}&amp;#39; | tr &amp;#39;,&amp;#39; &amp;#39;\n&amp;#39; | tr -d &amp;#39;&amp;#34;&amp;#39;
-test
-test1
-test2&lt;/code>&lt;/pre>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;name&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;nannchara-kannchara&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;default_attributes&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;json_class&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Chef::Role&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;env_run_lists&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;run_list&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;recipe[foo]&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;recipe[bar::baz]&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;description&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;hogeraccho&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;chef_type&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;role&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;override_attributes&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;__required__&amp;#34;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;test&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;test1&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;test2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>んで knife role from file nannchara-kannchara.json すると、knife search コマンドで取り出せるようになるので、あとは適当に整形すれば一覧として取り出せる&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ knife search role -F json -q &lt;span style="color:#e6db74">&amp;#34;name:nannchara-kannchara AND __required__:*&amp;#34;&lt;/span> | tr -d &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span> | tr -d &lt;span style="color:#e6db74">&amp;#39; &amp;#39;&lt;/span> | grep -oE &lt;span style="color:#e6db74">&amp;#34;required[^]]+&amp;#34;&lt;/span> | awk -F&lt;span style="color:#f92672">[&lt;/span> &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span> | tr &lt;span style="color:#e6db74">&amp;#39;,&amp;#39;&lt;/span> &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span> | tr -d &lt;span style="color:#e6db74">&amp;#39;&amp;#34;&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>test
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>test1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>test2&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
 &lt;p>無理やり感があるがまぁ使えるのでよし。&lt;/p></description></item><item><title>ハサミを買ったら猛烈に感動したのでお前らもこれは体験するべき</title><link>/2013/01/14/954.html</link><pubDate>月, 14 1月 2013 02:17:49 +0900</pubDate><guid>/2013/01/14/954.html</guid><description>&lt;p>あけましておめでとうございます。&lt;/p>
 &lt;p>突然ですけどハサミ買ったんですハサミ。そしたらこれがあまりにいままでのハサミの概念を打ち破る、画期的というか革命的というか、とにかくたかがハサミでおじさん猛烈に感動したのでブログを書く次第です。&lt;/p>
 &lt;p>もとはというと、3匹飼ってる猫のうち、1匹の毛玉が猛烈にすごくて、何万円かするバリカン試してみたりしたんだけど、まったく歯が立たずに諦めてたんだけど、放っておくと良くないらしいし、かといって全身麻酔で剃ってもらうのもリスクがあるのでできるなら自分でどうにかしたいと思っていてですね。んで色々調べていると、とりあえず櫛で皮膚を切らないようにして、その上でハサミで縦に切込みを入れて少しづつほぐしていくのがいいという話を聞いて、試してみたんだけど猫の毛が柔らかすぎて、普通のハサミでは毛を巻き込んでしまってうまく切れず、どうしたもんかと思っていた所でこのハサミに出会ったということです。&lt;/p>
@@ -1102,41 +1097,35 @@ test2&lt;/code>&lt;/pre>
 &lt;p>電動鼻毛カッターとか&lt;/p>
 &lt;p>それ以来の感動的な商品です。たかがハサミ、されどハサミ。久しぶりにこんな安い値段で、心から買ってよかったと思えるものだったので勢いでブログ書きました。&lt;/p></description></item><item><title>SSH Port FowardでMySQLを使う</title><link>/2012/01/19/931.html</link><pubDate>木, 19 1月 2012 12:49:13 +0900</pubDate><guid>/2012/01/19/931.html</guid><description>&lt;p>気づいたら年が明けていますが俺は元気です。&lt;/p>
 &lt;p>タイトル通りなんだけど、あるMySQLサーバへつなぐためには踏み台を通らないといけなくて、いちいち&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;bash&amp;rdquo; padlinenumbers=&amp;ldquo;2&amp;rdquo;]
-localhost$ ssh -t gateway ssh dbserver
-dbserver$ mysql -uhoge -p&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-とかやらないといけなくて、めんどい。というかこれだとローカルの開発環境で、一時的にdbserverで動作してるMySQLのデータを使いたいときとか困る。ダンプしてローカルに持ってくればいいけど、データがものすごいデカかったりしてだるい。どうにかしたい。
-というわけで、Port Forwardすればいいじゃないかと思って
-[sourcecode language=&amp;#34;bash&amp;#34; padlinenumbers=&amp;#34;2&amp;#34;]
-$ ssh -Nf -L 13306:dbserver:3306 gateway&lt;/code>&lt;/pre>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>localhost$ ssh -t gateway ssh dbserver
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dbserver$ mysql -uhoge -p&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>とかやらないといけなくて、めんどい。というかこれだとローカルの開発環境で、一時的にdbserverで動作してるMySQLのデータを使いたいときとか困る。ダンプしてローカルに持ってくればいいけど、データがものすごいデカかったりしてだるい。どうにかしたい。&lt;/p>
+&lt;p>というわけで、Port Forwardすればいいじゃないかと思って&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ ssh -Nf -L 13306:dbserver:3306 gateway&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
 &lt;p>とかして、&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;text&amp;rdquo; padlinenumbers=&amp;ldquo;2&amp;rdquo;]
-$ mysql -uhoge -p -P13306&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-これで勝つる！！！と思ったら、これでは繋がらない。でもtelnet localhost 13306とか叩いてみると繋がるように見える。
-[sourcecode language=&amp;#34;text&amp;#34; padlinenumbers=&amp;#34;2&amp;#34;]
-$ telnet localhost 13306
-Trying 127.0.0.1...
-Connected to localhost.
-Escape character is &amp;#39;^]&amp;#39;.
-L
-5.5.8-log
-$;2)s.%n!
-?QV;dgXbeUZBymysql_native_password&lt;/code>&lt;/pre>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>$ mysql -uhoge -p -P13306&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>これで勝つる！！！と思ったら、これでは繋がらない。でもtelnet localhost 13306とか叩いてみると繋がるように見える。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>$ telnet localhost 13306
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Trying 127.0.0.1...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Connected to localhost.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Escape character is &amp;#39;^]&amp;#39;.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>L
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>5.5.8-log
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> $;2)s.%n!
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ?QV;dgXbeUZBymysql_native_password&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
 &lt;p>なにこれどういうことなの、と思って色々試したり調べたりしていたら、答えは意外なところに。&lt;/p>
 &lt;p>&lt;a href="http://enginsite.com/tunnel_howto.htm">What is SSH Port Forwarding and How It Works&lt;/a>ってページに書いてあった。&lt;/p>
 &lt;blockquote>When the remote SSH host is on a different machine than the MySQL server, replace 127.0.0.1 with the IP address of the MySQL server (relative to the SSH host). Never use "localhost" for hostname.&lt;/blockquote>
 &lt;p>Never use “localhost” for hostname、だと……??&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;text&amp;rdquo; padlinenumbers=&amp;ldquo;2&amp;rdquo;]
-$ mysql -uhoge -p -P13306 -h127.0.0.1
-Welcome to the MySQL monitor. Commands end with ; or \g.
-Your MySQL connection id is 1058649
-Server version: 5.5.8-log MySQL Community Server (GPL)&lt;/p>
-&lt;p>Type &amp;lsquo;help;&amp;rsquo; or &amp;lsquo;\h&amp;rsquo; for help. Type &amp;lsquo;\c&amp;rsquo; to clear the current input statement.&lt;/p>
-&lt;p>mysql&amp;gt;&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-をををを……そして&amp;lt;a href=&amp;#34;http://d.hatena.ne.jp/yamamucho/20110319/1300511690&amp;#34;&amp;gt;SSH ポートフォワードで MySQL サーバにログインするときのメモ - 酔いどれコード&amp;lt;/a&amp;gt; に同じことが書いてあった。damn。localhost指定(-hオプションなしのデフォルト)だと、Unixドメインソケットを使って通信するので、当然ネットワーク越しには繋がらないよというオチでした。2時間くらいハマってしまったのでメモ。&lt;/code>&lt;/pre></description></item><item><title>ターミナル勉強会で話してきました</title><link>/2011/09/13/927.html</link><pubDate>火, 13 9月 2011 01:40:58 +0900</pubDate><guid>/2011/09/13/927.html</guid><description>&lt;p>&lt;a href="http://kokucheese.com/event/index/16461/">&lt;a href="http://kokucheese.com/event/index/16461/">http://kokucheese.com/event/index/16461/&lt;/a>&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>$ mysql -uhoge -p -P13306 -h127.0.0.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Welcome to the MySQL monitor. Commands end with ; or \g.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Your MySQL connection id is 1058649
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Server version: 5.5.8-log MySQL Community Server (GPL)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Type &amp;#39;help;&amp;#39; or &amp;#39;\h&amp;#39; for help. Type &amp;#39;\c&amp;#39; to clear the current input statement.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mysql&amp;gt; &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>をををを……そして&lt;a href="http://d.hatena.ne.jp/yamamucho/20110319/1300511690">SSH ポートフォワードで MySQL サーバにログインするときのメモ - 酔いどれコード&lt;/a> に同じことが書いてあった。damn。localhost指定(-hオプションなしのデフォルト)だと、Unixドメインソケットを使って通信するので、当然ネットワーク越しには繋がらないよというオチでした。2時間くらいハマってしまったのでメモ。&lt;/p></description></item><item><title>ターミナル勉強会で話してきました</title><link>/2011/09/13/927.html</link><pubDate>火, 13 9月 2011 01:40:58 +0900</pubDate><guid>/2011/09/13/927.html</guid><description>&lt;p>&lt;a href="http://kokucheese.com/event/index/16461/">&lt;a href="http://kokucheese.com/event/index/16461/">http://kokucheese.com/event/index/16461/&lt;/a>&lt;/a>&lt;/p>
 &lt;p>一時はどうなることかと思いましたが、@Mr_K_O の活躍により無事LT枠も埋まり、盛況のうちに終わりました。関係者の方々、来てくださった方々ありがとうございました。&lt;/p>
 &lt;p>資料はこちらにおいてあります。
 &lt;a href="https://www.slideshare.net/NobutoshiOgata/zsh-9223115">&lt;a href="https://www.slideshare.net/NobutoshiOgata/zsh-9223115">https://www.slideshare.net/NobutoshiOgata/zsh-9223115&lt;/a>&lt;/a>&lt;/p>
@@ -1156,10 +1145,8 @@ Server version: 5.5.8-log MySQL Community Server (GPL)&lt;/p>
 &lt;img src="https://live.staticflickr.com/6029/5984584709_67932eb04e_z.jpg" alt="くりくりおめめ" />
 &lt;p>まだスプーンは2回目のワクチンが終わってないので、それまではシロップとは分けて生活させて、少しずつ少しずつ慣らしてるところ。最初はシロップがフーフーと相当興奮して威嚇モードになっていたけど、最近はケージ越しにじゃれたり、少しだけ一緒に遊ばせたりしてみてる。どうなるかと心配したけど、猫は猫でうまくやってくれそうな感じ。&lt;/p>
 &lt;p>この子はとても大人しく、爪切りもブラッシングも普通にやらせてくれて楽ちん。でもトイレが下手で、うんちに砂がうまくかからず、踏んづけて手足が汚れることが多いので困る。&lt;/p></description></item><item><title>Twitterの日本語ハッシュタグ抽出する正規表現</title><link>/2011/07/13/914.html</link><pubDate>水, 13 7月 2011 14:39:30 +0900</pubDate><guid>/2011/07/13/914.html</guid><description>&lt;p>正式に日本語ハッシュタグが使えるようになったので、色々ためした結果、以下の正規表現でほぼ公式と同じ動作になった。「ほぼ」なのはちゃんとテストしたわけじゃないので。使うなら自己責任でどうぞ。&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;text&amp;rdquo;]
-(?:#|\uFF03)([a-zA-Z0-9_\u3041-\u3094\u3099-\u309C\u30A1-\u30FA\u3400-\uD7FF\uFF10-\uFF19\uFF20-\uFF3A\uFF41-\uFF5A\uFF66-\uFF9E]+)&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-iPhoneの公式クライアントだとなんか動きが違ったりするし、half-widthのカタカナ半濁点はだめだったりとかなんかバグなのか仕様なのかよくわからず。半濁点も通すようにしたければ、FF9EをFF9Fにすればおｋ。&lt;/code>&lt;/pre></description></item><item><title>にゃんこが我が家にやってきた!</title><link>/2011/06/12/910.html</link><pubDate>日, 12 6月 2011 14:57:53 +0900</pubDate><guid>/2011/06/12/910.html</guid><description>&lt;p>嫁さんとペットショップ行ったら一目惚れして、気がついたらカードを切っていた。が、後悔も反省もしていないっ!!&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>(?:#|\uFF03)([a-zA-Z0-9_\u3041-\u3094\u3099-\u309C\u30A1-\u30FA\u3400-\uD7FF\uFF10-\uFF19\uFF20-\uFF3A\uFF41-\uFF5A\uFF66-\uFF9E]+)&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>iPhoneの公式クライアントだとなんか動きが違ったりするし、half-widthのカタカナ半濁点はだめだったりとかなんかバグなのか仕様なのかよくわからず。半濁点も通すようにしたければ、FF9EをFF9Fにすればおｋ。&lt;/p></description></item><item><title>にゃんこが我が家にやってきた!</title><link>/2011/06/12/910.html</link><pubDate>日, 12 6月 2011 14:57:53 +0900</pubDate><guid>/2011/06/12/910.html</guid><description>&lt;p>嫁さんとペットショップ行ったら一目惚れして、気がついたらカードを切っていた。が、後悔も反省もしていないっ!!&lt;/p>
 &lt;p>先週購入して慌てて部屋の掃除やら片付けやらをはじめて、昨日6/11の夜に迎えにいってきた。2-3日は環境が変わって慣れてないので、あんまり遊ばせたりしないで寝かせてあげてくださいと言われたので、まだあんまり構わないようにしている。&lt;/p>
 &lt;p>名前はまだない。まぁ近いうちに決める。種類はメインクーンで、雄、3/30生まれ、毛色はブラウンタビー&amp;amp;ホワイト。かなりでかくなる猫だということだが、さてさてどの程度の大きさになるのやら。最初の1年でぐっと大きくなって、そこからさらに1-2年かけて少しずつ大きくなるらしい。そういえば体重計ってないや。今度計る。&lt;/p>
 &lt;p>まだちょっとした物音に過剰に反応して怖がったり、部屋に出すと走り回って壁に激突したり、えさの食べ方が下手で口の周りが汚れがちだったりしております。&lt;/p>
@@ -1167,78 +1154,72 @@ iPhoneの公式クライアントだとなんか動きが違ったりするし�
 &lt;img src="https://live.staticflickr.com/2208/5823602036_74755f4b75_z.jpg" />&lt;/p></description></item><item><title>さくらのVPSでCentOSからUbuntuに鞍替えまとめ</title><link>/2011/05/19/904.html</link><pubDate>木, 19 5月 2011 22:32:28 +0900</pubDate><guid>/2011/05/19/904.html</guid><description>&lt;p>&lt;a href="http://twitter.com/maccha">@maccha&lt;/a>からリクエストがあったので、適当にまとめました。タイトルの通りです。&lt;/p>
 &lt;h2>OS再インストールの準備&lt;/h2>
 リモートコンソールの起動にJDK必須なので、作業するマシンにJDKが入ってなければいれとく。あとはTightVNCとか、必要ならどうぞ。あとバックアップ忘れずに。とりあえずwordpressだけ動いてる状態だったので
-&lt;p>[sourcecode language=&amp;ldquo;text&amp;rdquo; padlinenumbers=&amp;ldquo;2&amp;rdquo;]
-$ mysqldump -uroot -p wp -Q -c &amp;ndash;opt &amp;gt; dumpfile
-$ tar zcvf wordpress.tar.gz /var/www/wordpress
-$ tar zcvf ssh.tar.gz ~/.ssh&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-みたいな感じでバックアップ取って作業マシンにscpなりlftpなりで持ってきておく。必要なら/etc/my.cnfとか/etc/php.iniとか、ホームのドットファイル類も。
-&amp;lt;h2&amp;gt;OS再インストール&amp;lt;/h2&amp;gt;
-VPSコントロールパネルにログインして、OS再インストール→カスタムOSインストール→ubuntu 10.04 amd64を選択→&amp;lt;a href=&amp;#34;http://support.sakura.ad.jp/support/vps/menu_oscustom_ubuntu.shtml&amp;#34;&amp;gt;カスタムOSインストールガイド ： Ubuntu 10.04&amp;lt;/a&amp;gt;の通り進める。10分くらいありゃ終わる。
-&amp;lt;h2&amp;gt;SSHの設定&amp;lt;/h2&amp;gt;
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>$ mysqldump -uroot -p wp -Q -c --opt &amp;gt; dumpfile
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ tar zcvf wordpress.tar.gz /var/www/wordpress
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ tar zcvf ssh.tar.gz ~/.ssh&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>みたいな感じでバックアップ取って作業マシンにscpなりlftpなりで持ってきておく。必要なら/etc/my.cnfとか/etc/php.iniとか、ホームのドットファイル類も。&lt;/p>
+&lt;h2>OS再インストール&lt;/h2>
+VPSコントロールパネルにログインして、OS再インストール→カスタムOSインストール→ubuntu 10.04 amd64を選択→&lt;a href="http://support.sakura.ad.jp/support/vps/menu_oscustom_ubuntu.shtml">カスタムOSインストールガイド ： Ubuntu 10.04&lt;/a>の通り進める。10分くらいありゃ終わる。
+&lt;h2>SSHの設定&lt;/h2>
 何はともあれrootのパスワードとSSHの設定をリモートコンソールからやる。scpなりで、バックアップファイルを転送しとくこと。
-[sourcecode language=&amp;#34;text&amp;#34; padlinenumbers=&amp;#34;2&amp;#34;]
-$ sudo passwd
-$ tar zxf wordpress.tar.gz
-$ tar zxf ssh.tar.gz
-$ chmod 700 .ssh
-$ chmod 600 .ssh/*
-$ sudo vi /etc/ssh/sshd_config
-- Port 22
-+ Port 適当なポート
-- PermitRootLogin yes
-+ PermitRootLogin no
-- #PasswordAuthentication yes
-+ PasswordAuthentication no&lt;/code>&lt;/pre>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>$ sudo passwd
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ tar zxf wordpress.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ tar zxf ssh.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ chmod 700 .ssh
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ chmod 600 .ssh/*
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo vi /etc/ssh/sshd_config
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- Port 22
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>+ Port 適当なポート
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- PermitRootLogin yes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>+ PermitRootLogin no
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- #PasswordAuthentication yes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>+ PasswordAuthentication no&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
 &lt;p>ポートは変えなくてもいいけどお好みで。ポート変えたら/etc/servicesのSSHのとこを合わせて変更するのも忘れずに。&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;text&amp;rdquo; padlinenumbers=&amp;ldquo;2&amp;rdquo;]
-$ sudo sshd -t&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-でチェックして、エラーが出なければOKなので再起動
-[sourcecode language=&amp;#34;text&amp;#34; padlinenumbers=&amp;#34;2&amp;#34;]
-$ sudo service ssh restart&lt;/code>&lt;/pre>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>$ sudo sshd -t&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>でチェックして、エラーが出なければOKなので再起動&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>$ sudo service ssh restart&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
 &lt;p>ここで、もう一個ターミナル開いて問題なく接続できることを必ず確認。以降は普通に端末からSSHでつないで作業&lt;/p>
 &lt;h2>諸々設定&lt;/h2>
 もうあとはお好みでどうぞなんだけど、最低やることだけ書いとく
-&lt;p>[sourcecode language=&amp;ldquo;text&amp;rdquo; padlinenumbers=&amp;ldquo;2&amp;rdquo;]
-$ sudo apt-get update
-.
-.
-.
-$ sudo apt-get upgrade
-.
-.
-.
-$ sudo ufw status
-Status: inactive
-$ sudo ufw default deny
-Default incoming policy changed to &amp;lsquo;deny&amp;rsquo;
-(be sure to update your rules accordingly)
-$ sudo ufw allow SSHのポート番号
-Rules updated
-$ sudo ufw allow 80
-Rules updated
-$ sudo ufw enable
-Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
-Firewall is active and enabled on system startup
-$ sudo ufw status
-Status: active
-To Action From&lt;/p>
-&lt;hr>
-&lt;p>SSHのポート番号 ALLOW Anywhere
-80 ALLOW Anywhere
-$ sudo apt-get install denyhosts sysv-rc-conf build-essential zsh screen vim tmux curl wget git-core apache2 php5 libapache2-mod-php5 mysql-server php5-mysql #まぁこの辺は余計なのも入ってるのでお好きなように
-$ sudo a2enmod rewrite # rewrite有効に
-$ sudo vi /etc/apache2/sites-available/default #VirtualHostなりなんなり、お好きにどうぞ
-$ sudo service apache2 restart
-$ sudo sysv-rc-conf #自動起動したいやつを適当に選択
-$ cp -a wordpress/* /var/www/wordpress #wordpressのバックアップ復元
-$ mysql -uroot -p -e&amp;quot;create database wp&amp;quot; #とりあえずDBつくる
-$ sudo cp my.cnf.backup /etc/my.cnf
-$ sudo service mysql restart
-$ mysql -uroot -p wp &amp;lt; dumpfile #dumpファイルからデータ復元&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-ここまでやればwordpressはもう普通に動いてるはず。あとはchshするなり、ドットファイル復元するなり、好きにすればいいかと。&lt;/code>&lt;/pre></description></item><item><title>自分の音楽にまつわる歴史をまとめてみた</title><link>/2011/02/21/812.html</link><pubDate>月, 21 2月 2011 23:52:42 +0900</pubDate><guid>/2011/02/21/812.html</guid><description>&lt;p>気が向いたので、なんとなくまとめてみた。誰も得をしないまとめ。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>$ sudo apt-get update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo apt-get upgrade
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo ufw status
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Status: inactive
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo ufw default deny
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Default incoming policy changed to &amp;#39;deny&amp;#39;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(be sure to update your rules accordingly)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo ufw allow SSHのポート番号
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Rules updated
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo ufw allow 80
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Rules updated
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo ufw enable
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Firewall is active and enabled on system startup
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo ufw status
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Status: active
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>To Action From
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-- ------ ----
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SSHのポート番号 ALLOW Anywhere
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>80 ALLOW Anywhere
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo apt-get install denyhosts sysv-rc-conf build-essential zsh screen vim tmux curl wget git-core apache2 php5 libapache2-mod-php5 mysql-server php5-mysql #まぁこの辺は余計なのも入ってるのでお好きなように
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo a2enmod rewrite # rewrite有効に
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo vi /etc/apache2/sites-available/default #VirtualHostなりなんなり、お好きにどうぞ
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo service apache2 restart
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo sysv-rc-conf #自動起動したいやつを適当に選択
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ cp -a wordpress/* /var/www/wordpress #wordpressのバックアップ復元
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ mysql -uroot -p -e&amp;#34;create database wp&amp;#34; #とりあえずDBつくる
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo cp my.cnf.backup /etc/my.cnf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ sudo service mysql restart
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ mysql -uroot -p wp &amp;lt; dumpfile #dumpファイルからデータ復元&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>ここまでやればwordpressはもう普通に動いてるはず。あとはchshするなり、ドットファイル復元するなり、好きにすればいいかと。&lt;/p></description></item><item><title>自分の音楽にまつわる歴史をまとめてみた</title><link>/2011/02/21/812.html</link><pubDate>月, 21 2月 2011 23:52:42 +0900</pubDate><guid>/2011/02/21/812.html</guid><description>&lt;p>気が向いたので、なんとなくまとめてみた。誰も得をしないまとめ。&lt;/p>
 &lt;p>10歳: なんか知らんけどBOØWYに影響を受けてベースを弾き始める。なんでベースだったのかは未だによくわからない。なんかベースの音がよく聞こえて。単にギターは調子こいてる風で嫌だったっていう天邪鬼説が有力。HOLLYとかいう謎のやっすいプレベタイプのベースと、15Wくらいのアンプと、シールドと音叉と変な教則本とテープがセットになってて、3万だか4万だかのものだったと記憶している。買った初日に、音叉の使い方がわからなくて、チーンて叩いた音にあわせたらいきなり弦が切れて泣きそうになった記憶がある。また楽器屋に戻って、音叉は叩いた後どこかにくっつけるものだと初めて知るｗ しばらくついてきた教則本に沿って練習するも、ハンマリングとプリングの複合練習みたいなやつで行き詰って2ヶ月ぐらい放置。気が向いてその後やってみたらなぜか弾けるようになっていた。&lt;/p>
 &lt;p>11歳: 姉貴の影響でLed Zeppelinを聴いてぶっ飛ぶ。天国への階段が入ってるやつを輸入版で買った。あまりにも衝撃を受けて、それを機に洋楽の道へ。クラスメイトが光GENJIやら少年隊やらいってる時期だった気がするけど、VAN HALEN・WHITE SNAKE・Deep Purpleあたりを聴いていた気がする。&lt;/p>
 &lt;p>12歳: 近所のレンタル屋でいろいろ借りまくる。洋楽はちょっと身を潜めて、邦楽へ。筋肉少女隊・X・DOOM・TM NETWORK・ブルーハーツとか聴いてた。&lt;/p>
@@ -1258,95 +1239,90 @@ $ mysql -uroot -p wp &amp;lt; dumpfile #dumpファイルからデータ復元&lt
 &lt;p>34歳: Warwick ThumbBass購入。WarwickのStreamer Jazzman、アトリエZ青木さんモデル、スペクターと悩んで決めた。決め手は音作りの幅広さと、音のふくよかさ。足下はEBSのマルチコンプ、サンズアンプ・MXRの10BAND EQで安定。&lt;/p>
 &lt;p>最近はあんま新しい音楽聴いてない。Brian Brombergのアルバム買ったくらいか。未だにIn FlamesやらチルボドやらARCH ENEMYやらAmorphisやらHammerFallやらRhapsodyやら聴いてます。DragonForceも一時期好きだったけど最近飽きてきた。&lt;/p></description></item><item><title>mahoutで類似ユーザをリコメンドする</title><link>/2011/02/17/839.html</link><pubDate>木, 17 2月 2011 17:47:15 +0900</pubDate><guid>/2011/02/17/839.html</guid><description>&lt;p>&lt;a href="http://mahout.apache.org/">mahout&lt;/a>使って類似ユーザの抽出をやってみたのでまとめ。&lt;/p>
 &lt;p>そこら辺に転がってるサンプルは、ほとんどがユーザがあるアイテムについて点数をつける前提になってて、その点数をベースに似ているユーザをリコメンドしたり、あるいはあるユーザが興味をもちそうなアイテムをリコメンドしたりといったものが殆どだった。点数がないようなときにどうするか多少悩んだので記録に残しておくことにした。とりあえず今回はMySQLにデータが入ってる前提でやってみた。あるテーブルにUSER_IDとITEM_IDが入ってて、同じITEM_IDを多く選んだ人を探したいとすると、以下のようにする。&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;java&amp;rdquo; padlinenumbers=&amp;ldquo;2&amp;rdquo;]
-package test;&lt;/p>
-&lt;p>import test.DataSouceManager;
-import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLBooleanPrefJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
-import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
-import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
-import org.apache.mahout.cf.taste.model.DataModel;
-import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
-import org.apache.mahout.cf.taste.similarity.UserSimilarity;&lt;/p>
-&lt;p>public class RecommendTest {
-public static void main(String[] args) {
-DataModel model = new MySQLBooleanPrefJDBCDataModel(
-DataSourceManager.getInstance().getDataSouce(),
-&amp;ldquo;TABLE_NAME&amp;rdquo;,
-&amp;ldquo;USER_ID_COLUMN_NAME&amp;rdquo;,
-&amp;ldquo;ITEM_ID_COLUMN_NAME&amp;rdquo;,
-null //TIMESTAMP_COLUMN_NAME
-);
-UserSimilarity similarity = null;
-UserNeighborhood neighborhood = null;
-try {
-similarity = new LogLikelihoodSimilarity(model);
-neighborhood = new NearestNUserNeighborhood(100, similarity, model);
-} catch (TasteException e) {
-e.printStackTrace();
-}
-GenericUserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
-try {
-long[] recommendations = recommender.mostSimilarUserIDs(1, 1);
-for (int i = 0; i &amp;lt; recommendations.length; i++) {
-resp.getWriter().println(recommendations[i]);
-}
-} catch (TasteException e) {
-e.printStackTrace();
-}
-}
-}&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-統計学の知識がないのでドキュメント読んでもよくわからなかったので、これであってるのかどうかはよくわからん。色々試して、LogLikelihoodSimilarityじゃないと点数のフィールドがねーから使えないよと怒られた。GenericUserBasedRecommenderはRecommenderってIFで受けるのが筋なんだろうけど、そうするとmostSimilarUserIDSメソッドが使えないのでそのままの型で受けてる。
-mostSimilarUserIDsの第一引数が比較したいユーザID、第二引数が何人リコメンドするか。少ないデータで試して、期待する結果が返ってくるのは確認済み。んで大量のデータだとどうなんだろうと思って、以下のスクリプトで140万件のデータを作ってみた。
-日付・ユーザID・アイテムIDで、ユーザIDは一日につき一回しかでてこないようにデータを生成。
-[sourcecode language=&amp;#34;python&amp;#34; padlinenumbers=&amp;#34;2&amp;#34;]
-import string
-import random
-import sys
-if __name__ == &amp;#39;__main__&amp;#39;:
-for d in xrange(20110201, 20110229):
-idmap = []
-for i in xrange(50000):
-while(1):
-id = random.randint(1,300000)
-try:
-idmap.index(id)
-except ValueError:
-break
-continue
-idmap.append(id)
-print &amp;#34;insert into tbl values (&amp;#39;&amp;#34; + str(d) + &amp;#34;&amp;#39;,&amp;#34; + str(id) + &amp;#34;,&amp;#34; + str(random.randint(1,3*28)) + &amp;#34;);&amp;#34;&lt;/code>&lt;/pre>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">package&lt;/span> test;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> test.DataSouceManager;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.mahout.cf.taste.common.TasteException;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.mahout.cf.taste.impl.model.jdbc.MySQLBooleanPrefJDBCDataModel;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.mahout.cf.taste.model.DataModel;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> org.apache.mahout.cf.taste.similarity.UserSimilarity;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">RecommendTest&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(String&lt;span style="color:#f92672">[]&lt;/span> args) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> DataModel model &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> MySQLBooleanPrefJDBCDataModel(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> DataSourceManager.&lt;span style="color:#a6e22e">getInstance&lt;/span>().&lt;span style="color:#a6e22e">getDataSouce&lt;/span>(),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;TABLE_NAME&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;USER_ID_COLUMN_NAME&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;ITEM_ID_COLUMN_NAME&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#75715e">//TIMESTAMP_COLUMN_NAME&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> );
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> UserSimilarity similarity &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> UserNeighborhood neighborhood &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">try&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> similarity &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> LogLikelihoodSimilarity(model);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> neighborhood &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> NearestNUserNeighborhood(100, similarity, model);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">catch&lt;/span> (TasteException e) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> e.&lt;span style="color:#a6e22e">printStackTrace&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> GenericUserBasedRecommender recommender &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> GenericUserBasedRecommender(model, neighborhood, similarity);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">try&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">long&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> recommendations &lt;span style="color:#f92672">=&lt;/span> recommender.&lt;span style="color:#a6e22e">mostSimilarUserIDs&lt;/span>(1, 1);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> recommendations.&lt;span style="color:#a6e22e">length&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> resp.&lt;span style="color:#a6e22e">getWriter&lt;/span>().&lt;span style="color:#a6e22e">println&lt;/span>(recommendations&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">catch&lt;/span> (TasteException e) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> e.&lt;span style="color:#a6e22e">printStackTrace&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>統計学の知識がないのでドキュメント読んでもよくわからなかったので、これであってるのかどうかはよくわからん。色々試して、LogLikelihoodSimilarityじゃないと点数のフィールドがねーから使えないよと怒られた。GenericUserBasedRecommenderはRecommenderってIFで受けるのが筋なんだろうけど、そうするとmostSimilarUserIDSメソッドが使えないのでそのままの型で受けてる。&lt;/p>
+&lt;p>mostSimilarUserIDsの第一引数が比較したいユーザID、第二引数が何人リコメンドするか。少ないデータで試して、期待する結果が返ってくるのは確認済み。んで大量のデータだとどうなんだろうと思って、以下のスクリプトで140万件のデータを作ってみた。&lt;/p>
+&lt;p>日付・ユーザID・アイテムIDで、ユーザIDは一日につき一回しかでてこないようにデータを生成。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> string
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> random
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">import&lt;/span> sys
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> __name__ &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#e6db74">&amp;#39;__main__&amp;#39;&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> d &lt;span style="color:#f92672">in&lt;/span> xrange(&lt;span style="color:#ae81ff">20110201&lt;/span>, &lt;span style="color:#ae81ff">20110229&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> idmap &lt;span style="color:#f92672">=&lt;/span> []
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> i &lt;span style="color:#f92672">in&lt;/span> xrange(&lt;span style="color:#ae81ff">50000&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">while&lt;/span>(&lt;span style="color:#ae81ff">1&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> id &lt;span style="color:#f92672">=&lt;/span> random&lt;span style="color:#f92672">.&lt;/span>randint(&lt;span style="color:#ae81ff">1&lt;/span>,&lt;span style="color:#ae81ff">300000&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">try&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> idmap&lt;span style="color:#f92672">.&lt;/span>index(id)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">except&lt;/span> &lt;span style="color:#a6e22e">ValueError&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">continue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> idmap&lt;span style="color:#f92672">.&lt;/span>append(id)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> print &lt;span style="color:#e6db74">&amp;#34;insert into tbl values (&amp;#39;&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> str(d) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#39;,&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> str(id) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;,&amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> str(random&lt;span style="color:#f92672">.&lt;/span>randint(&lt;span style="color:#ae81ff">1&lt;/span>,&lt;span style="color:#ae81ff">3&lt;/span>&lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#ae81ff">28&lt;/span>)) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#34;);&amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
 &lt;p>こいつでSQLをつくってMySQLに食わせる。&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;bash&amp;rdquo;]
-$ python generate_date.py|mysql&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-MEMORYエンジンでテーブル作って試してみたけど、DataModelをつくるところですでに時間掛かりすぎ。リアルタイムで返事を返すようなときには全然向いてないものみたいで、やっぱHadoopとかを併用して裏で動かしておく感じで使う物みたいだ。ちなみにかかった時間はおよそ10分弱。こんな単純なデータで単純なことやりたいのであれば、mahoutじゃなくて素直にSQLでやったほうが速い。もっともっと大規模なデータを解析するのに使わないと。&lt;/code>&lt;/pre></description></item><item><title>JavaScriptでいい感じにURLとかScreenNameとかをリンクにする正規表現</title><link>/2011/01/20/831.html</link><pubDate>木, 20 1月 2011 16:11:20 +0900</pubDate><guid>/2011/01/20/831.html</guid><description>&lt;p>URLに@が入ってたりすると、ScreenNameのリンクとごっちゃになって割と対応に手間取ったのでメモとして。日本語のハッシュタグなんか最近見かけないからどうでもいいような気もするけど、まぁ一応対応。&lt;/p>
-&lt;p>[sourcecode language=&amp;ldquo;javascript&amp;rdquo; padlinenumbers=&amp;ldquo;2&amp;rdquo;]
-var text=&amp;quot;@xyz aaa &lt;a href="http://aaa.com:8080/@abc#asdf">http://aaa.com:8080/@abc#asdf&lt;/a> http://日本語.jp/?abc&amp;amp;asdf &lt;a href="http://example.jp/a.b.c@d.e">http://example.jp/a.b.c@d.e&lt;/a> bbb @ccc/@ddd/＠eee #hash #日本語だめ #日本語おｋ_ &lt;a href="http://a.com/">http://a.com/&lt;/a>日本語&amp;quot;;
-text.replace(/(https?://(?:[^!&amp;quot;#$%&amp;amp;&amp;rsquo;()&lt;em>+,-./:;&amp;lt;=&amp;gt;?@[\]^_&lt;code>\{\|\}~\s][\.-](?=[^!&amp;quot;#$%&amp;amp;amp;'\(\)*\+,-\./:;&amp;lt;=&amp;gt;\?@\[\\\]^_&lt;/code>{|}~\s])|[^!&amp;quot;#$%&amp;amp;&amp;rsquo;()&lt;/em>+,-./:;&amp;lt;=&amp;gt;?@[\]^&lt;em>`{|}~\s]){1,}.[a-z]{2,}(?::[0-9]+)?(?:/(?:[\x21-\x7e]+)?)?)|(?:[@＠])([a-z0-9&lt;/em>]{1,20})|(?:#|\uFF03)([^\s/ \x21-\x2f\x3a-\x40\x5b-\x5e\x60\x7b-\x7e]+[a-z0-9_])/mgi, function(){
-if(arguments[1]!==&amp;quot;&amp;quot;){
-return &amp;ldquo;&lt;a class='url' href='"+arguments[1]+"'>&amp;quot;+arguments[1]+&amp;quot;&lt;/a>&amp;rdquo;;
-}else if(arguments[2]==&amp;quot;&amp;quot; &amp;amp;&amp;amp; arguments[3]==&amp;quot;&amp;quot;){
-return arguments[1];
-}
-if(arguments[2]!==&amp;quot;&amp;quot;){
-return &amp;ldquo;&lt;a class='screen_name' href='http://twitter.com/"+arguments[2]+"'>@&amp;quot;+arguments[2]+&amp;quot;&lt;/a>&amp;rdquo;;
-}else if (arguments[3]==&amp;quot;&amp;quot;){
-return arguments[2];
-}
-if (arguments[3]!==&amp;quot;&amp;quot;){
-return &amp;ldquo;&lt;a class='hashtag' href='http://search.twitter.com/search?q=%23"+arguments[3]+"'>#&amp;quot;+arguments[3]+&amp;quot;&lt;/a>&amp;rdquo;;
-} else {
-return arguments[3];
-}
-}
-)&lt;/p>
-&lt;pre tabindex="0">&lt;code>
-実行すると
-[sourcecode padlinenumbers=&amp;#34;2&amp;#34; language=&amp;#34;laguage=&amp;#34;]
-&amp;#34;&amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/xyz&amp;#39;&amp;gt;@xyz&amp;lt;/a&amp;gt; aaa &amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;http://aaa.com:8080/@abc#asdf&amp;#39;&amp;gt;http://aaa.com:8080/@abc#asdf&amp;lt;/a&amp;gt; &amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;http://日本語.jp/?abc&amp;amp;amp;asdf&amp;#39;&amp;gt;http://日本語.jp/?abc&amp;amp;amp;asdf&amp;lt;/a&amp;gt; &amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;http://example.jp/a.b.c@d.e&amp;#39;&amp;gt;http://example.jp/a.b.c@d.e&amp;lt;/a&amp;gt; bbb &amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/ccc&amp;#39;&amp;gt;@ccc&amp;lt;/a&amp;gt;/&amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/ddd&amp;#39;&amp;gt;@ddd&amp;lt;/a&amp;gt;/&amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/eee&amp;#39;&amp;gt;@eee&amp;lt;/a&amp;gt; &amp;lt;a class=&amp;#39;hashtag&amp;#39; href=&amp;#39;http://search.twitter.com/search?q=%23hash&amp;#39;&amp;gt;#hash&amp;lt;/a&amp;gt; #日本語だめ &amp;lt;a class=&amp;#39;hashtag&amp;#39; href=&amp;#39;http://search.twitter.com/search?q=%23日本語おｋ_&amp;#39;&amp;gt;#日本語おｋ_&amp;lt;/a&amp;gt; &amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;http://a.com/&amp;#39;&amp;gt;http://a.com/&amp;lt;/a&amp;gt;日本語&amp;#34;&lt;/code>&lt;/pre>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ python generate_date.py|mysql&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>MEMORYエンジンでテーブル作って試してみたけど、DataModelをつくるところですでに時間掛かりすぎ。リアルタイムで返事を返すようなときには全然向いてないものみたいで、やっぱHadoopとかを併用して裏で動かしておく感じで使う物みたいだ。ちなみにかかった時間はおよそ10分弱。こんな単純なデータで単純なことやりたいのであれば、mahoutじゃなくて素直にSQLでやったほうが速い。もっともっと大規模なデータを解析するのに使わないと。&lt;/p></description></item><item><title>JavaScriptでいい感じにURLとかScreenNameとかをリンクにする正規表現</title><link>/2011/01/20/831.html</link><pubDate>木, 20 1月 2011 16:11:20 +0900</pubDate><guid>/2011/01/20/831.html</guid><description>&lt;p>URLに@が入ってたりすると、ScreenNameのリンクとごっちゃになって割と対応に手間取ったのでメモとして。日本語のハッシュタグなんか最近見かけないからどうでもいいような気もするけど、まぁ一応対応。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">text&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;@xyz aaa http://aaa.com:8080/@abc#asdf http://日本語.jp/?abc&amp;amp;amp;asdf http://example.jp/a.b.c@d.e bbb @ccc/@ddd/＠eee #hash #日本語だめ #日本語おｋ_ http://a.com/日本語&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">text&lt;/span>.&lt;span style="color:#a6e22e">replace&lt;/span>(&lt;span style="color:#e6db74">/(https?:\/\/(?:[^!&amp;#34;#$%&amp;amp;amp;&amp;#39;\(\)*\+,-\./:;&amp;lt;=&amp;gt;\?@\[\\\]^_`\{\|\}~\s][\.-](?=[^!&amp;#34;#$%&amp;amp;amp;&amp;#39;\(\)*\+,-\./:;&amp;lt;=&amp;gt;\?@\[\\\]^_`\{\|\}~\s])|[^!&amp;#34;#$%&amp;amp;amp;&amp;#39;\(\)*\+,-\./:;&amp;lt;=&amp;gt;\?@\[\\\]^_`\{\|\}~\s]){1,}\.[a-z]{2,}(?::[0-9]+)?(?:\/(?:[\x21-\x7e]+)?)?)|(?:[@＠])([a-z0-9_]{1,20})|(?:#|\uFF03)([^\s\/ \x21-\x2f\x3a-\x40\x5b-\x5e\x60\x7b-\x7e]+[a-z0-9_])/mgi&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(){
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">1&lt;/span>]&lt;span style="color:#f92672">!==&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>){
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">1&lt;/span>]&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;&amp;gt;&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">1&lt;/span>]&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;lt;/a&amp;gt;&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">2&lt;/span>]&lt;span style="color:#f92672">==&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">amp&lt;/span>;&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">amp&lt;/span>; &lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">3&lt;/span>]&lt;span style="color:#f92672">==&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>){
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">1&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span>(&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">2&lt;/span>]&lt;span style="color:#f92672">!==&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>){
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">2&lt;/span>]&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;&amp;gt;@&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">2&lt;/span>]&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;lt;/a&amp;gt;&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">3&lt;/span>]&lt;span style="color:#f92672">==&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>){
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">2&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">3&lt;/span>]&lt;span style="color:#f92672">!==&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>){
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;lt;a class=&amp;#39;hashtag&amp;#39; href=&amp;#39;http://search.twitter.com/search?q=%23&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">3&lt;/span>]&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#39;&amp;gt;#&amp;#34;&lt;/span>&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">3&lt;/span>]&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;lt;/a&amp;gt;&amp;#34;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> } &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">arguments&lt;/span>[&lt;span style="color:#ae81ff">3&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>実行すると&lt;/p>
+&lt;pre tabindex="0">&lt;code>&amp;#34;&amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/xyz&amp;#39;&amp;gt;@xyz&amp;lt;/a&amp;gt; aaa &amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;http://aaa.com:8080/@abc#asdf&amp;#39;&amp;gt;http://aaa.com:8080/@abc#asdf&amp;lt;/a&amp;gt; &amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;http://日本語.jp/?abc&amp;amp;amp;asdf&amp;#39;&amp;gt;http://日本語.jp/?abc&amp;amp;amp;asdf&amp;lt;/a&amp;gt; &amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;http://example.jp/a.b.c@d.e&amp;#39;&amp;gt;http://example.jp/a.b.c@d.e&amp;lt;/a&amp;gt; bbb &amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/ccc&amp;#39;&amp;gt;@ccc&amp;lt;/a&amp;gt;/&amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/ddd&amp;#39;&amp;gt;@ddd&amp;lt;/a&amp;gt;/&amp;lt;a class=&amp;#39;screen_name&amp;#39; href=&amp;#39;http://twitter.com/eee&amp;#39;&amp;gt;@eee&amp;lt;/a&amp;gt; &amp;lt;a class=&amp;#39;hashtag&amp;#39; href=&amp;#39;http://search.twitter.com/search?q=%23hash&amp;#39;&amp;gt;#hash&amp;lt;/a&amp;gt; #日本語だめ &amp;lt;a class=&amp;#39;hashtag&amp;#39; href=&amp;#39;http://search.twitter.com/search?q=%23日本語おｋ_&amp;#39;&amp;gt;#日本語おｋ_&amp;lt;/a&amp;gt; &amp;lt;a class=&amp;#39;url&amp;#39; href=&amp;#39;http://a.com/&amp;#39;&amp;gt;http://a.com/&amp;lt;/a&amp;gt;日本語&amp;#34;&lt;/code>&lt;/pre>
 &lt;p>という文字列になり、以下のようにほぼ思ったとおりのリンクになる&lt;/p>
 &lt;p>&lt;a class='screen_name' href='http://twitter.com/xyz'>@xyz&lt;/a> aaa &lt;a class='url' href='http://aaa.com:8080/@abc#asdf'>&lt;a href="http://aaa.com:8080/@abc#asdf">http://aaa.com:8080/@abc#asdf&lt;/a>&lt;/a> &lt;a class='url' href='http://日本語.jp/?abc&amp;asdf'>http://日本語.jp/?abc&amp;amp;asdf&lt;/a> &lt;a class='url' href='http://example.jp/a.b.c@d.e'>&lt;a href="http://example.jp/a.b.c@d.e">http://example.jp/a.b.c@d.e&lt;/a>&lt;/a> bbb &lt;a class='screen_name' href='http://twitter.com/ccc'>@ccc&lt;/a>/&lt;a class='screen_name' href='http://twitter.com/ddd'>@ddd&lt;/a>/&lt;a class='screen_name' href='http://twitter.com/eee'>@eee&lt;/a> &lt;a class='hashtag' href='http://search.twitter.com/search?q=%23hash'>#hash&lt;/a> #日本語だめ &lt;a class='hashtag' href='http://search.twitter.com/search?q=%23日本語おｋ_'>#日本語おｋ_&lt;/a> &lt;a class='url' href='http://a.com/'>&lt;a href="http://a.com/">http://a.com/&lt;/a>&lt;/a>日本語&lt;/p>
 &lt;p>ドメインじゃなくてPATH部分に日本語が含まれる、WikipediaのURLみたいなのには対応してない。やりゃできるけど、TwitterでURLを投げるときに、URLの後ろにスペースいれないで日本語を続けて入れる人も割といそうなので…とりあえずこれでいいかな、とか。&lt;/p>
