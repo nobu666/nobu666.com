@@ -1,0 +1,64 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="mahout使って類似ユーザの抽出をやってみたのでまとめ。 そこら辺に転がってるサンプルは、ほとんどがユーザがあるアイテムについて点数をつける"><meta name=color-scheme content="light dark"><meta itemprop=name content="mahoutで類似ユーザをリコメンドする"><meta itemprop=description content="mahout使って類似ユーザの抽出をやってみたのでまとめ。 そこら辺に転がってるサンプルは、ほとんどがユーザがあるアイテムについて点数をつける"><meta itemprop=datePublished content="2011-02-17T17:47:15+09:00"><meta itemprop=dateModified content="2011-02-17T17:47:15+09:00"><meta itemprop=wordCount content="1077"><meta itemprop=keywords content><meta property="og:title" content="mahoutで類似ユーザをリコメンドする"><meta property="og:description" content="mahout使って類似ユーザの抽出をやってみたのでまとめ。 そこら辺に転がってるサンプルは、ほとんどがユーザがあるアイテムについて点数をつける"><meta property="og:type" content="article"><meta property="og:url" content="/2011/02/17/839.html"><meta property="article:section" content="2011"><meta property="article:published_time" content="2011-02-17T17:47:15+09:00"><meta property="article:modified_time" content="2011-02-17T17:47:15+09:00"><meta name=generator content="Hugo 0.121.2"><title>mahoutで類似ユーザをリコメンドする | Real Beat</title>
+<link rel=canonical href=/2011/02/17/839.html><link rel=icon href=/favicon.ico type=image/x-icon><link rel=amphtml href=/amp/2011/02/17/839.html type=text/html><link rel=stylesheet href=/css/base.min.751c23b0970e755aed9e574d194d03afa02269a96162fb1d72d3134542723490.min.751c23b0970e755aed9e574d194d03afa02269a96162fb1d72d3134542723490.css integrity="sha256-dRwjsJcOdVrtnldNGU0Dr6AiaalhYvsdctMTRUJyNJA=" crossorigin=anonymous></head><body><nav class=u-background><div class=u-wrapper><ul class=Banner><li class="Banner-item Banner-item--title"><h1 class=Banner-heading><a class="Banner-link u-clickable" href=/>Real Beat</a></h1></li><li class=Banner-item><a class="Banner-link u-clickable" href=/categories.html>Categories</a></li><li class=Banner-item><a class="Banner-link u-clickable" href=/tags.html>Tags</a></li></ul></div></nav><main><div class=u-wrapper><div class=u-padding><article><header class=Heading><h2 class=Heading-title><a class="Heading-link u-clickable" href=/2011/02/17/839.html rel=bookmark>mahoutで類似ユーザをリコメンドする</a></h2><time datetime=2011-02-17T17:47:15+09:00>2011年2月17日</time></header><p>mahout使って類似ユーザの抽出をやってみたのでまとめ。</p><p>そこら辺に転がってるサンプルは、ほとんどがユーザがあるアイテムについて点数をつける前提になってて、その点数をベースに似ているユーザをリコメンドしたり、あるいはあるユーザが興味をもちそうなアイテムをリコメンドしたりといったものが殆どだった。点数がないようなときにどうするか多少悩んだので記録に残しておくことにした。とりあえず今回はMySQLにデータが入ってる前提でやってみた。あるテーブルにUSER_IDとITEM_IDが入ってて、同じITEM_IDを多く選んだ人を探したいとすると、以下のようにする。</p><p>[sourcecode language=&ldquo;java&rdquo; padlinenumbers=&ldquo;2&rdquo;]
+package test;</p><p>import test.DataSouceManager;
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLBooleanPrefJDBCDataModel;
+import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
+import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
+import org.apache.mahout.cf.taste.similarity.UserSimilarity;</p><p>public class RecommendTest {
+public static void main(String[] args) {
+DataModel model = new MySQLBooleanPrefJDBCDataModel(
+DataSourceManager.getInstance().getDataSouce(),
+&ldquo;TABLE_NAME&rdquo;,
+&ldquo;USER_ID_COLUMN_NAME&rdquo;,
+&ldquo;ITEM_ID_COLUMN_NAME&rdquo;,
+null //TIMESTAMP_COLUMN_NAME
+);
+UserSimilarity similarity = null;
+UserNeighborhood neighborhood = null;
+try {
+similarity = new LogLikelihoodSimilarity(model);
+neighborhood = new NearestNUserNeighborhood(100, similarity, model);
+} catch (TasteException e) {
+e.printStackTrace();
+}
+GenericUserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
+try {
+long[] recommendations = recommender.mostSimilarUserIDs(1, 1);
+for (int i = 0; i &lt; recommendations.length; i++) {
+resp.getWriter().println(recommendations[i]);
+}
+} catch (TasteException e) {
+e.printStackTrace();
+}
+}
+}</p><pre tabindex=0><code>
+統計学の知識がないのでドキュメント読んでもよくわからなかったので、これであってるのかどうかはよくわからん。色々試して、LogLikelihoodSimilarityじゃないと点数のフィールドがねーから使えないよと怒られた。GenericUserBasedRecommenderはRecommenderってIFで受けるのが筋なんだろうけど、そうするとmostSimilarUserIDSメソッドが使えないのでそのままの型で受けてる。
+
+mostSimilarUserIDsの第一引数が比較したいユーザID、第二引数が何人リコメンドするか。少ないデータで試して、期待する結果が返ってくるのは確認済み。んで大量のデータだとどうなんだろうと思って、以下のスクリプトで140万件のデータを作ってみた。
+
+日付・ユーザID・アイテムIDで、ユーザIDは一日につき一回しかでてこないようにデータを生成。
+
+[sourcecode language=&#34;python&#34; padlinenumbers=&#34;2&#34;]
+import string
+import random
+import sys
+
+if __name__ == &#39;__main__&#39;:
+  for d in xrange(20110201, 20110229):
+    idmap = []
+    for i in xrange(50000):
+      while(1):
+        id = random.randint(1,300000)
+        try:
+          idmap.index(id)
+        except ValueError:
+          break
+        continue
+      idmap.append(id)
+      print &#34;insert into tbl values (&#39;&#34; + str(d) + &#34;&#39;,&#34; + str(id) + &#34;,&#34; + str(random.randint(1,3*28)) + &#34;);&#34;</code></pre><p>こいつでSQLをつくってMySQLに食わせる。</p><p>[sourcecode language=&ldquo;bash&rdquo;]
+$ python generate_date.py|mysql</p><pre tabindex=0><code>
+MEMORYエンジンでテーブル作って試してみたけど、DataModelをつくるところですでに時間掛かりすぎ。リアルタイムで返事を返すようなときには全然向いてないものみたいで、やっぱHadoopとかを併用して裏で動かしておく感じで使う物みたいだ。ちなみにかかった時間はおよそ10分弱。こんな単純なデータで単純なことやりたいのであれば、mahoutじゃなくて素直にSQLでやったほうが速い。もっともっと大規模なデータを解析するのに使わないと。</code></pre><footer><ul class=Tags><li class="Tags-item u-background"><a class="Tags-link u-clickable" href=/categories/diary.html rel=tag>diary</a></li></ul></footer></article></div></div></main><footer class=Footer><div class=u-wrapper><div class="u-padding u-noboosting">Except where otherwise noted, content on this site is licensed under a   <a href=http://creativecommons.org/licenses/by/4.0/ rel=license>Creative Commons Attribution 4.0 International License</a>.</div></div></footer></body></html>
