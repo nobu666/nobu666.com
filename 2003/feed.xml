@@ -2500,7 +2500,7 @@ color:inherit;&lt;/p>
 &lt;pre tabindex="0">&lt;code>
 &amp;lt;h2&amp;gt;1.4.7からじゃなくてPukiFarmからの差分&amp;lt;/h2&amp;gt;
 PukiFarmのソースはEUC-JPなので、単純にコピーするだけでなく
-&amp;lt;code&amp;gt;&amp;lt;pre&amp;gt;
+```bash
 nkf --overwrite -w0 コピーしたソース&lt;/code>&lt;/pre>
 &lt;p>とか必ずやる&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-diff" data-lang="diff">&lt;span style="display:flex;">&lt;span>common/plugin/add_site.inc.php [#v644fe5c]
