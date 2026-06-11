@@ -1,0 +1,29 @@
+{{ define "main" }}
+
+  <article>
+    {{ partial "heading.html" . }}
+    {{ .Content }}
+    {{ partial "tags.html" . }}
+
+    {{- /* Chronological prev/next navigation across all posts (crosses year sections) */ -}}
+    {{ $posts := partialCached "all-posts.html" . }}
+    {{ $len := len $posts }}
+    {{ range $i, $p := $posts }}
+      {{ if eq $p.RelPermalink $.RelPermalink }}
+        <nav class="Pager">
+          {{ if gt $i 0 }}
+            {{ $prev := index $posts (sub $i 1) }}
+            <a class="Pagination u-clickable" href="{{ $prev.RelPermalink }}" rel="prev">&laquo; {{ $prev.Title }}</a>
+          {{ end }}
+          {{ if lt (add $i 1) $len }}
+            {{ $next := index $posts (add $i 1) }}
+            <a class="Pagination Pagination--right u-clickable" href="{{ $next.RelPermalink }}" rel="next">{{ $next.Title }} &raquo;</a>
+          {{ end }}
+        </nav>
+      {{ end }}
+    {{ end }}
+
+    {{ partial "comments.html" . }}
+  </article>
+
+{{ end }}

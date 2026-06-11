@@ -1,0 +1,2 @@
+{{- /* All blog posts ordered oldest→newest. Cached across the build via partialCached. */ -}}
+{{- return (where site.RegularPages "Section" "in" site.Params.mainSections).ByDate -}}
