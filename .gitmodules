@@ -1,33 +1,33 @@
 [submodule "Mainroad"]
 	path = Mainroad
-	url = git@github.com:Vimux/Mainroad.git
+	url = https://github.com/Vimux/Mainroad.git
 [submodule "themes/beautifulhugo"]
 	path = themes/beautifulhugo
-	url = git@github.com:halogenica/beautifulhugo.git
+	url = https://github.com/halogenica/beautifulhugo.git
 [submodule "themes/relearn"]
 	path = themes/relearn
-	url = git@github.com:McShelby/hugo-theme-relearn.git
+	url = https://github.com/McShelby/hugo-theme-relearn.git
 [submodule "themes/poison"]
 	path = themes/poison
-	url = git@github.com:lukeorth/poison.git
+	url = https://github.com/lukeorth/poison.git
 [submodule "themes/hugo-theme-cleanwhite"]
 	path = themes/hugo-theme-cleanwhite
-	url = git@github.com:zhaohuabing/hugo-theme-cleanwhite.git
+	url = https://github.com/zhaohuabing/hugo-theme-cleanwhite.git
 [submodule "themes/hugo-simple"]
 	path = themes/hugo-simple
-	url = git@github.com:maolonglong/hugo-simple.git
+	url = https://github.com/maolonglong/hugo-simple.git
 [submodule "themes/lightbi-hugo"]
 	path = themes/lightbi-hugo
-	url = git@github.com:binokochumolvarghese/lightbi-hugo.git
+	url = https://github.com/binokochumolvarghese/lightbi-hugo.git
 [submodule "themes/slick"]
 	path = themes/slick
-	url = git@github.com:spookey/slick.git
+	url = https://github.com/spookey/slick.git
 [submodule "themes/Lowkey-Hugo-Theme"]
 	path = themes/Lowkey-Hugo-Theme
-	url = git@github.com:nixentric/Lowkey-Hugo-Theme.git
+	url = https://github.com/nixentric/Lowkey-Hugo-Theme.git
 [submodule "themes/plague"]
 	path = themes/plague
-	url = git@github.com:brianreumere/plague.git
+	url = https://github.com/brianreumere/plague.git
 [submodule "themes/hugo-flex"]
 	path = themes/hugo-flex
-	url = git@github.com:ldeso/hugo-flex.git
+	url = https://github.com/ldeso/hugo-flex.git

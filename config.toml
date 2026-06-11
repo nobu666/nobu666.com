@@ -1,5 +1,5 @@
 baseurl = "/"
-DefaultContentLanguage = "Japanese"
+DefaultContentLanguage = "ja"
 languageCode = "ja"
 title = "Real Beat"
 theme = "hugo-flex"
