@@ -1,4 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hardware on Real Beat</title><link>https://nobu666.com/categories/hardware.html</link><description>Recent content in hardware on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>日, 23 7月 2006 16:21:56 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/categories/hardware/feed.xml" type="application/rss+xml"/><item><title>近況報告</title><link>https://nobu666.com/2026/06/15/1032.html</link><pubDate>月, 15 6月 2026 21:30:56 +0900</pubDate><guid>https://nobu666.com/2026/06/15/1032.html</guid><description>&lt;p>ブログがめでたく復活したので、ついでに近況でも書いておく。8年ぶんを全部は無理だが、ここ最近の大きめの出来事を時系列でいくつか。&lt;/p>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hardware on Real Beat</title><link>https://nobu666.com/categories/hardware.html</link><description>Recent content in hardware on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>日, 23 7月 2006 16:21:56 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/categories/hardware/feed.xml" type="application/rss+xml"/><item><title>YouTube料理動画40本をObsidianレシピノートに自動変換する仕組みを作った</title><link>https://nobu666.com/2026/06/16/1033.html</link><pubDate>火, 16 6月 2026 18:30:00 +0900</pubDate><guid>https://nobu666.com/2026/06/16/1033.html</guid><description>&lt;p>YouTubeの「後で作ろう」再生リストが43本に膨れ上がっていた。料理動画を保存するだけ保存して、結局キッチンで「あのレシピなんだっけ」とスマホでYouTubeを開き直す、というのを何度繰り返したかわからない。レシピは普段Obsidianで管理しているので、動画の中身をObsidianのノートに変換できれば解決する。Cowork（Claudeのデスクトップ版）でやってみたら、思ったより紆余曲折があって面白かったので記録しておく。&lt;/p>
+&lt;h2 id="まず1本やってみた">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#%e3%81%be%e3%81%9a1%e6%9c%ac%e3%82%84%e3%81%a3%e3%81%a6%e3%81%bf%e3%81%9f">まず1本やってみた&lt;/a>
+&lt;/h2>
+&lt;p>最初は素朴に、Coworkに動画URLを渡して「このレシピをObsidianに入れて」と頼んだ。笠原将弘さんの自家製なめたけの動画。CoworkはChromeの拡張を通じてYouTubeを開けるので、説明欄を読んだりWebで補足情報を検索したりして、なんとか1本分のレシピを作ってくれた。&lt;/p>
+&lt;p>ただこの方法には致命的な問題がある。1本あたりのトークン消費がえぐい。ブラウザ操作、ページ取得、Web検索、テキスト整形。これを43本繰り返したらセッションの上限に余裕で到達する。別のアプローチが必要だった。&lt;/p>
+&lt;h2 id="ローカルwhisperで文字起こしする">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#%e3%83%ad%e3%83%bc%e3%82%ab%e3%83%abwhisper%e3%81%a7%e6%96%87%e5%ad%97%e8%b5%b7%e3%81%93%e3%81%97%e3%81%99%e3%82%8b">ローカルwhisperで文字起こしする&lt;/a>
+&lt;/h2>
+&lt;p>トークンを大量に消費しているのは「動画の中身を知る」部分だ。ここをローカルで済ませれば、Claudeに渡すのは短いテキストだけになる。&lt;/p>
+&lt;p>MacBook Neo（A18 Pro / 8GB）で動くか気になったが、Whisperのmediumモデル（750MB）なら余裕だった。Apple Siliconの Neural Engine のおかげで、12分の動画が1〜3分で文字起こしできる。&lt;/p>
+&lt;p>使ったのは yt-dlp（YouTubeから音声だけ抽出）と mlx-whisper（Apple Silicon最適化されたWhisper実装）の2つ。&lt;/p>
+&lt;p>ただしセットアップが一筋縄ではいかなかった。まず yt-dlp が ffmpeg を要求するのでそれも入れ、mlx-whisper を入れようとしたら pip が古くてアップグレードから。さらにシステムの Python が 3.9 で、mlx-whisper が要求する 3.10+ を満たさない。Homebrew で Python 3.12 を入れたら今度は PEP 668 の externally-managed-environment に弾かれる。結局 venv を切って解決した。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>brew install yt-dlp ffmpeg python@3.12
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>python3.12 -m venv ~/scripts/.venv
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>source ~/scripts/.venv/bin/activate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pip install mlx-whisper&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>こういう「本題にたどり着く前の環境構築で時間が溶ける」のは相変わらずである。&lt;/p>
+&lt;h2 id="coworkのサンドボックスの壁">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#cowork%e3%81%ae%e3%82%b5%e3%83%b3%e3%83%89%e3%83%9c%e3%83%83%e3%82%af%e3%82%b9%e3%81%ae%e5%a3%81">Coworkのサンドボックスの壁&lt;/a>
+&lt;/h2>
+&lt;p>当初はCoworkのLinuxサンドボックス内でyt-dlpもwhisperも動かそうとしたが、YouTubeへのアクセスがプロキシで弾かれた。サンドボックスからは外部サイトに自由にアクセスできない仕様らしい。そのため、音声ダウンロードと文字起こしはMacローカルで実行し、テキストだけをCoworkに渡す構成にした。&lt;/p>
+&lt;h2 id="ollamaを試してやめた">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#ollama%e3%82%92%e8%a9%a6%e3%81%97%e3%81%a6%e3%82%84%e3%82%81%e3%81%9f">ollamaを試して、やめた&lt;/a>
+&lt;/h2>
+&lt;p>文字起こしテキストからレシピ形式への変換もローカルで完結させたくて、ollamaでgemma3:4bを動かしてみた。動くには動くが、料理の文字起こしから材料と手順を正確に抜き出す精度がいまいち。特に分量の聞き取りや、雑談とレシピ部分の切り分けが甘い。&lt;/p>
+&lt;p>結局、文字起こし（重い処理）はローカルのwhisper、レシピ整形（知的な処理）はClaudeという分担に落ち着いた。餅は餅屋である。&lt;/p>
+&lt;h2 id="coworkスキルにした">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#cowork%e3%82%b9%e3%82%ad%e3%83%ab%e3%81%ab%e3%81%97%e3%81%9f">Coworkスキルにした&lt;/a>
+&lt;/h2>
+&lt;p>Coworkには「スキル」という仕組みがある。タスクのやり方をMarkdownで記述しておくと、「レシピ化して」と言うだけで、そのスキルに従って処理してくれる。&lt;/p>
+&lt;p>今回作ったスキルの中身はシンプルで、&lt;code>_transcripts/&lt;/code> にある文字起こしテキストを読み、既存レシピのフォーマット（frontmatter + 材料リスト + 手順）に合わせて変換し、Obsidianフォルダに保存する。スキルには既存レシピの実例も埋め込んであるので、フォーマットのブレが少ない。&lt;/p>
+&lt;h2 id="claude-cliで全自動化">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#claude-cli%e3%81%a7%e5%85%a8%e8%87%aa%e5%8b%95%e5%8c%96">Claude CLIで全自動化&lt;/a>
+&lt;/h2>
+&lt;p>最後のピースはClaude Code CLI。ターミナルから &lt;code>claude -p&lt;/code> でプロンプトを渡せるので、シェルスクリプトで全部つなげた:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>URL&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#66d9ef">:-&lt;/span>https://www.youtube.com/playlist?list=PLh4huXs8Qi9HkMIXptPbw2gIYUDNtqNic&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Step 1: ローカルで文字起こし（進捗が見える）&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>$HOME&lt;span style="color:#e6db74">/scripts/.venv/bin/python3&amp;#34;&lt;/span> ~/scripts/transcribe.py &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$URL&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> $? -ne &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#f92672">]&lt;/span>; &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;文字起こしでエラーが発生しました。中断します。&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Step 2: Claude CLIでレシピ化&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>claude -p &lt;span style="color:#e6db74">&amp;#34;_transcripts内の.txtをObsidianレシピ形式に変換して保存して&amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>Step 1ではwhisperの進捗が &lt;code>[1/43]&lt;/code>, &lt;code>[2/43]&lt;/code> と表示され、Step 2でClaude CLIがまとめてレシピに変換する。文字起こしが全滅した場合はStep 2に進まず中断する。最初はエラーでもClaude CLIが走ってしまい、空振りで課金だけ食うという罠があった。&lt;code>~/scripts/recipe&lt;/code> を叩くだけで再生リストが丸ごとObsidianのレシピノートになる。&lt;/p>
+&lt;h2 id="最終的な構成">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#%e6%9c%80%e7%b5%82%e7%9a%84%e3%81%aa%e6%a7%8b%e6%88%90">最終的な構成&lt;/a>
+&lt;/h2>
+&lt;img src="https://nobu666.com/images/1033-architecture.svg" alt="YouTube再生リストからObsidianレシピノートへの変換フロー" width="680">
+&lt;p>重い処理（音声→テキスト）はMacのNeural Engineで、知的な処理（テキスト→構造化レシピ）はClaudeで。それぞれ得意なところを担当させている。&lt;/p>
+&lt;h2 id="所感">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#%e6%89%80%e6%84%9f">所感&lt;/a>
+&lt;/h2>
+&lt;p>もともとは「YouTube動画のレシピをObsidianに入れたい」という素朴な要望だったが、やってみるとCoworkのサンドボックスはネットワーク制限がある、YouTubeの字幕APIは素直に取れない、ローカルLLMの精度はタスク次第で足りない、といった壁にぶつかり、さらにPythonのバージョン問題やvenvの必要性といった環境構築の定番ハマりポイントも踏み抜いた。結果的にローカルwhisper + Claude CLIという組み合わせに行き着いた。&lt;/p>
+&lt;p>面白いのは、この試行錯誤の過程自体がCoworkとの対話で進んだこと。エラーが出たらターミナルの出力を貼り、Coworkが次の手を提案し、また試す。デバッグのペアプロ相手としてはかなり優秀だった。43本の再生リストが片付いたら、キッチンに立つ回数が増えるかもしれない。増えないかもしれない。&lt;/p></description></item><item><title>近況報告</title><link>https://nobu666.com/2026/06/15/1032.html</link><pubDate>月, 15 6月 2026 21:30:56 +0900</pubDate><guid>https://nobu666.com/2026/06/15/1032.html</guid><description>&lt;p>ブログがめでたく復活したので、ついでに近況でも書いておく。8年ぶんを全部は無理だが、ここ最近の大きめの出来事を時系列でいくつか。&lt;/p>
 &lt;h2 id="2回転職した">
 &lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/15/1032.html#2%e5%9b%9e%e8%bb%a2%e8%81%b7%e3%81%97%e3%81%9f">2回転職した&lt;/a>
 &lt;/h2>
