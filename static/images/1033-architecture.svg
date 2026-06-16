@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="420" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <!-- YouTube -->
+  <rect x="220" y="20" width="240" height="48" rx="6" fill="#ff4444" stroke="#cc3333"/>
+  <text x="340" y="50" text-anchor="middle" fill="white" font-size="15" font-weight="600">YouTube 再生リスト</text>
+
+  <!-- Arrow 1 -->
+  <line x1="340" y1="68" x2="340" y2="108" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="348" y="94" fill="#888" font-size="11">yt-dlp</text>
+
+  <!-- MP3 -->
+  <rect x="220" y="110" width="240" height="48" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="340" y="140" text-anchor="middle" fill="#333" font-size="15">MP3 ファイル</text>
+
+  <!-- Arrow 2 -->
+  <line x1="340" y1="158" x2="340" y2="198" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="348" y="184" fill="#888" font-size="11">mlx-whisper</text>
+
+  <!-- Transcripts -->
+  <rect x="220" y="200" width="240" height="48" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="340" y="230" text-anchor="middle" fill="#333" font-size="15">テキストファイル</text>
+
+  <!-- _transcripts label -->
+  <text x="468" y="230" fill="#888" font-size="12">→ _transcripts/</text>
+
+  <!-- Arrow 3 -->
+  <line x1="340" y1="248" x2="340" y2="288" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="348" y="274" fill="#888" font-size="11">Claude CLI + スキル</text>
+
+  <!-- Obsidian -->
+  <rect x="220" y="290" width="240" height="48" rx="6" fill="#7c3aed" stroke="#6d28d9"/>
+  <text x="340" y="320" text-anchor="middle" fill="white" font-size="15" font-weight="600">Obsidian レシピノート</text>
+
+  <!-- Obsidian label -->
+  <text x="468" y="320" fill="#888" font-size="12">→ レシピ/料理名.md</text>
+
+  <!-- Local zone -->
+  <rect x="30" y="100" width="160" height="170" rx="6" fill="none" stroke="#4ade80" stroke-dasharray="6 3"/>
+  <text x="110" y="122" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="600">Mac ローカル</text>
+  <text x="110" y="142" text-anchor="middle" fill="#888" font-size="11">A18 Pro / Neural Engine</text>
+  <text x="110" y="168" text-anchor="middle" fill="#666" font-size="11">音声ダウンロード</text>
+  <text x="110" y="186" text-anchor="middle" fill="#666" font-size="11">＋</text>
+  <text x="110" y="204" text-anchor="middle" fill="#666" font-size="11">文字起こし</text>
+  <text x="110" y="232" text-anchor="middle" fill="#aaa" font-size="10">（重い処理）</text>
+
+  <!-- Claude zone -->
+  <rect x="30" y="280" width="160" height="76" rx="6" fill="none" stroke="#c084fc" stroke-dasharray="6 3"/>
+  <text x="110" y="302" text-anchor="middle" fill="#a855f7" font-size="12" font-weight="600">Claude</text>
+  <text x="110" y="322" text-anchor="middle" fill="#666" font-size="11">レシピ整形</text>
+  <text x="110" y="342" text-anchor="middle" fill="#aaa" font-size="10">（知的な処理）</text>
+
+  <!-- Footer -->
+  <text x="340" y="400" text-anchor="middle" fill="#aaa" font-size="11">~/scripts/recipe を叩くだけで再生リスト → Obsidian レシピノート</text>
+</svg>
