@@ -1,0 +1,34 @@
+# Real Beat (nobu666.com)
+
+> nobu666の個人ブログ。2001年から続くテック・日常ブログ。
+
+## 著者
+
+- 名前: nobu666 (Nobutoshi Ogata)
+- 職業: ソフトウェアエンジニア
+- GitHub: https://github.com/nobu666
+- X (Twitter): https://x.com/nobu666
+
+## サイト概要
+
+ソフトウェアエンジニアリング、AI・機械学習、料理、旅行、写真、クルマなど幅広いトピックについて書いている個人ブログ。Hugo で構築し、GitHub Actions で自動デプロイしている。記事は日本語。
+
+## 主要トピック
+
+- ソフトウェアエンジニアリング（インフラ、バックエンド、開発ツール）
+- AI・LLM（Claude、Whisper、プロンプトエンジニアリング）
+- 料理（レシピ、自炊）
+- 旅行・写真
+- 日常・雑記
+
+## 技術スタック
+
+- 静的サイトジェネレーター: Hugo
+- テーマ: hugo-flex
+- ホスティング: GitHub Pages
+- CI/CD: GitHub Actions
+
+## フィード
+
+- RSS: https://nobu666.com/feed.xml
+- サイトマップ: https://nobu666.com/sitemap.xml
