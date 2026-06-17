@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://nobu666.com/sitemap.xml

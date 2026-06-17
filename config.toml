@@ -13,12 +13,9 @@ paginate = 20
 [service.disqus]
 shortname = "realbeat"
 
-[services.googleAnalytics]
-ID = "UA-57485-1"
-
 [Params]
   favicon = "favicon.ico"
-  description = ""
+  description = "nobu666のテック・日常ブログ。ソフトウェアエンジニアリング、AI、料理、旅行などについて2001年から書いています。"
   subtitle = ""
   commit = false
   divider = "•••" # Divider shown between summaries on the home page
