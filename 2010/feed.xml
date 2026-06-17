@@ -1,4 +1,132 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2010s on Real Beat</title><link>https://nobu666.com/2010.html</link><description>Recent content in 2010s on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>水, 27 10月 2010 09:14:37 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/2010/feed.xml" type="application/rss+xml"/><item><title>YouTube料理動画40本をObsidianレシピノートに自動変換する仕組みを作った</title><link>https://nobu666.com/2026/06/16/1033.html</link><pubDate>火, 16 6月 2026 18:30:00 +0900</pubDate><guid>https://nobu666.com/2026/06/16/1033.html</guid><description>&lt;p>YouTubeの「後で作ろう」再生リストが43本に膨れ上がっていた。料理動画を保存するだけ保存して、結局キッチンで「あのレシピなんだっけ」とスマホでYouTubeを開き直す、というのを何度繰り返したかわからない。レシピは普段Obsidianで管理しているので、動画の中身をObsidianのノートに変換できれば解決する。Cowork（Claudeのデスクトップ版）でやってみたら、思ったより紆余曲折があって面白かったので記録しておく。&lt;/p>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2010s on Real Beat</title><link>https://nobu666.com/2010.html</link><description>Recent content in 2010s on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>水, 27 10月 2010 09:14:37 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/2010/feed.xml" type="application/rss+xml"/><item><title>YouTube→Obsidian自動変換ツールをGitHubで公開して汎用化した</title><link>https://nobu666.com/2026/06/17/1034.html</link><pubDate>水, 17 6月 2026 19:30:00 +0900</pubDate><guid>https://nobu666.com/2026/06/17/1034.html</guid><description>&lt;p>&lt;a href="https://nobu666.com/2026/06/16/1033.html">前回&lt;/a>、YouTube料理動画をObsidianのレシピノートに自動変換する仕組みを作った。&lt;code>~/scripts/&lt;/code> に直置きしたスクリプト2本で、とりあえず43本の料理動画を捌けるところまでは行った。あの後Claude Codeと一緒にコードレビュー、テスト追加、CI整備をやってGitHubで公開し、さらにレシピ専用ツールから汎用ツールへと作り変えたので、その過程を書いておく。&lt;/p>
+&lt;h2 id="コードレビューと修正">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e3%82%b3%e3%83%bc%e3%83%89%e3%83%ac%e3%83%93%e3%83%a5%e3%83%bc%e3%81%a8%e4%bf%ae%e6%ad%a3">コードレビューと修正&lt;/a>
+&lt;/h2>
+&lt;p>まずClaude Codeに既存のスクリプトをレビューしてもらった。指摘されたのは主にこのあたり:&lt;/p>
+&lt;ul>
+&lt;li>文字起こしファイルの書き込みが非アトミック（途中で落ちると壊れたファイルが残る）&lt;/li>
+&lt;li>エラーハンドリングが雑（全滅しても正常終了してしまう）&lt;/li>
+&lt;li>mlx-whisperのインポートチェックが遅い&lt;/li>
+&lt;/ul>
+&lt;p>アトミック書き込みは &lt;code>tempfile.mkstemp&lt;/code> で一時ファイルに書いてから &lt;code>rename&lt;/code> する定番パターンに修正。エラー時の終了コードも直した。&lt;/p>
+&lt;h2 id="テストとci">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e3%83%86%e3%82%b9%e3%83%88%e3%81%a8ci">テストとCI&lt;/a>
+&lt;/h2>
+&lt;p>外部依存（yt-dlp、mlx-whisper、ファイルシステム）をモックして25本のテストを書いた。pytest + GitHub Actionsで回している。mlx-whisperはApple Silicon専用なのでCI上ではインストールせず、モックだけで検証する構成にした。&lt;/p>
+&lt;p>地味にハマったのが、テスト用のモックテキストが短すぎてハルシネーション検出に引っかかる問題。「こんにちは」みたいな短い文字列を返すモックにしていたら、50文字未満で自動的にハルシネーション扱いになっていた。&lt;/p>
+&lt;h2 id="whisperのハルシネーション対策">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#whisper%e3%81%ae%e3%83%8f%e3%83%ab%e3%82%b7%e3%83%8d%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%e5%af%be%e7%ad%96">Whisperのハルシネーション対策&lt;/a>
+&lt;/h2>
+&lt;p>実際に43本処理してみると、何本かでWhisperが同じフレーズを延々繰り返す「ハルシネーション」が発生した。無音や環境音だけの区間で起きやすい。&lt;/p>
+&lt;p>対策として &lt;code>is_hallucinated()&lt;/code> 関数を入れた。チェックしているのは3つ:&lt;/p>
+&lt;ol>
+&lt;li>テキストが50文字未満（短すぎる）&lt;/li>
+&lt;li>同一フレーズが5回以上連続する正規表現パターン&lt;/li>
+&lt;li>句読点・記号の比率が80%超（内容がない）&lt;/li>
+&lt;/ol>
+&lt;h2 id="運用の改善">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e9%81%8b%e7%94%a8%e3%81%ae%e6%94%b9%e5%96%84">運用の改善&lt;/a>
+&lt;/h2>
+&lt;p>細かいが実際に使ってみて効いた改善をいくつか。&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>1件ずつ処理&lt;/strong> — 最初は全文字起こしを一括でClaude CLIに渡していたが、処理が詰まって進まなくなった。1件ずつループに変更し、成功したらdoneディレクトリに移動、失敗したらそのまま残してリトライ可能にした&lt;/li>
+&lt;li>&lt;strong>Ctrl-Cで止まるようにする&lt;/strong> — ループ処理にしたら中断しても次のファイルに進んでしまう。&lt;code>trap INT&lt;/code> でシグナルを捕捉して即座に終了するようにした&lt;/li>
+&lt;li>&lt;strong>Macが重くならないようにする&lt;/strong> — WhisperとClaude CLIを同時に動かすとファンが回りっぱなしになる。&lt;code>nice -n 10&lt;/code> で優先度を下げて、&lt;code>caffeinate -i&lt;/code> でスリープを防止&lt;/li>
+&lt;li>&lt;strong>Obsidianとの共存&lt;/strong> — &lt;code>_transcripts/&lt;/code> だとObsidianのファイルエクスプローラに表示されてしまう。&lt;code>.transcripts/&lt;/code> に変更してドットプレフィックスで非表示にした&lt;/li>
+&lt;/ul>
+&lt;h2 id="githubで公開">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#github%e3%81%a7%e5%85%ac%e9%96%8b">GitHubで公開&lt;/a>
+&lt;/h2>
+&lt;p>ここまで育てたスクリプトを &lt;a href="https://github.com/nobu666/youtube-to-obsidian">youtube-to-obsidian&lt;/a> としてGitHubに上げた。&lt;code>~/scripts/&lt;/code> にはシンボリックリンクだけ残す構成。&lt;code>curl&lt;/code> 一発でセットアップできるインストールスクリプトも用意した。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -fsSL https://raw.githubusercontent.com/nobu666/youtube-to-obsidian/main/install.sh | bash&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>Claude Code のスキル（グローバルコマンド）としても登録できるので、どのプロジェクトで作業中でも &lt;code>/youtube-to-obsidian&lt;/code> で呼び出せる。&lt;/p>
+&lt;h2 id="レシピ専用から汎用ツールへ">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e3%83%ac%e3%82%b7%e3%83%94%e5%b0%82%e7%94%a8%e3%81%8b%e3%82%89%e6%b1%8e%e7%94%a8%e3%83%84%e3%83%bc%e3%83%ab%e3%81%b8">レシピ専用から汎用ツールへ&lt;/a>
+&lt;/h2>
+&lt;p>公開した時点ではまだ &lt;code>recipe&lt;/code> というコマンド名で、プロンプトも料理動画専用だった。でも文字起こし部分は完全に汎用だし、変換プロンプトを差し替えればレシピ以外にも使える。ということで汎用化することにした。&lt;/p>
+&lt;h3 id="コマンド名とプロンプトの切り替え">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e3%82%b3%e3%83%9e%e3%83%b3%e3%83%89%e5%90%8d%e3%81%a8%e3%83%97%e3%83%ad%e3%83%b3%e3%83%97%e3%83%88%e3%81%ae%e5%88%87%e3%82%8a%e6%9b%bf%e3%81%88">コマンド名とプロンプトの切り替え&lt;/a>
+&lt;/h3>
+&lt;p>コマンド名を &lt;code>recipe&lt;/code> から &lt;code>youtube-to-obsidian&lt;/code> に改名。変数名も &lt;code>RECIPE_DIR&lt;/code> → &lt;code>OUTPUT_DIR&lt;/code> のように汎用的なものに揃えた。&lt;/p>
+&lt;p>プロンプトは &lt;code>prompts/&lt;/code> ディレクトリに複数置けるようにして、&lt;code>-p&lt;/code> オプションで切り替える方式にした。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># デフォルト（汎用ノート形式）&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>youtube-to-obsidian https://www.youtube.com/watch?v&lt;span style="color:#f92672">=&lt;/span>XXXXX
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># レシピ&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>youtube-to-obsidian -p recipe https://www.youtube.com/watch?v&lt;span style="color:#f92672">=&lt;/span>XXXXX
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># 講義ノート&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>youtube-to-obsidian -p lecture https://www.youtube.com/playlist?list&lt;span style="color:#f92672">=&lt;/span>XXXXX&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;p>用意したプロンプトは5種類。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>プロンプト&lt;/th>
+&lt;th>用途&lt;/th>
+&lt;th>出力例&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;code>default&lt;/code>&lt;/td>
+&lt;td>汎用（構造化ノート）&lt;/td>
+&lt;td>要約 + セクション分け&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>recipe&lt;/code>&lt;/td>
+&lt;td>料理動画 → レシピ&lt;/td>
+&lt;td>材料リスト + 手順&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>lecture&lt;/code>&lt;/td>
+&lt;td>講義・セミナー → 要約ノート&lt;/td>
+&lt;td>要旨 + キーポイント + 詳細ノート&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>workout&lt;/code>&lt;/td>
+&lt;td>筋トレ・ヨガ → メニュー表&lt;/td>
+&lt;td>種目テーブル + フォーム解説&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>tool&lt;/code>&lt;/td>
+&lt;td>ツール解説 → 手順書&lt;/td>
+&lt;td>セットアップ + 使い方 + Tips&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="出力先をプロンプトごとに分ける">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e5%87%ba%e5%8a%9b%e5%85%88%e3%82%92%e3%83%97%e3%83%ad%e3%83%b3%e3%83%97%e3%83%88%e3%81%94%e3%81%a8%e3%81%ab%e5%88%86%e3%81%91%e3%82%8b">出力先をプロンプトごとに分ける&lt;/a>
+&lt;/h3>
+&lt;p>レシピと講義ノートと筋トレメニューが同じフォルダに入るのは嫌なので、プロンプトファイルのヘッダで出力先を指定できるようにした。&lt;/p>
+&lt;pre tabindex="0">&lt;code>output_dir: ~/Library/Mobile Documents/.../Obsidian/Vault/YouTube/レシピ
+---
+上の文字起こしをObsidianレシピ形式に変換して...&lt;/code>&lt;/pre>
+&lt;p>&lt;code>output_dir:&lt;/code> ヘッダで出力先を指定し、&lt;code>---&lt;/code> 以降がClaudeに渡されるプロンプト本文。フォルダがなければ自動作成する。&lt;code>-o&lt;/code> オプションで一時的に上書きもできる。&lt;/p>
+&lt;h3 id="全体の構成">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e5%85%a8%e4%bd%93%e3%81%ae%e6%a7%8b%e6%88%90">全体の構成&lt;/a>
+&lt;/h3>
+&lt;p>前回の記事ではシンプルな直列パイプラインだったが、プロンプト切り替えと出力先分岐が加わってこうなった。&lt;/p>
+&lt;img src="https://nobu666.com/images/1034-architecture.svg" alt="youtube-to-obsidianの構成図: YouTube→文字起こし→Claude CLI+プロンプト→Obsidian各フォルダ" width="680">
+&lt;h2 id="字幕優先で爆速化">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e5%ad%97%e5%b9%95%e5%84%aa%e5%85%88%e3%81%a7%e7%88%86%e9%80%9f%e5%8c%96">字幕優先で爆速化&lt;/a>
+&lt;/h2>
+&lt;p>汎用化したので講義動画を試してみたら、問題が発覚した。Whisperでの文字起こしが遅すぎる。20分の動画に10分以上かかる。料理動画は5〜10分のものが多かったからギリギリ許容範囲だったが、1時間の講義には使い物にならない。&lt;/p>
+&lt;p>解決策はシンプルで、YouTubeの字幕を先に取りに行くようにした。日本語の動画ならほとんどの場合、手動字幕か自動生成字幕がある。字幕があれば数秒で取得できるので、Whisperの出番はほぼなくなった。&lt;/p>
+&lt;img src="https://nobu666.com/images/1034-fallback.svg" alt="文字起こしのフォールバックチェーン: YouTube字幕→Whisper→説明欄" width="680">
+&lt;p>あわせてWhisperのモデルをlarge-v3からlarge-v3-turboに変更した。前回の記事でmediumからlarge-v3に上げた経緯を書いたが、large-v3は精度はいいものの遅い。large-v3-turboは精度をほぼ維持したまま速度が改善されている。もっとも字幕優先にしたことで、Whisperが動くケース自体がほとんどなくなったのだが、フォールバック先として速いに越したことはない。&lt;/p>
+&lt;h2 id="実際に試してみた">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e5%ae%9f%e9%9a%9b%e3%81%ab%e8%a9%a6%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f">実際に試してみた&lt;/a>
+&lt;/h2>
+&lt;p>3種類の動画で試した結果。&lt;/p>
+&lt;p>&lt;strong>ツール解説動画（obsidian-skills）&lt;/strong> — 字幕から取得、数秒で文字起こし完了。セットアップ手順、使い方、Tipsがきれいに分かれたノートになった。&lt;/p>
+&lt;p>&lt;strong>筋トレ動画（腹筋スーパーセット）&lt;/strong> — 字幕から取得。種目テーブル + フォームのポイントという形式で出力された。「膝は絶対に曲げない（曲げると効きが激減）」みたいな実践的な注意点もちゃんと拾っている。&lt;/p>
+&lt;p>&lt;strong>講義動画（堀江貴文 拓殖大学講演 1時間）&lt;/strong> — 字幕から取得、文字起こし自体は速いがClaude CLIでの構造化に2〜3分。要旨 + キーポイント + 詳細ノート + 引用という構成で、1時間の講演がきれいに整理された。Whisperで文字起こしから始めていたら30分以上かかっていたはずなので、字幕優先の効果が一番大きいのはこういう長尺動画だ。&lt;/p>
+&lt;h2 id="振り返り">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e6%8c%af%e3%82%8a%e8%bf%94%e3%82%8a">振り返り&lt;/a>
+&lt;/h2>
+&lt;p>前回の記事を書いた時点では &lt;code>~/scripts/&lt;/code> に直置きした料理専用スクリプトだったものが、GitHubで公開された汎用ツールになった。レビュー、テスト、CI、コマンド改名、プロンプトシステム、字幕優先化、モデル変更。これを全部Claude Codeとの対話で進めた。&lt;/p>
+&lt;p>特に字幕優先への変更は、講義動画を実際に試してみなければ気づかなかった。料理動画だけで使っているうちはWhisperの速度が問題にならなかったので、用途を広げたことで初めて見えたボトルネックだった。「汎用化したら新しい課題が見つかり、それを解決したらさらに良くなった」というのは、ものを作っていて一番楽しい瞬間かもしれない。&lt;/p>
+&lt;p>&lt;a href="https://github.com/nobu666/youtube-to-obsidian">youtube-to-obsidian&lt;/a> — Apple Silicon Macと Claude Code があれば動く。プロンプトを追加すればどんな動画でもObsidianノートにできるので、自分の用途に合わせてカスタマイズしてほしい。&lt;/p></description></item><item><title>YouTube料理動画40本をObsidianレシピノートに自動変換する仕組みを作った</title><link>https://nobu666.com/2026/06/16/1033.html</link><pubDate>火, 16 6月 2026 18:30:00 +0900</pubDate><guid>https://nobu666.com/2026/06/16/1033.html</guid><description>&lt;p>YouTubeの「後で作ろう」再生リストが43本に膨れ上がっていた。料理動画を保存するだけ保存して、結局キッチンで「あのレシピなんだっけ」とスマホでYouTubeを開き直す、というのを何度繰り返したかわからない。レシピは普段Obsidianで管理しているので、動画の中身をObsidianのノートに変換できれば解決する。Cowork（Claudeのデスクトップ版）でやってみたら、思ったより紆余曲折があって面白かったので記録しておく。&lt;/p>
 &lt;h2 id="まず1本やってみた">
 &lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/16/1033.html#%e3%81%be%e3%81%9a1%e6%9c%ac%e3%82%84%e3%81%a3%e3%81%a6%e3%81%bf%e3%81%9f">まず1本やってみた&lt;/a>
 &lt;/h2>

@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22c55e"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="540" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <!-- Title -->
+  <text x="340" y="30" text-anchor="middle" fill="#888" font-size="12" font-weight="600">文字起こしのフォールバックチェーン</text>
+
+  <!-- Step 1: YouTube manual subtitle -->
+  <rect x="200" y="48" width="280" height="44" rx="6" fill="#ff4444" stroke="#cc3333"/>
+  <text x="340" y="75" text-anchor="middle" fill="white" font-size="14" font-weight="600">YouTube 手動字幕を取得</text>
+
+  <!-- Arrow down to diamond 1 -->
+  <line x1="340" y1="92" x2="340" y2="112" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Diamond 1 -->
+  <polygon points="340,112 390,137 340,162 290,137" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
+  <text x="340" y="141" text-anchor="middle" fill="#333" font-size="12">字幕あり?</text>
+
+  <!-- Yes: go right to save -->
+  <line x1="390" y1="137" x2="540" y2="137" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <text x="420" y="130" fill="#22c55e" font-size="11" font-weight="600">あり</text>
+  <rect x="542" y="119" width="110" height="36" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="597" y="141" text-anchor="middle" fill="#166534" font-size="12">保存 (数秒)</text>
+
+  <!-- No: go down -->
+  <line x1="340" y1="162" x2="340" y2="182" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <text x="354" y="177" fill="#ef4444" font-size="11" font-weight="600">なし</text>
+
+  <!-- Step 2: Auto subtitle -->
+  <rect x="200" y="184" width="280" height="44" rx="6" fill="#ff6666" stroke="#dd4444"/>
+  <text x="340" y="211" text-anchor="middle" fill="white" font-size="14" font-weight="600">YouTube 自動生成字幕を取得</text>
+
+  <line x1="340" y1="228" x2="340" y2="248" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Diamond 2 -->
+  <polygon points="340,248 390,273 340,298 290,273" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
+  <text x="340" y="277" text-anchor="middle" fill="#333" font-size="12">字幕あり?</text>
+
+  <!-- Yes: go right -->
+  <line x1="390" y1="273" x2="540" y2="273" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <text x="420" y="266" fill="#22c55e" font-size="11" font-weight="600">あり</text>
+  <rect x="542" y="255" width="110" height="36" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="597" y="277" text-anchor="middle" fill="#166534" font-size="12">保存 (数秒)</text>
+
+  <!-- No: go down -->
+  <line x1="340" y1="298" x2="340" y2="318" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <text x="354" y="313" fill="#ef4444" font-size="11" font-weight="600">なし</text>
+
+  <!-- Step 3: Whisper -->
+  <rect x="200" y="320" width="280" height="44" rx="6" fill="#f59e0b" stroke="#d97706"/>
+  <text x="340" y="347" text-anchor="middle" fill="white" font-size="14" font-weight="600">Whisper large-v3-turbo</text>
+
+  <line x1="340" y1="364" x2="340" y2="384" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Diamond 3: hallucination check -->
+  <polygon points="340,384 406,412 340,440 274,412" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
+  <text x="340" y="409" text-anchor="middle" fill="#333" font-size="11">ハルシネー</text>
+  <text x="340" y="422" text-anchor="middle" fill="#333" font-size="11">ション?</text>
+
+  <!-- No hallucination: go right to save -->
+  <line x1="406" y1="412" x2="540" y2="412" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <text x="430" y="405" fill="#22c55e" font-size="11" font-weight="600">正常</text>
+  <rect x="542" y="394" width="110" height="36" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="597" y="416" text-anchor="middle" fill="#166534" font-size="12">保存</text>
+
+  <!-- Hallucinated: go down -->
+  <line x1="340" y1="440" x2="340" y2="460" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <text x="354" y="455" fill="#ef4444" font-size="11" font-weight="600">検出</text>
+
+  <!-- Step 4: Description fallback -->
+  <rect x="200" y="462" width="280" height="44" rx="6" fill="#888" stroke="#666"/>
+  <text x="340" y="489" text-anchor="middle" fill="white" font-size="14" font-weight="600">YouTube 説明欄にフォールバック</text>
+
+  <!-- Labels on left side -->
+  <rect x="28" y="52" width="145" height="32" rx="4" fill="#fff0f0" stroke="none"/>
+  <text x="100" y="72" text-anchor="middle" fill="#888" font-size="11">ほとんどここで完了</text>
+
+  <rect x="28" y="324" width="145" height="32" rx="4" fill="#fffbeb" stroke="none"/>
+  <text x="100" y="344" text-anchor="middle" fill="#888" font-size="11">字幕なし時のみ実行</text>
+
+  <!-- Footer -->
+  <text x="340" y="528" text-anchor="middle" fill="#aaa" font-size="11">日本語動画の大半はYouTube字幕（手動 or 自動生成）で数秒で完了する</text>
+</svg>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 500" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a855f7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="500" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <!-- Main axis: x=400 -->
+
+  <!-- YouTube -->
+  <rect x="280" y="20" width="240" height="48" rx="6" fill="#ff4444" stroke="#cc3333"/>
+  <text x="400" y="50" text-anchor="middle" fill="white" font-size="15" font-weight="600">YouTube 再生リスト / 単体動画</text>
+
+  <!-- Arrow YouTube → Transcript -->
+  <line x1="400" y1="68" x2="400" y2="108" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="408" y="94" fill="#888" font-size="11">yt-dlp</text>
+
+  <!-- Transcripts -->
+  <rect x="280" y="110" width="240" height="48" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="400" y="130" text-anchor="middle" fill="#333" font-size="14">文字起こしテキスト</text>
+  <text x="400" y="148" text-anchor="middle" fill="#888" font-size="11">字幕優先 / Whisper フォールバック</text>
+
+  <!-- .transcripts label -->
+  <text x="528" y="140" fill="#888" font-size="12">→ .transcripts/</text>
+
+  <!-- Arrow Transcript → Claude CLI -->
+  <line x1="400" y1="158" x2="400" y2="198" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Claude CLI (wide: covers all 3 output columns) -->
+  <rect x="190" y="200" width="420" height="48" rx="6" fill="#7c3aed" stroke="#6d28d9"/>
+  <text x="400" y="222" text-anchor="middle" fill="white" font-size="14" font-weight="600">Claude CLI + プロンプト (-p)</text>
+  <text x="400" y="240" text-anchor="middle" fill="#ddd6fe" font-size="11">prompts/ から選択したプロンプトで構造化</text>
+
+  <!-- Prompt files on the left -->
+  <rect x="20" y="195" width="120" height="130" rx="6" fill="none" stroke="#c084fc" stroke-dasharray="6 3"/>
+  <text x="80" y="215" text-anchor="middle" fill="#a855f7" font-size="11" font-weight="600">prompts/</text>
+  <text x="80" y="235" text-anchor="middle" fill="#666" font-size="11">default.txt</text>
+  <text x="80" y="253" text-anchor="middle" fill="#666" font-size="11" font-weight="600">recipe.txt</text>
+  <text x="80" y="271" text-anchor="middle" fill="#666" font-size="11">lecture.txt</text>
+  <text x="80" y="289" text-anchor="middle" fill="#666" font-size="11">workout.txt</text>
+  <text x="80" y="307" text-anchor="middle" fill="#666" font-size="11">tool.txt</text>
+
+  <!-- Arrow from prompts to Claude -->
+  <line x1="140" y1="224" x2="188" y2="224" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Mac local zone -->
+  <rect x="20" y="100" width="140" height="76" rx="6" fill="none" stroke="#4ade80" stroke-dasharray="6 3"/>
+  <text x="90" y="120" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="600">Mac ローカル</text>
+  <text x="90" y="138" text-anchor="middle" fill="#888" font-size="10">字幕取得 or Whisper</text>
+  <text x="90" y="154" text-anchor="middle" fill="#aaa" font-size="10">（重い処理）</text>
+
+  <!-- Fan-out arrows: Claude CLI → 3 output boxes (all straight vertical) -->
+  <!-- Output box centers: 255, 400, 545 (symmetric around 400) -->
+  <line x1="255" y1="248" x2="255" y2="308" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="400" y1="248" x2="400" y2="308" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="545" y1="248" x2="545" y2="308" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Output box 1: レシピ (center=255, width=110) -->
+  <rect x="200" y="310" width="110" height="44" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="255" y="330" text-anchor="middle" fill="#166534" font-size="12" font-weight="500">YouTube/レシピ/</text>
+  <text x="255" y="346" text-anchor="middle" fill="#15803d" font-size="10">recipe.txt</text>
+
+  <!-- Output box 2: 講義 (center=400, width=110) -->
+  <rect x="345" y="310" width="110" height="44" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="400" y="330" text-anchor="middle" fill="#1e40af" font-size="12" font-weight="500">YouTube/講義/</text>
+  <text x="400" y="346" text-anchor="middle" fill="#1d4ed8" font-size="10">lecture.txt</text>
+
+  <!-- Output box 3: ... (center=545, width=110) -->
+  <rect x="490" y="310" width="110" height="44" rx="6" fill="#fefce8" stroke="#fde68a"/>
+  <text x="545" y="330" text-anchor="middle" fill="#854d0e" font-size="12" font-weight="500">YouTube/...</text>
+  <text x="545" y="346" text-anchor="middle" fill="#92400e" font-size="10">workout, tool, ...</text>
+
+  <!-- Arrows: 3 output boxes → Obsidian (all straight vertical) -->
+  <line x1="255" y1="354" x2="255" y2="398" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="400" y1="354" x2="400" y2="398" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="545" y1="354" x2="545" y2="398" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Obsidian Vault (same width as Claude CLI) -->
+  <rect x="190" y="400" width="420" height="48" rx="6" fill="#7c3aed" stroke="#6d28d9"/>
+  <text x="400" y="429" text-anchor="middle" fill="white" font-size="15" font-weight="600">Obsidian Vault</text>
+
+  <!-- Footer -->
+  <text x="400" y="474" text-anchor="middle" fill="#888" font-size="11">youtube-to-obsidian -p &lt;prompt&gt; URL</text>
+  <text x="400" y="492" text-anchor="middle" fill="#aaa" font-size="10">プロンプトごとに出力先が分かれ、フォルダは自動作成される</text>
+</svg>
