@@ -98,7 +98,7 @@
 &lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e5%87%ba%e5%8a%9b%e5%85%88%e3%82%92%e3%83%97%e3%83%ad%e3%83%b3%e3%83%97%e3%83%88%e3%81%94%e3%81%a8%e3%81%ab%e5%88%86%e3%81%91%e3%82%8b">出力先をプロンプトごとに分ける&lt;/a>
 &lt;/h3>
 &lt;p>レシピと講義ノートと筋トレメニューが同じフォルダに入るのは嫌なので、プロンプトファイルのヘッダで出力先を指定できるようにした。&lt;/p>
-&lt;pre tabindex="0">&lt;code>output_dir: ~/Library/Mobile Documents/.../Obsidian/Vault/YouTube/レシピ
+&lt;pre tabindex="0">&lt;code>output_dir: ~/Documents/Obsidian/Vault/YouTube/レシピ
 ---
 上の文字起こしをObsidianレシピ形式に変換して...&lt;/code>&lt;/pre>
 &lt;p>&lt;code>output_dir:&lt;/code> ヘッダで出力先を指定し、&lt;code>---&lt;/code> 以降がClaudeに渡されるプロンプト本文。フォルダがなければ自動作成する。&lt;code>-o&lt;/code> オプションで一時的に上書きもできる。&lt;/p>
