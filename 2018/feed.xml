@@ -1,4 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2018s on Real Beat</title><link>https://nobu666.com/2018.html</link><description>Recent content in 2018s on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>日, 03 6月 2018 00:40:00 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/2018/feed.xml" type="application/rss+xml"/><item><title>YouTube→Obsidian自動変換ツールをGitHubで公開して汎用化した</title><link>https://nobu666.com/2026/06/17/1034.html</link><pubDate>水, 17 6月 2026 19:30:00 +0900</pubDate><guid>https://nobu666.com/2026/06/17/1034.html</guid><description>&lt;p>&lt;a href="https://nobu666.com/2026/06/16/1033.html">前回&lt;/a>、YouTube料理動画をObsidianのレシピノートに自動変換する仕組みを作った。&lt;code>~/scripts/&lt;/code> に直置きしたスクリプト2本で、とりあえず43本の料理動画を捌けるところまでは行った。あの後Claude Codeと一緒にコードレビュー、テスト追加、CI整備をやってGitHubで公開し、さらにレシピ専用ツールから汎用ツールへと作り変えたので、その過程を書いておく。&lt;/p>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2018s on Real Beat</title><link>https://nobu666.com/2018.html</link><description>Recent content in 2018s on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>日, 03 6月 2018 00:40:00 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/2018/feed.xml" type="application/rss+xml"/><item><title>obsidian-importのMarkItDown変換を実ファイルでテストした</title><link>https://nobu666.com/2026/06/19/1035.html</link><pubDate>金, 19 6月 2026 20:29:00 +0900</pubDate><guid>https://nobu666.com/2026/06/19/1035.html</guid><description>&lt;p>&lt;a href="https://nobu666.com/2026/06/17/1034.html">以前の記事&lt;/a>で紹介したyoutube-to-obsidianは、その後PDFやスライドも同じ流れでノート化したくなり、MicrosoftのMarkItDownを組み込んで対応した。YouTube専用ではなくなったのでリポジトリ名も&lt;a href="https://github.com/nobu666/obsidian-import">obsidian-import&lt;/a>に改名している。&lt;/p>
+&lt;p>これで長い論文のPDFや100枚超えのスライド、長編のブログ記事、TEDのトークなんかを、全部読んだり観たりしなくてもObsidianに要約ノートとして取り込めるようになった。1時間の動画を観なくても、整理されたノートを数分で読めば済む。インプットの効率がまるで違う。&lt;/p>
+&lt;p>とはいえ機能を組み込んだ時点ではモックテストしか書いておらず、実際のPDFやPPTXを食わせての動作確認はやっていなかった。今回はその検証を潰した話。&lt;/p>
+&lt;h2 id="pdfで早速エラー">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/19/1035.html#pdf%e3%81%a7%e6%97%a9%e9%80%9f%e3%82%a8%e3%83%a9%e3%83%bc">PDFで早速エラー&lt;/a>
+&lt;/h2>
+&lt;p>手元にあったPDFを食わせてみたら、こうなった。&lt;/p>
+&lt;pre tabindex="0">&lt;code>変換エラー: PdfConverter recognized the input as a potential .pdf file,
+but the dependencies needed to read .pdf files have not been installed.&lt;/code>&lt;/pre>
+&lt;p>MarkItDownはPDF処理にpdfminerを使うが、これはオプション依存になっていて &lt;code>pip install markitdown&lt;/code> だけでは入らない。&lt;code>pip install markitdown[pdf]&lt;/code> か &lt;code>markitdown[all]&lt;/code> が必要だった。&lt;/p>
+&lt;p>install.shでは素の &lt;code>markitdown&lt;/code> しかインストールしていなかったので、&lt;code>markitdown[all]&lt;/code> に修正した。DOCX・PPTX・XLSX等も同様にオプション依存があるので、全形式をサポートするなら最初からallを入れておくのが無難だ。&lt;/p>
+&lt;h2 id="各形式のテスト結果">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/19/1035.html#%e5%90%84%e5%bd%a2%e5%bc%8f%e3%81%ae%e3%83%86%e3%82%b9%e3%83%88%e7%b5%90%e6%9e%9c">各形式のテスト結果&lt;/a>
+&lt;/h2>
+&lt;p>依存を直した後、手元のファイルとダミーデータで一通り試した。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>形式&lt;/th>
+&lt;th>素材&lt;/th>
+&lt;th>結果&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>PDF&lt;/td>
+&lt;td>履歴書・職務経歴書&lt;/td>
+&lt;td>日本語テキスト抽出OK。FontBBox警告が大量に出るが変換結果に影響なし&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>DOCX&lt;/td>
+&lt;td>ダミー文書&lt;/td>
+&lt;td>見出し・段落がMarkdownに正しく変換&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>PPTX&lt;/td>
+&lt;td>ダミースライド&lt;/td>
+&lt;td>スライド番号付きで変換&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>XLSX&lt;/td>
+&lt;td>ダミー表&lt;/td>
+&lt;td>Markdownテーブルに変換&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>URL&lt;/td>
+&lt;td>example.com&lt;/td>
+&lt;td>HTML→Markdown変換OK&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>画像&lt;/td>
+&lt;td>JPG/PNG&lt;/td>
+&lt;td>テキストが無いため最小文字数チェックで弾かれる（仕様通り）&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>PDFのFontBBox警告はpdfminerの既知の問題で、フォント情報が不完全なPDFで出る。stderrに大量に流れて焦るが、変換結果には影響しない。&lt;/p>
+&lt;h2 id="重複スキップも確認">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/19/1035.html#%e9%87%8d%e8%a4%87%e3%82%b9%e3%82%ad%e3%83%83%e3%83%97%e3%82%82%e7%a2%ba%e8%aa%8d">重複スキップも確認&lt;/a>
+&lt;/h2>
+&lt;p>同じURLを2回変換してみると、2回目はちゃんとスキップされた。&lt;/p>
+&lt;pre tabindex="0">&lt;code>[1/1] https://example.com
+スキップ（処理済み）&lt;/code>&lt;/pre>
+&lt;p>convert.pyはソースのMD5ハッシュでファイル名を決めていて、&lt;code>.transcripts/&lt;/code> に同名ファイルがあればスキップする。ここは既にモックテストで検証済みだったが、実際に動かしても問題なかった。&lt;/p>
+&lt;h2 id="修正した箇所">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/19/1035.html#%e4%bf%ae%e6%ad%a3%e3%81%97%e3%81%9f%e7%ae%87%e6%89%80">修正した箇所&lt;/a>
+&lt;/h2>
+&lt;p>変更は依存パッケージの指定を3箇所直しただけ。README.mdやCLAUDE.mdにもMarkItDownの記載はあるが、ツール名としての言及だけなので修正不要だった。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>ファイル&lt;/th>
+&lt;th>変更内容&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;code>install.sh&lt;/code>&lt;/td>
+&lt;td>&lt;code>markitdown&lt;/code> → &lt;code>markitdown[all]&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>SKILL.md&lt;/code>&lt;/td>
+&lt;td>同上&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>~/.claude/commands/obsidian-import.md&lt;/code>&lt;/td>
+&lt;td>同上（SKILL.mdのコピー）&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="自分で使わないと見つからない">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/19/1035.html#%e8%87%aa%e5%88%86%e3%81%a7%e4%bd%bf%e3%82%8f%e3%81%aa%e3%81%84%e3%81%a8%e8%a6%8b%e3%81%a4%e3%81%8b%e3%82%89%e3%81%aa%e3%81%84">自分で使わないと見つからない&lt;/a>
+&lt;/h2>
+&lt;p>今回の問題はモックテストでは見つけられない類のものだった。&lt;code>MarkItDown().convert()&lt;/code> の戻り値をモックしている以上、依存パッケージが足りなくてインポート時に落ちるかどうかはテストできない。&lt;/p>
+&lt;p>CIで &lt;code>markitdown[all]&lt;/code> の全依存を入れると重くなるし、PDFやPPTXの実ファイルをリポジトリに含めるのも微妙だ。モックテストはそのまま残して、実ファイルでのインテグレーション検証は手元で手動実行する運用にした。&lt;/p>
+&lt;p>結局、自分のツールは自分で使ってみないとわからない。テストが全部通っていても、実際にPDFを投げた瞬間に落ちる。前回の記事でも字幕優先への変更は講義動画を実際に試して初めて見えたボトルネックだった。モックやCIで品質を担保しつつ、最後は自分がユーザーとして使い倒すのが一番早い。&lt;/p></description></item><item><title>YouTube→Obsidian自動変換ツールをGitHubで公開して汎用化した</title><link>https://nobu666.com/2026/06/17/1034.html</link><pubDate>水, 17 6月 2026 19:30:00 +0900</pubDate><guid>https://nobu666.com/2026/06/17/1034.html</guid><description>&lt;p>&lt;a href="https://nobu666.com/2026/06/16/1033.html">前回&lt;/a>、YouTube料理動画をObsidianのレシピノートに自動変換する仕組みを作った。&lt;code>~/scripts/&lt;/code> に直置きしたスクリプト2本で、とりあえず43本の料理動画を捌けるところまでは行った。あの後Claude Codeと一緒にコードレビュー、テスト追加、CI整備をやってGitHubで公開し、さらにレシピ専用ツールから汎用ツールへと作り変えたので、その過程を書いておく。&lt;/p>
 &lt;h2 id="コードレビューと修正">
 &lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/17/1034.html#%e3%82%b3%e3%83%bc%e3%83%89%e3%83%ac%e3%83%93%e3%83%a5%e3%83%bc%e3%81%a8%e4%bf%ae%e6%ad%a3">コードレビューと修正&lt;/a>
 &lt;/h2>
