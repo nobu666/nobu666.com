@@ -1,4 +1,108 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>linux on Real Beat</title><link>https://nobu666.com/categories/linux.html</link><description>Recent content in linux on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>水, 27 3月 2013 01:53:18 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/categories/linux/feed.xml" type="application/rss+xml"/><item><title>obsidian-importのMarkItDown変換を実ファイルでテストした</title><link>https://nobu666.com/2026/06/19/1035.html</link><pubDate>金, 19 6月 2026 20:29:00 +0900</pubDate><guid>https://nobu666.com/2026/06/19/1035.html</guid><description>&lt;p>&lt;a href="https://nobu666.com/2026/06/17/1034.html">以前の記事&lt;/a>で紹介したyoutube-to-obsidianは、その後PDFやスライドも同じ流れでノート化したくなり、MicrosoftのMarkItDownを組み込んで対応した。YouTube専用ではなくなったのでリポジトリ名も&lt;a href="https://github.com/nobu666/obsidian-import">obsidian-import&lt;/a>に改名している。&lt;/p>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>linux on Real Beat</title><link>https://nobu666.com/categories/linux.html</link><description>Recent content in linux on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>水, 27 3月 2013 01:53:18 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/categories/linux/feed.xml" type="application/rss+xml"/><item><title>記憶を失うClaude Codeに、Obsidianで外部の脳を持たせる</title><link>https://nobu666.com/2026/06/20/1036.html</link><pubDate>土, 20 6月 2026 21:00:00 +0900</pubDate><guid>https://nobu666.com/2026/06/20/1036.html</guid><description>&lt;p>Claude Codeを使っていて一番もったいないと感じるのが、セッションをまたぐと記憶が消えることだ。前回ハマったポイントも、好みも、プロジェクトの前提も、新しい会話を始めると全部最初から説明し直しになる。優秀なんだけど、毎回初対面のコールセンターに電話している感覚に近い。&lt;/p>
+&lt;p>これをObsidianを外部記憶にして解決する、という手法を動画で見かけた。面白そうだったので、自分の環境に合わせて組んでみた。半信半疑だったけど、思った以上にちゃんと回っている。なにせ今これを書いているClaude Code自身が、Obsidianの中を読んでから書いている。&lt;/p>
+&lt;h2 id="やりたいこと">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e3%82%84%e3%82%8a%e3%81%9f%e3%81%84%e3%81%93%e3%81%a8">やりたいこと&lt;/a>
+&lt;/h2>
+&lt;p>公式のメモリ機能もあるにはあるが、いくつか不満がある。&lt;/p>
+&lt;ul>
+&lt;li>何を覚えているか中身が見えない&lt;/li>
+&lt;li>記憶する基準がAI任せで、自分でルールを決められない&lt;/li>
+&lt;li>Claudeの中に閉じていて、他のツールに持ち出せない&lt;/li>
+&lt;li>全部が一つの記憶に混ざって、プロジェクトごとに分けられない&lt;/li>
+&lt;/ul>
+&lt;p>やりたいのはこの逆だ。中身が全部見えて、ルールを自分で決められて、ただのMarkdownだからどこにでも持ち出せて、フォルダで領域を分けられる。Obsidianのvaultはローカルのテキストファイルの集まりなので、この条件に全部当てはまる。&lt;/p>
+&lt;h2 id="仕組み">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e4%bb%95%e7%b5%84%e3%81%bf">仕組み&lt;/a>
+&lt;/h2>
+&lt;p>特別なものは使っていない。ObsidianのvaultフォルダとClaude Codeの設定ファイル一枚だけだ。設定ファイルにvaultとの連携ルールを書く。やることは大きく二つ、読み取りと書き込みだ。&lt;/p>
+&lt;img src="https://nobu666.com/images/1036-loop.svg" alt="ObsidianをClaude Codeの外部記憶にするループ図: セッション開始→vault読み取り→作業→vault書き込み→次セッションへ引き継ぎ。vaultはKnowledge/Decisions/Projects/Preferencesに分かれ、gitで30分ごとにバックアップ" width="680">
+&lt;h3 id="読み取りセッション開始時">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e8%aa%ad%e3%81%bf%e5%8f%96%e3%82%8a%e3%82%bb%e3%83%83%e3%82%b7%e3%83%a7%e3%83%b3%e9%96%8b%e5%a7%8b%e6%99%82">読み取り（セッション開始時）&lt;/a>
+&lt;/h3>
+&lt;p>新しい会話の最初に、必ずvaultを見に行かせる。&lt;/p>
+&lt;ol>
+&lt;li>過去に指摘されたミスをまとめた &lt;code>mistakes.md&lt;/code>（後述）とユーザープロファイルを最初に読む&lt;/li>
+&lt;li>質問に関連するキーワードでvaultを検索する&lt;/li>
+&lt;li>ヒットしたノートを読む&lt;/li>
+&lt;li>それを踏まえて回答する&lt;/li>
+&lt;/ol>
+&lt;p>これで「前提を毎回説明し直す」がなくなる。明らかにvaultと無関係な単発質問（「今何時?」みたいなもの）はスキップしてよい、という例外も入れてある。&lt;/p>
+&lt;h3 id="書き込みその場で記録">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e6%9b%b8%e3%81%8d%e8%be%bc%e3%81%bf%e3%81%9d%e3%81%ae%e5%a0%b4%e3%81%a7%e8%a8%98%e9%8c%b2">書き込み（その場で記録）&lt;/a>
+&lt;/h3>
+&lt;p>「後で書く」は機能しない。会話の流れの中で、条件に当てはまったらその場で書かせる。記録先はフォルダで分けている。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>フォルダ&lt;/th>
+&lt;th>書くもの&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;code>Knowledge/&lt;/code>&lt;/td>
+&lt;td>バグの原因と解決策、ツールの新発見、ハマって解決したこと&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>Decisions/&lt;/code>&lt;/td>
+&lt;td>複数の選択肢から一つを選んだ判断と、その理由&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>Projects/&lt;/code>&lt;/td>
+&lt;td>プロジェクトの状態・バージョン・概要の変化&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>Preferences/&lt;/code>&lt;/td>
+&lt;td>新しく分かったユーザーの好み・作業スタイル&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>ノートには必ずYAMLフロントマター（日付・タグ・プロジェクト・関連ノート）を付け、関連するノートには &lt;code>[[wiki link]]&lt;/code> でリンクを張らせる。こうしておくと、後でObsidianのグラフビューで知識のつながりが見えるようになる。&lt;/p>
+&lt;h3 id="サイレントにしない">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e3%82%b5%e3%82%a4%e3%83%ac%e3%83%b3%e3%83%88%e3%81%ab%e3%81%97%e3%81%aa%e3%81%84">サイレントにしない&lt;/a>
+&lt;/h3>
+&lt;p>地味だが手放せないのが、読み書きしたら必ずユーザーに報告させるルールだ。「Obsidian: Knowledge/xxx.md を読みました」「書き込みました」と毎回明示する。裏で勝手にファイルを触られると何が蓄積されているか分からなくなるので、透明性は最初から条件に入れた。&lt;/p>
+&lt;h2 id="mistakesmd-で同じミスを繰り返さない">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#mistakesmd-%e3%81%a7%e5%90%8c%e3%81%98%e3%83%9f%e3%82%b9%e3%82%92%e7%b9%b0%e3%82%8a%e8%bf%94%e3%81%95%e3%81%aa%e3%81%84">mistakes.md で同じミスを繰り返さない&lt;/a>
+&lt;/h2>
+&lt;p>一番気に入っているのが、ミスを記録する &lt;code>Knowledge/mistakes.md&lt;/code> だ。これだけは特別扱いで、上の読み取りルールで毎セッションの最初に必ず読ませている。セッション中に間違いを指摘されたら、それをルールの形でここに書き残させる。&lt;/p>
+&lt;p>ただし何でもかんでも書くと表が膨らんで使い物にならなくなるので、追記する条件を三つに絞っている。&lt;/p>
+&lt;ol>
+&lt;li>ユーザーからの明示的な訂正である（自分で勝手に気づいた、ではない）&lt;/li>
+&lt;li>繰り返し起こりうるパターンである（一度きりの偶発ではない）&lt;/li>
+&lt;li>具体的な「する/しない」で書ける&lt;/li>
+&lt;/ol>
+&lt;p>形式も決めてある。実際に溜まっているものを一つ挙げるとこうだ。&lt;/p>
+&lt;pre tabindex="0">&lt;code>2026-06-20: アプリのUI機能をうろ覚えで断言した
+NG Action: 「Googleカレンダーにコピー」ボタンがある、と検証せず案内した（実在しなかった）
+Correct Action: 機能の有無は、案内する前に公式ヘルプ等で現在の仕様を確認する
+Trigger: 特定アプリの操作方法・機能の有無を説明するとき&lt;/code>&lt;/pre>
+&lt;p>これを入れてから、同じ種類のミスを繰り返す頻度が明らかに減った。注意したことが次のセッションに引き継がれるので、何度も同じ小言を言わなくて済む。地味だけど、これが一番ストレスが減ったポイントかもしれない。&lt;/p>
+&lt;p>しかもこの記録、ただ貯まるだけじゃない。別の作業をしている最中に、Claudeがこっちが何も言わないうちに「mistakes.mdの教訓に従って、複数行スクリプトは一度ファイルに書きます」と宣言して、自分でやり方を変えたことがあった。前に一度だけ叱った「入れ子ヒアドキュメントで出力を壊す」を、ちゃんと先回りして避けてきたわけだ。貯めた記憶が、次の手つきを変えている。ここまでくると外部記憶というより、過去の失敗から学ぶ同僚に近い。&lt;/p>
+&lt;h2 id="実際に積み上がったもの">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e5%ae%9f%e9%9a%9b%e3%81%ab%e7%a9%8d%e3%81%bf%e4%b8%8a%e3%81%8c%e3%81%a3%e3%81%9f%e3%82%82%e3%81%ae">実際に積み上がったもの&lt;/a>
+&lt;/h2>
+&lt;p>数日使っただけで、vaultにはこんなノートが溜まった。どれもClaude Codeとの作業中に自動で書かれたものだ。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Knowledge/obsidian-launchd-backup-tcc.md&lt;/code> — vaultの自動バックアップがmacOSのTCC（プライバシー保護）で動かなかった件。原因はcronやlaunchdから起動したプロセスが &lt;code>~/Documents&lt;/code> 配下の権限を持たないこと。フルディスクアクセスにスクリプトではなく &lt;code>/bin/bash&lt;/code> と &lt;code>/usr/bin/git&lt;/code> を追加して解決、という顛末がそのまま残っている&lt;/li>
+&lt;li>&lt;code>Knowledge/timetree-google-sync.md&lt;/code> — TimeTreeの予定をGoogleカレンダーへ同期する仕組みの技術知見。公式APIが終了している話から、&lt;code>events.import&lt;/code> が &lt;code>iCalUID&lt;/code> をキーにupsertとして機能するという肝の部分まで&lt;/li>
+&lt;li>&lt;code>Decisions/2026-06-20-timetree-sync-approach.md&lt;/code> — その同期で複数案からどれを選んだかの判断&lt;/li>
+&lt;/ul>
+&lt;p>特にTCCの件は、次に同じ現象に出くわしたとき確実に役立つ。一度ハマって解決したことを、人間が覚えておく代わりにvaultに置いておける。&lt;/p>
+&lt;h2 id="記憶そのものをバックアップする">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e8%a8%98%e6%86%b6%e3%81%9d%e3%81%ae%e3%82%82%e3%81%ae%e3%82%92%e3%83%90%e3%83%83%e3%82%af%e3%82%a2%e3%83%83%e3%83%97%e3%81%99%e3%82%8b">記憶そのものをバックアップする&lt;/a>
+&lt;/h2>
+&lt;p>外部脳が育つほど、それを失うのが怖くなる。なのでvault自体をgitで30分ごとに自動コミット＆プッシュするようにした。これも作りながらTCCにハマったので、その知見が上の &lt;code>obsidian-launchd-backup-tcc.md&lt;/code> というわけだ。記憶を貯める仕組みを作る過程で、また一つ記憶が増えた。&lt;/p>
+&lt;h2 id="この記事自体がそうだ">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e3%81%93%e3%81%ae%e8%a8%98%e4%ba%8b%e8%87%aa%e4%bd%93%e3%81%8c%e3%81%9d%e3%81%86%e3%81%a0">この記事自体がそうだ&lt;/a>
+&lt;/h2>
+&lt;p>一番の実例は、この記事だ。「ObsidianをClaude Codeのナレッジベースにした話を書いて」とだけ頼んだら、Claude Codeはまず &lt;code>mistakes.md&lt;/code> とプロフィールを読み、関連するキーワードでvaultを検索し、着想元の動画ノートやTCCの知見ノートを引っ張ってきてから書き始めた。何を読んだかも逐一報告してくる。&lt;/p>
+&lt;p>設定した読み取りルールが、そのまま記事の素材集めとして動いた格好だ。外部記憶は、引き継ぐだけじゃなく、こうやって書くときの一次資料にもなる。&lt;/p>
+&lt;h2 id="振り返り">
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/20/1036.html#%e6%8c%af%e3%82%8a%e8%bf%94%e3%82%8a">振り返り&lt;/a>
+&lt;/h2>
+&lt;p>やったことを並べると大したことはない。Markdownのフォルダをいくつか作って、設定ファイルに読み書きのルールを書いただけだ。MCPもプラグインも要らない。&lt;/p>
+&lt;p>それでも、毎回ゼロから説明していたAIが、前回の続きから話せる相棒に変わった。コツは最初から作り込みすぎないことだと思う。まずつないで回して、「これ覚えといて」「セッション開始時にvaultを見て」と足していくと、シナプスをつなぐみたいに少しずつ賢くなっていく。動画の受け売りだが、この「脳を育てる」感覚は実際にやってみると確かにある。&lt;/p></description></item><item><title>obsidian-importのMarkItDown変換を実ファイルでテストした</title><link>https://nobu666.com/2026/06/19/1035.html</link><pubDate>金, 19 6月 2026 20:29:00 +0900</pubDate><guid>https://nobu666.com/2026/06/19/1035.html</guid><description>&lt;p>&lt;a href="https://nobu666.com/2026/06/17/1034.html">以前の記事&lt;/a>で紹介したyoutube-to-obsidianは、その後PDFやスライドも同じ流れでノート化したくなり、MicrosoftのMarkItDownを組み込んで対応した。YouTube専用ではなくなったのでリポジトリ名も&lt;a href="https://github.com/nobu666/obsidian-import">obsidian-import&lt;/a>に改名している。&lt;/p>
 &lt;p>これで長い論文のPDFや100枚超えのスライド、長編のブログ記事、TEDのトークなんかを、全部読んだり観たりしなくてもObsidianに要約ノートとして取り込めるようになった。1時間の動画を観なくても、整理されたノートを数分で読めば済む。インプットの効率がまるで違う。&lt;/p>
 &lt;p>とはいえ機能を組み込んだ時点ではモックテストしか書いておらず、実際のPDFやPPTXを食わせての動作確認はやっていなかった。今回はその検証を潰した話。&lt;/p>
 &lt;h2 id="pdfで早速エラー">
