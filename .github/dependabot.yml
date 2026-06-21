@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # GitHub Actions（checkout / actions-hugo / actions-gh-pages 等）の更新PRを自動で出す
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
