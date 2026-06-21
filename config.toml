@@ -75,7 +75,7 @@ linkedin = "nobutoshi.ogata"
     weight = 4
 
 [outputs]
-page = [ "HTML", "AMP" ]
+page = [ "HTML" ]
 
 [markup]
   [markup.goldmark]
