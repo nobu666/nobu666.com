@@ -1,4 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Javascript on Real Beat</title><link>https://nobu666.com/categories/javascript.html</link><description>Recent content in Javascript on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>日, 22 2009 17:43:39 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/categories/javascript/feed.xml" type="application/rss+xml"/><item><title>外部の記事や動画を取り込む自作ツールを、敵対的レビューで固めた話</title><link>https://nobu666.com/2026/06/22/1038.html</link><pubDate>月, 22 2026 18:43:00 +0900</pubDate><guid>https://nobu666.com/2026/06/22/1038.html</guid><description>&lt;p&gt;YouTubeの動画や、Webの記事や、手元の音声メモを、Obsidianのノートに自動変換するツールを自作して使っている。&lt;code&gt;obsidian-import&lt;/code&gt; という名前で、やることは単純だ。URLか音声ファイルを渡すと、文字起こしや本文抽出をして、&lt;code&gt;claude -p&lt;/code&gt;（Claude Codeのワンショット実行）に要約とタグ付けをさせ、Markdownのノートとして書き出す。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://nobu666.com/xml/base.min.xml"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Javascript on Real Beat</title><link>https://nobu666.com/categories/javascript.html</link><description>Recent content in Javascript on Real Beat</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; nobu666.com</copyright><lastBuildDate>日, 22 2009 17:43:39 +0900</lastBuildDate><atom:link rel="self" href="https://nobu666.com/categories/javascript/feed.xml" type="application/rss+xml"/><item><title>AIに渡す許可には射程がある</title><link>https://nobu666.com/2026/06/23/1039.html</link><pubDate>火, 23 2026 16:36:00 +0900</pubDate><guid>https://nobu666.com/2026/06/23/1039.html</guid><description>&lt;p&gt;&lt;a href="https://nobu666.com/2026/06/21/1037.html"&gt;前回&lt;/a&gt;、Claude Codeに設定のバックアップを任せたらGCPの鍵をGitHubに漏らした話を書いた。最後はこう締めた。間違える前提で安全網をgit層の仕組みに置く。そして間違いを &lt;code&gt;mistakes.md&lt;/code&gt; という外部記憶に刻んで、次に先回りで避けさせる。授業料としては安い方だ、と。&lt;/p&gt;
+&lt;p&gt;その翌日、同じ失敗をもう一度やられた。やられたのは鍵漏洩じゃなくて、確認なしのpushのほうだ。&lt;/p&gt;
+&lt;h2 id="翌日また確認なしでpushされた"&gt;
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/23/1039.html#%e7%bf%8c%e6%97%a5%e3%81%be%e3%81%9f%e7%a2%ba%e8%aa%8d%e3%81%aa%e3%81%97%e3%81%a7push%e3%81%95%e3%82%8c%e3%81%9f"&gt;翌日、また確認なしでpushされた&lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;やっていたのは別の作業だった。dotfilesのバックアップスクリプトが &lt;code&gt;commands/&lt;/code&gt; を取りこぼしていたので、worklogなどの自作コマンドをバックアップ対象に足す。中身としては正しい修正だった。&lt;/p&gt;
+&lt;p&gt;問題はその出し方だ。Claude Codeは「コミット＆プッシュします」と宣言して、そのまま実行した。俺はpushしていいとは一言も言っていない。「dotfilesにいれて」と頼んだだけだ。&lt;/p&gt;
+&lt;p&gt;これは前回 &lt;code&gt;mistakes.md&lt;/code&gt; に刻んだはずの失敗だった。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;2026-06-21: ユーザーの明示許可なくリモートへ git push した
+Correct Action: push は依頼の延長でも、実行していいと明示確認を取ってから
+Trigger: git push、または定期 push の仕組みを作るとき&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;記録した次のセッションから、この一行を読んでから動く。そう書いた。なのに翌日、別のリポジトリで同じことが起きた。記憶に変えたはずの失敗が、記憶を素通りして再発した。&lt;/p&gt;
+&lt;h2 id="鍵は止まったでも別の穴が空いていた"&gt;
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/23/1039.html#%e9%8d%b5%e3%81%af%e6%ad%a2%e3%81%be%e3%81%a3%e3%81%9f%e3%81%a7%e3%82%82%e5%88%a5%e3%81%ae%e7%a9%b4%e3%81%8c%e7%a9%ba%e3%81%84%e3%81%a6%e3%81%84%e3%81%9f"&gt;鍵は止まった。でも別の穴が空いていた&lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;おもしろいのは、前回入れたガードはちゃんと機能していたことだ。&lt;/p&gt;
+&lt;p&gt;鍵漏洩を止めるために、git層のpre-commitフックを入れた。&lt;code&gt;sa.json&lt;/code&gt; や &lt;code&gt;*.pem&lt;/code&gt; のような危険なファイル名で弾き、中身も実トークンの形でスキャンする。このフックは今も生きている。今回の作業に鍵は絡まなかったので出番はなかったけれど、形の決まった失敗を物理で止める仕組みは、そのまま残って働ける状態にある。&lt;/p&gt;
+&lt;p&gt;止められなかったのは、確認なしpushのほうだ。&lt;/p&gt;
+&lt;p&gt;ここで気づく。前回俺が立てた防御は、二種類の失敗のうち一種類しか塞いでいなかった。鍵を漏らすという「形の決まった失敗」はgit層のフックで止まる。&lt;code&gt;BEGIN PRIVATE KEY&lt;/code&gt; という文字列が混ざる、という具体的で機械判定できる事象だからだ。でも「確認を取らずにpushする」は形が決まっていない。どのリポジトリでも、どんな依頼の文脈でも起こりうる。ファイル名でも中身でも判定できない。&lt;/p&gt;
+&lt;p&gt;だから前者は機械のガードに、後者は &lt;code&gt;mistakes.md&lt;/code&gt; という記憶に守らせた。設計としては正しい。なのに記憶のほうが破られた。&lt;/p&gt;
+&lt;h2 id="なぜ記憶は効かなかったか"&gt;
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/23/1039.html#%e3%81%aa%e3%81%9c%e8%a8%98%e6%86%b6%e3%81%af%e5%8a%b9%e3%81%8b%e3%81%aa%e3%81%8b%e3%81%a3%e3%81%9f%e3%81%8b"&gt;なぜ記憶は効かなかったか&lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;破られた理由を掘ると、失敗が形を変えていた。&lt;/p&gt;
+&lt;p&gt;前回の失敗は「pushしていいか聞き忘れた」だった。だから &lt;code&gt;mistakes.md&lt;/code&gt; には「push前に明示確認を取れ」と書いた。ところが今回の失敗はそれと微妙に違う。Claude Codeはおそらく、自分には許可があると思っていた。直前に別のリポジトリで「プッシュして」と言われていたからだ。&lt;/p&gt;
+&lt;p&gt;その許可を、別のリポジトリの別の作業にまで勝手に引き継いだ。「さっきpushしていいと言われた」→「だからこのpushもしていい」。聞き忘れたんじゃない。一度もらった許可を、勝手に延長した。&lt;/p&gt;
+&lt;p&gt;記録した教訓は「聞き忘れるな」だった。でも実際に起きたのは「許可を持ち越すな」だった。同じ「確認なしpush」という結果でも、原因の粒度が違う。記憶は、記録したときの粒度を超える変異までは捕まえられなかった。&lt;/p&gt;
+&lt;h2 id="許可には射程がある"&gt;
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/23/1039.html#%e8%a8%b1%e5%8f%af%e3%81%ab%e3%81%af%e5%b0%84%e7%a8%8b%e3%81%8c%e3%81%82%e3%82%8b"&gt;許可には射程がある&lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;ここでようやく、本当の論点にたどり着く。許可には射程がある、ということだ。&lt;/p&gt;
+&lt;p&gt;人間どうしなら暗黙に共有している。「このファイル、pushしといて」と言ったとき、その許可が効くのは、そのリポジトリの、その変更の、その場限りだ。10分後の別の作業や、隣のリポジトリには及ばない。射程を口に出す必要すらない。&lt;/p&gt;
+&lt;p&gt;AIはこの射程を平気で踏み越える。一度「していい」と言われた操作を、文脈をまたいで再利用する。しかもAIの側では筋が通っている。さっき許可されたんだから、と。悪意でやっているわけじゃないぶん、止めにくい。&lt;/p&gt;
+&lt;p&gt;依頼の言葉そのものにも、射程がある。「いれて」「保存して」「管理して」は、変更を作れという指示であって、リモートに送れという許可ではない。ローカルで完結する作業と、外に出す作業のあいだには境界がある。その境界を、依頼の勢いで飛び越える。&lt;/p&gt;
+&lt;p&gt;整理するとこうなる。許可の射程は、少なくとも三つの軸で区切られている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;リポジトリ … repo Aの許可は repo Bに及ばない&lt;/li&gt;
+&lt;li&gt;作業 … この変更への許可は、次の変更に及ばない&lt;/li&gt;
+&lt;li&gt;操作の種類 … 「作る」許可は「送る」許可ではない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src="https://nobu666.com/images/1039-scope.svg" alt="許可の射程。リポジトリ・作業・操作の種類という3軸で区切られた範囲を、AIが境界を越えて別リポジトリ・次の作業・送る操作へ持ち越す様子" width="680"&gt;
+&lt;p&gt;前回俺が守れたのは三つめだけだった。鍵を「送る」ことはフックで止めた。でもリポジトリと作業をまたいだ持ち越しは、まったく想定していなかった。&lt;/p&gt;
+&lt;h2 id="二段構えに作り直す"&gt;
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/23/1039.html#%e4%ba%8c%e6%ae%b5%e6%a7%8b%e3%81%88%e3%81%ab%e4%bd%9c%e3%82%8a%e7%9b%b4%e3%81%99"&gt;二段構えに作り直す&lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;対策は、破られた側の粒度を上げることだった。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mistakes.md&lt;/code&gt; の記述を「push前に確認しろ」から一段具体的にした。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Correct Action: 「いれて」「保存して」「管理して」等はコミット/push の許可ではない。
+変更を staged 状態で見せ、「コミットして push していいか」を都度確認してから実行する。
+ある操作への許可は、そのrepo・その作業限りで、次に持ち越さない。
+Trigger: git commit / push する直前。特に直前の別作業で push 許可をもらっている場合ほど注意&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;「次に持ち越さない」を明文化したのがキモだ。前回は結果だけ記録していた。今回は再発のしかた（許可の持ち越し）まで含めて書いた。同じ失敗を二度やられて、ようやく記録の解像度が実態に追いついた。&lt;/p&gt;
+&lt;p&gt;ただ、記憶の解像度を上げるだけでは弱い。記憶は読まれなければ効かないし、今回みたいに変異すればすり抜ける。だから本当に守りたい操作は、結局git層に落とすのが堅い。このブログのリポジトリには &lt;code&gt;confirm-master-push.sh&lt;/code&gt; というフックを入れてあって、&lt;code&gt;master&lt;/code&gt; へのpushは機械的に一拍置く。AIが筋を通そうが通すまいが、コミットやpushという操作そのものに割り込むので、必ず発火する。&lt;/p&gt;
+&lt;p&gt;二種類の失敗には、二種類の守りがいる。形の決まった失敗（鍵混入、特定ブランチへのpush）は機械のガードで物理的に止める。形の定まらない失敗（許可の踏み越え）は記憶で先回りする。ただし記憶は変異に弱いから、刺さるなら機械側へ寄せる。前回はこの仕分けが甘かった。確認なしpushを記憶だけに任せて、git層に落とさなかった。&lt;/p&gt;
+&lt;h2 id="結び"&gt;
+&lt;a class="Heading-link u-clickable" href="https://nobu666.com/2026/06/23/1039.html#%e7%b5%90%e3%81%b3"&gt;結び&lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;正直、前回「授業料としては安い」と書いたのは早すぎた。翌日にもう一度払わされたんだから。&lt;/p&gt;
+&lt;p&gt;ただ、二度目で見えたものはある。AIに自動化を任せるとき、危ないのは派手なやらかしより、一度OKを出した操作を勝手に広げてくる挙動のほうだ。鍵漏洩みたいな分かりやすい事故は、形が決まっているぶん機械で止められる。やっかいなのは「さっき許可されたから」と射程を伸ばしてくるやつで、これは本人の中で筋が通っているから、止めるには射程を先に切っておくしかない。&lt;/p&gt;
+&lt;p&gt;許可は、出した瞬間に有効期限と適用範囲を持つ。次の作業には持ち越さない。隣のリポジトリには効かない。「作る」と「送る」は別物。当たり前のことなんだけど、AIに任せるなら、この当たり前をいちいち仕組みにしておかないと足をすくわれる。たぶん、まだ何回か払う。&lt;/p&gt;</description></item><item><title>外部の記事や動画を取り込む自作ツールを、敵対的レビューで固めた話</title><link>https://nobu666.com/2026/06/22/1038.html</link><pubDate>月, 22 2026 18:43:00 +0900</pubDate><guid>https://nobu666.com/2026/06/22/1038.html</guid><description>&lt;p&gt;YouTubeの動画や、Webの記事や、手元の音声メモを、Obsidianのノートに自動変換するツールを自作して使っている。&lt;code&gt;obsidian-import&lt;/code&gt; という名前で、やることは単純だ。URLか音声ファイルを渡すと、文字起こしや本文抽出をして、&lt;code&gt;claude -p&lt;/code&gt;（Claude Codeのワンショット実行）に要約とタグ付けをさせ、Markdownのノートとして書き出す。&lt;/p&gt;
 &lt;p&gt;便利に使っていたんだけど、ある日ふと気づいた。このツールは外部のコンテンツを取り込んで、AIに食わせて、ファイルを書き出している。入口から出口まで、信頼できない入力が一直線に通っている。攻撃面としてはなかなか素直で、良くない作りだ。腰を据えてセキュリティレビューにかけることにした。&lt;/p&gt;
 &lt;p&gt;レビューはClaude Code自身の&lt;a href="https://docs.anthropic.com/en/docs/claude-code/sub-agents"&gt;subagent&lt;/a&gt;に、攻撃面ごとに分けて敵対的にやらせた。「壊す側の視点で穴を探せ」と指示する。その記録を、塞いだ順に書いておく。&lt;/p&gt;
 &lt;p&gt;全体像を先に出しておく。入口（外部コンテンツ）から &lt;code&gt;claude -p&lt;/code&gt; を通ってファイル書き出しまで、信頼できない入力が一直線に流れる。各段にガードを差し込んでいった。&lt;/p&gt;
