@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 296" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="296" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <!-- title -->
+  <text x="40" y="32" fill="#16a34a" font-size="13" font-weight="600">本人確認を「見た目」から「事前の秘密・別の経路」へ移す</text>
+
+  <!-- column headers -->
+  <text x="253" y="62" text-anchor="middle" fill="#dc2626" font-size="11.5" font-weight="600">その場で見せられるもの（偽装される）</text>
+  <text x="536" y="62" text-anchor="middle" fill="#16a34a" font-size="11.5" font-weight="600">事前の秘密・別の経路（信じる）</text>
+
+  <!-- row 1: login -->
+  <text x="78" y="103" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">ログイン</text>
+  <rect x="128" y="76" width="250" height="50" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="253" y="98" text-anchor="middle" fill="#333" font-size="12">ログイン画面・送信元</text>
+  <text x="253" y="115" text-anchor="middle" fill="#999" font-size="10.5">URLは似せられる</text>
+  <line x1="382" y1="101" x2="416" y2="101" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="420" y="76" width="232" height="50" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="536" y="98" text-anchor="middle" fill="#333" font-size="12">固有パスワード＋2FA・パスキー</text>
+  <text x="536" y="115" text-anchor="middle" fill="#999" font-size="10.5">偽サイトでは反応しない</text>
+
+  <!-- row 2: mail -->
+  <text x="78" y="165" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">メール</text>
+  <rect x="128" y="138" width="250" height="50" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="253" y="160" text-anchor="middle" fill="#333" font-size="12">差出人の名前・ドメイン</text>
+  <text x="253" y="177" text-anchor="middle" fill="#999" font-size="10.5">表示名や似せドメインで化ける</text>
+  <line x1="382" y1="163" x2="416" y2="163" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="420" y="138" width="232" height="50" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="536" y="160" text-anchor="middle" fill="#333" font-size="12">リンクを踏まず自分でアクセス</text>
+  <text x="536" y="177" text-anchor="middle" fill="#999" font-size="10.5">ブックマーク／マネージャから</text>
+
+  <!-- row 3: voice -->
+  <text x="78" y="227" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">電話の声</text>
+  <rect x="128" y="200" width="250" height="50" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="253" y="222" text-anchor="middle" fill="#333" font-size="12">本人そっくりの声・顔</text>
+  <text x="253" y="239" text-anchor="middle" fill="#999" font-size="10.5">AIのクローンで作れる</text>
+  <line x1="382" y1="225" x2="416" y2="225" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="420" y="200" width="232" height="50" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="536" y="222" text-anchor="middle" fill="#333" font-size="12">合言葉＋知ってる番号にかけ直す</text>
+  <text x="536" y="239" text-anchor="middle" fill="#999" font-size="10.5">秘密は自分から言わない</text>
+
+  <!-- footer -->
+  <text x="340" y="278" text-anchor="middle" fill="#666" font-size="11">漏洩・偽装は止められない前提で、判断を右側に逃がす</text>
+</svg>
