@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <marker id="arrowg" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="360" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <!-- entry -->
+  <text x="40" y="30" fill="#888" font-size="11">セッション開始時に、まず上から読む</text>
+
+  <!-- ===== macro layer ===== -->
+  <text x="40" y="56" fill="#16a34a" font-size="12.5" font-weight="600">macro層：まず全体を広く掴む（面）</text>
+
+  <rect x="40" y="64" width="600" height="96" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+
+  <rect x="64" y="86" width="262" height="52" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="195" y="108" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">persona.md</text>
+  <text x="195" y="125" text-anchor="middle" fill="#888" font-size="10.5">誰／作業スタイル／いま動いてるもの／直近</text>
+
+  <rect x="354" y="86" width="262" height="52" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="485" y="108" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">MOC.md</text>
+  <text x="485" y="125" text-anchor="middle" fill="#888" font-size="10.5">ノートの地図（ドメイン別の手書き索引）</text>
+
+  <!-- descend -->
+  <line x1="340" y1="160" x2="340" y2="232" stroke="#16a34a" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrowg)"/>
+  <text x="352" y="200" fill="#16a34a" font-size="11.5" font-weight="600">広く掴んでから、点に降りる</text>
+
+  <!-- ===== micro layer ===== -->
+  <text x="40" y="256" fill="#16a34a" font-size="12.5" font-weight="600">micro層：そこから具体の一点を引く（点）</text>
+
+  <rect x="40" y="264" width="600" height="76" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+
+  <rect x="64" y="284" width="552" height="42" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="340" y="301" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">vault-search ＝ 意味検索（hybrid）</text>
+  <text x="340" y="318" text-anchor="middle" fill="#888" font-size="10.5">「あの作業どうやった」を自然文で引く・日付を覚えてなくても出る</text>
+</svg>
