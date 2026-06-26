@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - master
+  schedule:
+    # 予約投稿: 未来日付(date)の記事を、時刻到来後の定期ビルドで公開する。
+    # ビルドは --buildFuture を付けないので date が未来の記事は自動で除外され、
+    # この cron が記事の時刻を過ぎてから回ったときに初めて公開される。
+    # cron は UTC だが、記事の date は +09:00 を含む絶対時刻なので TZ 計算は不要。
+    # GitHub の cron は実行が数分〜十数分ずれる/混雑時スキップあり（分単位の精度は出ない）。
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 permissions:
