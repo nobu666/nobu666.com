@@ -45,6 +45,7 @@ shortname = "realbeat"
   googleFontsLink = "https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" # Load Google Fonts
   customCSS = ["css/custom.css"] # Include custom CSS files
   customJS = ["js/custom.js"] # Include custom JS files
+  footer = "<p style=\"font-size:0.85em;color:#888;text-align:center;margin:0;\">当サイトはAmazon.co.jpを宣伝しリンクすることによってサイトが紹介料を獲得できる手段を提供することを目的に設定されたアフィリエイトプログラムである、Amazonアソシエイト・プログラムの参加者です。</p>"
 
 [Params.meta]
 favicon = "/favicon.ico"
