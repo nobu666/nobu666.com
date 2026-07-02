@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#999"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="320" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <text x="340" y="34" text-anchor="middle" fill="#888" font-size="12.5" font-weight="600">モデルの入れ替わり</text>
+
+  <rect x="40" y="48" width="150" height="40" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="115" y="73" text-anchor="middle" fill="#333" font-size="11.5">Fable 5（〜7/7）</text>
+
+  <line x1="196" y1="68" x2="256" y2="68" stroke="#999" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <rect x="262" y="48" width="150" height="40" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="337" y="73" text-anchor="middle" fill="#333" font-size="11.5">次のモデル</text>
+
+  <line x1="418" y1="68" x2="478" y2="68" stroke="#999" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <rect x="484" y="48" width="150" height="40" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="559" y="73" text-anchor="middle" fill="#333" font-size="11.5">さらに次</text>
+
+  <!-- flow: disconnected boxes, each redone -->
+  <text x="40" y="130" fill="#b91c1c" font-size="12.5" font-weight="600">成果物（フロー）</text>
+
+  <rect x="40" y="142" width="150" height="52" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="115" y="164" text-anchor="middle" fill="#7f1d1d" font-size="11">記事・コード</text>
+  <text x="115" y="180" text-anchor="middle" fill="#b91c1c" font-size="10">頼めば作れる</text>
+
+  <rect x="262" y="142" width="150" height="52" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="337" y="164" text-anchor="middle" fill="#7f1d1d" font-size="11">記事・コード</text>
+  <text x="337" y="180" text-anchor="middle" fill="#b91c1c" font-size="10">また頼めば作れる</text>
+
+  <rect x="484" y="142" width="150" height="52" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="559" y="164" text-anchor="middle" fill="#7f1d1d" font-size="11">記事・コード</text>
+  <text x="559" y="180" text-anchor="middle" fill="#b91c1c" font-size="10">また頼めば作れる</text>
+
+  <!-- stock: one continuous bar -->
+  <text x="40" y="228" fill="#16a34a" font-size="12.5" font-weight="600">環境（ストック）</text>
+
+  <rect x="40" y="240" width="594" height="52" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="337" y="262" text-anchor="middle" fill="#166534" font-size="11.5">hookのコード ／ リポジトリのPull Request ／ Decisionsノート</text>
+  <text x="337" y="280" text-anchor="middle" fill="#16a34a" font-size="10.5">モデルが変わっても、同じ形のまま使われ続ける</text>
+</svg>
