@@ -21,6 +21,13 @@
           {{ end }}
         </li>
       {{ end }}
+      {{ if gt (len .AllTranslations) 1 }}
+        {{ range .AllTranslations.ByLanguage }}
+          <li class="Banner-item">
+            <a class="Banner-link u-clickable" href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
+          </li>
+        {{ end }}
+      {{ end }}
       <li class="Banner-item" style="display:flex;align-items:center;order:-1;">
         <form role="search" style="margin:0.5rem 1rem;" onsubmit="event.preventDefault();var v=this.q.value.trim();if(v){window.location='https://www.google.com/search?q='+encodeURIComponent('site:nobu666.com '+v);}">
           <input type="search" name="q" placeholder="サイト内検索" aria-label="サイト内検索"

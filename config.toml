@@ -1,5 +1,6 @@
 baseurl = "https://nobu666.com/"
 DefaultContentLanguage = "ja"
+defaultContentLanguageInSubdir = false
 languageCode = "ja"
 title = "Real Beat"
 theme = "hugo-flex"
@@ -9,6 +10,16 @@ copyright = "&copy; nobu666.com"
 hasCJKLanguage = true
 enableHighlight = true
 paginate = 20
+
+[languages]
+  [languages.ja]
+    languageName = "日本語"
+    languageCode = "ja"
+    weight = 1
+  [languages.en]
+    languageName = "English"
+    languageCode = "en"
+    weight = 2
 
 [service.disqus]
 shortname = "realbeat"
