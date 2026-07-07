@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 430" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="430" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <text x="40" y="34" fill="#333" font-size="14" font-weight="600">記事1049の指摘11件を、4つの恒久ルールに蒸留</text>
+
+  <rect x="40" y="50" width="300" height="70" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="190" y="74" text-anchor="middle" fill="#166534" font-size="12" font-weight="600">機械で検査できる（2つ）</text>
+  <text x="190" y="93" text-anchor="middle" fill="#166534" font-size="10.5">一次情報ゲート</text>
+  <text x="190" y="108" text-anchor="middle" fill="#166534" font-size="10.5">表の孤児行禁止</text>
+
+  <rect x="360" y="50" width="280" height="70" rx="6" fill="#f4f4f4" stroke="#ccc"/>
+  <text x="500" y="74" text-anchor="middle" fill="#555" font-size="12" font-weight="600">読解が要る（2つ）</text>
+  <text x="500" y="93" text-anchor="middle" fill="#555" font-size="10.5">芯ピボット時の通し書き直し</text>
+  <text x="500" y="108" text-anchor="middle" fill="#555" font-size="10.5">中心主張のwhy必須</text>
+
+  <line x1="190" y1="120" x2="190" y2="168" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <line x1="500" y1="120" x2="500" y2="168" stroke="#999" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <text x="40" y="200" fill="#333" font-size="14" font-weight="600">本記事（新ルール下でSonnet 5が執筆）へのFable 5レビュー：指摘8件</text>
+
+  <rect x="40" y="216" width="300" height="70" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="190" y="248" text-anchor="middle" fill="#166534" font-size="24" font-weight="700">1件</text>
+  <text x="190" y="272" text-anchor="middle" fill="#166534" font-size="11">既存ルールで機械的に拾えた</text>
+
+  <rect x="360" y="216" width="280" height="70" rx="6" fill="#fff8e1" stroke="#f0c040"/>
+  <text x="500" y="248" text-anchor="middle" fill="#8a6100" font-size="24" font-weight="700">7件</text>
+  <text x="500" y="272" text-anchor="middle" fill="#8a6100" font-size="11">読解でしか拾えなかった</text>
+
+  <rect x="40" y="310" width="600" height="90" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="340" y="340" text-anchor="middle" fill="#333" font-size="12" font-weight="600">11件 → 4ルール（機械検査2／読解2） → 実測8件中、機械で拾えたのは1件だけ</text>
+  <text x="340" y="365" text-anchor="middle" fill="#666" font-size="11">「ある・なし」を数える仕事はルール化できたが、「合っているか」を読む仕事は蒸留できなかった</text>
+  <text x="340" y="385" text-anchor="middle" fill="#666" font-size="11">残り7件は、次もまた上位モデルに読ませるしかない</text>
+</svg>
