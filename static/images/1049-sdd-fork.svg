@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 520" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#aaa"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="520" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <text x="40" y="32" fill="#333" font-size="14" font-weight="600">分岐点は、レビューを省けるかどうか</text>
+
+  <!-- common start -->
+  <rect x="40" y="48" width="600" height="46" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="340" y="76" text-anchor="middle" fill="#333" font-size="13" font-weight="600">共通の出発点：仕様を先に固める</text>
+
+  <line x1="215" y1="94" x2="150" y2="130" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="465" y1="94" x2="530" y2="130" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- left: Kiro -->
+  <rect x="30" y="132" width="290" height="44" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="175" y="159" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">Kiro：仕様ができた後</text>
+
+  <line x1="175" y1="176" x2="175" y2="206" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="208" width="290" height="46" rx="6" fill="#fff" stroke="#999"/>
+  <text x="175" y="230" text-anchor="middle" fill="#333" font-size="12">Analyze Requirements</text>
+  <text x="175" y="246" text-anchor="middle" fill="#888" font-size="10.5">実行するかは開発者が都度選ぶ</text>
+
+  <line x1="120" y1="254" x2="90" y2="288" stroke="#16a34a" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+  <line x1="230" y1="254" x2="260" y2="288" stroke="#aaa" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-gray)"/>
+
+  <text x="60" y="304" fill="#166534" font-size="10.5" font-weight="600">実行する</text>
+  <text x="230" y="304" fill="#888" font-size="10.5" font-weight="600">Quick Planで省く</text>
+
+  <rect x="20" y="312" width="150" height="56" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="95" y="334" text-anchor="middle" fill="#166534" font-size="10.5">要件の矛盾・曖昧さ</text>
+  <text x="95" y="350" text-anchor="middle" fill="#166534" font-size="10.5">を検出</text>
+
+  <rect x="180" y="312" width="150" height="56" rx="6" fill="#f4f4f4" stroke="#ccc"/>
+  <text x="255" y="334" text-anchor="middle" fill="#888" font-size="10.5">穴があれば</text>
+  <text x="255" y="350" text-anchor="middle" fill="#888" font-size="10.5">実装後に持ち越し</text>
+
+  <!-- right: mine -->
+  <rect x="360" y="132" width="290" height="44" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="505" y="159" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">俺：仕様ができた後</text>
+
+  <line x1="505" y1="176" x2="505" y2="206" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="360" y="208" width="290" height="46" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="505" y="230" text-anchor="middle" fill="#166534" font-size="12" font-weight="600">敵対的レビュー（Subagent）</text>
+  <text x="505" y="246" text-anchor="middle" fill="#166534" font-size="10.5">省く選択肢を自分に与えない</text>
+
+  <line x1="505" y1="254" x2="505" y2="288" stroke="#16a34a" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+
+  <rect x="380" y="290" width="250" height="60" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="505" y="313" text-anchor="middle" fill="#166534" font-size="11" font-weight="600">High 3件を実装前に確定</text>
+  <text x="505" y="330" text-anchor="middle" fill="#166534" font-size="10.5">SSRFガード欠落／ホスト判定の緩さ／機能退行</text>
+
+  <line x1="175" y1="368" x2="175" y2="400" stroke="#aaa" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <line x1="505" y1="350" x2="505" y2="400" stroke="#aaa" stroke-width="1.2" stroke-dasharray="4 3"/>
+
+  <rect x="40" y="402" width="600" height="70" rx="6" fill="#fff8e1" stroke="#f0c040"/>
+  <text x="340" y="430" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">詰まる場所（仕様のレビュー）は同じでも</text>
+  <text x="340" y="450" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">迂回路を用意するか、自分から塞ぐかが違う</text>
+
+  <text x="340" y="500" text-anchor="middle" fill="#888" font-size="10.5">Kiroは選んで省ける。俺の型は省く選択肢を自分から取り上げている</text>
+</svg>
