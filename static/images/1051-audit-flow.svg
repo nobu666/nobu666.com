@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 480" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#b45309"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="480" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <rect x="40" y="24" width="600" height="56" rx="6" fill="#f4f4f4" stroke="#ccc"/>
+  <text x="340" y="47" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">Fable 5(High・単体)がPhase1〜4で環境を再設計</text>
+  <text x="340" y="65" text-anchor="middle" fill="#666" font-size="11">レビュー2体並列 → 14件反映、その日のうちにcommit・push</text>
+
+  <line x1="340" y1="80" x2="340" y2="106" stroke="#999" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <text x="340" y="122" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">Ultracode：4体のエージェントを並列に走らせ4観点で疑う</text>
+
+  <rect x="40" y="136" width="140" height="52" rx="6" fill="#fff8e1" stroke="#f0c040"/>
+  <text x="110" y="158" text-anchor="middle" fill="#8a6100" font-size="11" font-weight="600">ガードレール</text>
+  <text x="110" y="173" text-anchor="middle" fill="#8a6100" font-size="11" font-weight="600">迂回</text>
+
+  <rect x="188" y="136" width="140" height="52" rx="6" fill="#f4f4f4" stroke="#ccc"/>
+  <text x="258" y="158" text-anchor="middle" fill="#555" font-size="11" font-weight="600">ローカル</text>
+  <text x="258" y="173" text-anchor="middle" fill="#555" font-size="11" font-weight="600">整合</text>
+
+  <rect x="336" y="136" width="140" height="52" rx="6" fill="#f4f4f4" stroke="#ccc"/>
+  <text x="406" y="158" text-anchor="middle" fill="#555" font-size="11" font-weight="600">外部脳</text>
+  <text x="406" y="173" text-anchor="middle" fill="#555" font-size="11" font-weight="600">整合</text>
+
+  <rect x="484" y="136" width="156" height="52" rx="6" fill="#f4f4f4" stroke="#ccc"/>
+  <text x="562" y="158" text-anchor="middle" fill="#555" font-size="11" font-weight="600">導入</text>
+  <text x="562" y="173" text-anchor="middle" fill="#555" font-size="11" font-weight="600">シミュレーション</text>
+
+  <line x1="110" y1="188" x2="110" y2="214" stroke="#b45309" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <rect x="40" y="220" width="600" height="118" rx="6" fill="#fff8e1" stroke="#f0c040"/>
+  <text x="60" y="244" fill="#8a6100" font-size="12" font-weight="600">作った時期の違う2本のhookが、同じ種類の穴で素通りしていた</text>
+  <text x="60" y="268" fill="#6b4e00" font-size="11">confirm-master-push.sh(2週間以上前から稼働): `git push`という並びを検索 → `git -C dir push`は間にオプションが挟まり不一致</text>
+  <text x="60" y="288" fill="#6b4e00" font-size="11">confirm-merge.sh(当日新設): `gh`直後に`pr`が続く前提の正規表現 → `gh -R owner/repo pr merge`は不一致</text>
+  <text x="60" y="316" fill="#8a6100" font-size="11" font-weight="600">→ コマンド区切りを跨がずトークンの出現順序を見る方式に書き直し</text>
+  <text x="60" y="333" fill="#8a6100" font-size="11" font-weight="600">→ 20ケースの実測マトリクスで検証</text>
+
+  <line x1="340" y1="338" x2="340" y2="364" stroke="#999" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="40" y="370" width="600" height="86" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="340" y="400" text-anchor="middle" fill="#333" font-size="12" font-weight="600">振り返り監査の指摘、計13件を全反映</text>
+  <text x="340" y="424" text-anchor="middle" fill="#666" font-size="11">反映後の差分をもう一度構造レビューに通し、新しい食い違い2件を追加で検出・反映</text>
+  <text x="340" y="442" text-anchor="middle" fill="#666" font-size="11">作った本人には見えない穴を、対象を絞らず別視点で見つける</text>
+</svg>
