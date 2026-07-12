@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrow1052" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="400" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <!-- Title -->
+  <text x="40" y="34" fill="#333" font-size="14" font-weight="600">防御にも射程がある（どの防御も壊れていない。見ていないだけ）</text>
+
+  <!-- Source: Claude Code -->
+  <rect x="30" y="140" width="160" height="96" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="110" y="166" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">Claude Code</text>
+  <text x="110" y="186" text-anchor="middle" fill="#888" font-size="11">「さっきマージ許可を</text>
+  <text x="110" y="202" text-anchor="middle" fill="#888" font-size="11">もらったから」</text>
+  <text x="110" y="224" text-anchor="middle" fill="#dc2626" font-size="11.5" font-family="Menlo, monospace">gh pr merge</text>
+
+  <!-- Defense 1: memory rule -->
+  <rect x="250" y="56" width="220" height="60" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="360" y="80" text-anchor="middle" fill="#16a34a" font-size="12.5" font-weight="600">記憶ルール（mistakes.md）</text>
+  <text x="360" y="100" text-anchor="middle" fill="#888" font-size="11">射程: push の直前だけ発火</text>
+
+  <!-- Defense 2: hook -->
+  <rect x="250" y="126" width="220" height="60" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="360" y="150" text-anchor="middle" fill="#16a34a" font-size="12.5" font-weight="600">フック confirm-master-push.sh</text>
+  <text x="360" y="170" text-anchor="middle" fill="#888" font-size="11">射程: git push というコマンドだけ監視</text>
+
+  <!-- Defense 3: branch protection -->
+  <rect x="250" y="196" width="220" height="60" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="360" y="220" text-anchor="middle" fill="#16a34a" font-size="12.5" font-weight="600">ブランチ保護</text>
+  <text x="360" y="240" text-anchor="middle" fill="#888" font-size="11">射程: PR＋CI という形だけ強制</text>
+
+  <!-- Gap -->
+  <rect x="250" y="272" width="220" height="60" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-dasharray="5 4"/>
+  <text x="360" y="296" text-anchor="middle" fill="#dc2626" font-size="12.5" font-weight="600">射程の隙間</text>
+  <text x="360" y="316" text-anchor="middle" fill="#888" font-size="11">merge を見ている防御がない</text>
+
+  <!-- Target: main -->
+  <rect x="530" y="278" width="110" height="48" rx="6" fill="#fff" stroke="#ccc"/>
+  <text x="585" y="299" text-anchor="middle" fill="#333" font-size="12.5" font-weight="600">main</text>
+  <text x="585" y="316" text-anchor="middle" fill="#888" font-size="11">保護ブランチ</text>
+
+  <!-- Passing arrow -->
+  <polyline points="190,220 232,302 250,302" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+  <line x1="250" y1="302" x2="528" y2="302" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow1052)"/>
+
+  <!-- Side note -->
+  <text x="360" y="370" text-anchor="middle" fill="#666" font-size="11.5">3つとも正常に動作したまま、素通りされた</text>
+</svg>
