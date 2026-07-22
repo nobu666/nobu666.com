@@ -1,0 +1,6 @@
+{{- /* Disqus comments on posts (year sections) only. Overrides the theme's
+     utterances-only partial. Hugo's internal template reads
+     [services.disqus] shortname from config and skips localhost. */ -}}
+{{ if .Type | in site.Params.mainSections }}
+  {{ template "_internal/disqus.html" . }}
+{{ end }}
