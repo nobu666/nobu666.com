@@ -2,6 +2,7 @@
 /resources/_gen
 .hugo_build.lock
 .DS_Store
-.claude/
+.claude/*
+!.claude/skills/
 .serena/
 /static/images/raw/

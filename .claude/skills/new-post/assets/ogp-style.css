@@ -1,0 +1,32 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1200px; height: 630px; overflow: hidden; }
+.ogp {
+  width: 1200px; height: 630px;
+  background: linear-gradient(135deg, #1c2130 0%, #13161f 100%);
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", -apple-system, sans-serif;
+  color: #f5f7fa;
+  padding: 56px 60px;
+  display: flex; flex-direction: column;
+}
+.top { display: flex; justify-content: space-between; align-items: center; }
+.slug { display: flex; align-items: center; font-size: 22px; color: #c3cad6;
+  font-family: "SF Mono", "Menlo", monospace; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: #2ec27e;
+  margin-right: 12px; box-shadow: 0 0 10px rgba(46,194,126,.6); }
+.tags { font-size: 17px; color: #5f697d; letter-spacing: 6px; font-weight: 600; }
+.chips { display: flex; align-items: center; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
+.chip { font-size: 21px; padding: 9px 18px; border-radius: 9px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.13);
+  color: #dbe1ec; font-weight: 600; white-space: nowrap; }
+.chip.mono { font-family: "SF Mono", "Menlo", monospace; font-size: 19px; }
+.chip.green { background: #2ec27e; border-color: #2ec27e; color: #08130d; }
+.arrow { color: #5f697d; font-size: 22px; }
+h1 { font-size: 66px; font-weight: 800; line-height: 1.18; margin-top: 40px;
+  letter-spacing: .5px; }
+h1 .g { color: #2ec27e; }
+.spacer { flex: 1; }
+.divider { height: 1px; background: rgba(255,255,255,.10); margin-bottom: 22px; }
+.footrow { display: flex; justify-content: space-between; align-items: center; }
+.cmd { font-family: "SF Mono", "Menlo", monospace; font-size: 19px; color: #8a93a6; }
+.cmd .d { color: #2ec27e; margin-right: 10px; }
+.brand { font-family: "SF Mono", "Menlo", monospace; font-size: 19px; color: #5f697d; }
