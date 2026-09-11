@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="680" height="400" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
+    </marker>
+  </defs>
+  <rect width="680" height="400" fill="#fafafa"/>
+
+  <!-- step 1: connect -->
+  <rect x="20" y="24" width="640" height="72" rx="8" fill="#fff" stroke="#bbb"/>
+  <text x="34" y="46" font-size="13" font-weight="600" fill="#333">1. 既定ポートに接続を試みる</text>
+  <text x="34" y="66" font-size="12" fill="#444">127.0.0.1 と ::1 に加えて、マシンが持つ全インターフェースのアドレスから同じポートへ</text>
+  <text x="34" y="84" font-size="12" fill="#444">どれか1つでも繋がれば表に行を出す。ループバック以外でも繋がれば LISTEN = ALL</text>
+
+  <line x1="340" y1="96" x2="340" y2="124" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- step 2: two GETs -->
+  <rect x="20" y="126" width="640" height="122" rx="8" fill="#fff" stroke="#bbb"/>
+  <text x="34" y="148" font-size="13" font-weight="600" fill="#333">2. 同じパスに GET を2回投げる（リダイレクトは追わない）</text>
+  <rect x="34" y="160" width="296" height="74" rx="6" fill="#f3f3f3" stroke="#ccc"/>
+  <text x="46" y="180" font-size="12" font-weight="600" fill="#333">素の GET</text>
+  <text x="46" y="202" font-size="12" font-family="Menlo, monospace" fill="#444">GET /api/tags</text>
+  <rect x="350" y="160" width="296" height="74" rx="6" fill="#f3f3f3" stroke="#ccc"/>
+  <text x="362" y="180" font-size="12" font-weight="600" fill="#333">偽装 Host の GET</text>
+  <text x="362" y="202" font-size="12" font-family="Menlo, monospace" fill="#444">Host: evil.example</text>
+  <text x="362" y="222" font-size="12" font-family="Menlo, monospace" fill="#444">Origin: http://evil.example</text>
+
+  <line x1="340" y1="248" x2="340" y2="274" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- step 3: three columns -->
+  <rect x="20" y="276" width="640" height="112" rx="8" fill="#fff" stroke="#bbb"/>
+  <text x="34" y="298" font-size="13" font-weight="600" fill="#333">3. 3列に落とす</text>
+
+  <rect x="34" y="308" width="196" height="70" rx="6" fill="#fdf2f2" stroke="#e0a0a0"/>
+  <text x="46" y="328" font-size="12" font-weight="600" fill="#a33">LISTEN</text>
+  <text x="46" y="348" font-size="12" fill="#444">loopback / ALL</text>
+  <text x="46" y="366" font-size="12" fill="#a33">ALL なら赤</text>
+
+  <rect x="242" y="308" width="196" height="70" rx="6" fill="#fdf2f2" stroke="#e0a0a0"/>
+  <text x="254" y="328" font-size="12" font-weight="600" fill="#a33">REBIND</text>
+  <text x="254" y="348" font-size="12" fill="#444">素200 / 偽装403 = blocked</text>
+  <text x="254" y="366" font-size="12" fill="#a33">素200 / 偽装200 = open、赤</text>
+
+  <rect x="450" y="308" width="196" height="70" rx="6" fill="#f3f3f3" stroke="#ccc"/>
+  <text x="462" y="328" font-size="12" font-weight="600" fill="#333">AUTH</text>
+  <text x="462" y="348" font-size="12" fill="#444">素200 = none</text>
+  <text x="462" y="366" font-size="12" fill="#444">401 / 403 = required（色は変えない）</text>
+</svg>
