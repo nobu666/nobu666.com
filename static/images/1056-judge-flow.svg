@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="680" height="400" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 416" width="680" height="416" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
     </marker>
   </defs>
-  <rect width="680" height="400" fill="#fafafa"/>
+  <rect width="680" height="416" fill="#fafafa"/>
 
   <!-- step 1: connect -->
   <rect x="20" y="24" width="640" height="72" rx="8" fill="#fff" stroke="#bbb"/>
@@ -28,21 +28,22 @@
   <line x1="340" y1="248" x2="340" y2="274" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
 
   <!-- step 3: three columns -->
-  <rect x="20" y="276" width="640" height="112" rx="8" fill="#fff" stroke="#bbb"/>
+  <rect x="20" y="276" width="640" height="128" rx="8" fill="#fff" stroke="#bbb"/>
   <text x="34" y="298" font-size="13" font-weight="600" fill="#333">3. 3列に落とす</text>
 
-  <rect x="34" y="308" width="196" height="70" rx="6" fill="#fdf2f2" stroke="#e0a0a0"/>
+  <rect x="34" y="308" width="196" height="86" rx="6" fill="#fdf2f2" stroke="#e0a0a0"/>
   <text x="46" y="328" font-size="12" font-weight="600" fill="#a33">LISTEN</text>
   <text x="46" y="348" font-size="12" fill="#444">loopback / ALL</text>
   <text x="46" y="366" font-size="12" fill="#a33">ALL なら赤</text>
 
-  <rect x="242" y="308" width="196" height="70" rx="6" fill="#fdf2f2" stroke="#e0a0a0"/>
+  <rect x="242" y="308" width="196" height="86" rx="6" fill="#fdf2f2" stroke="#e0a0a0"/>
   <text x="254" y="328" font-size="12" font-weight="600" fill="#a33">REBIND</text>
   <text x="254" y="348" font-size="12" fill="#444">素200 / 偽装403 = blocked</text>
   <text x="254" y="366" font-size="12" fill="#a33">素200 / 偽装200 = open、赤</text>
 
-  <rect x="450" y="308" width="196" height="70" rx="6" fill="#f3f3f3" stroke="#ccc"/>
+  <rect x="450" y="308" width="196" height="86" rx="6" fill="#f3f3f3" stroke="#ccc"/>
   <text x="462" y="328" font-size="12" font-weight="600" fill="#333">AUTH</text>
   <text x="462" y="348" font-size="12" fill="#444">素200 = none</text>
-  <text x="462" y="366" font-size="12" fill="#444">401 / 403 = required（色は変えない）</text>
+  <text x="462" y="366" font-size="12" fill="#444">401 / 403 = required</text>
+  <text x="462" y="384" font-size="12" fill="#888">色は変えない</text>
 </svg>
