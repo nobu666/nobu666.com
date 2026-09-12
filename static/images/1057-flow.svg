@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" width="680" height="420" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
+    </marker>
+  </defs>
+  <rect width="680" height="420" fill="#fafafa"/>
+
+  <!-- step 1: config files -->
+  <rect x="20" y="20" width="640" height="78" rx="8" fill="#fff" stroke="#bbb"/>
+  <text x="34" y="42" font-size="13" font-weight="600" fill="#333">1. 設定ファイルを読んで MCP サーバーを列挙する</text>
+  <text x="34" y="64" font-size="12" fill="#444">Claude Code（.mcp.json、~/.claude.json）／Claude Desktop／Cursor／VS Code／Gemini CLI</text>
+  <text x="34" y="84" font-size="12" fill="#444">サーバーごとに「コマンドと引数」か「URL」のどちらかが書いてある</text>
+
+  <!-- split arrows -->
+  <line x1="200" y1="98" x2="200" y2="130" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="480" y1="98" x2="480" y2="130" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- stdio branch -->
+  <rect x="20" y="132" width="310" height="120" rx="8" fill="#fff" stroke="#bbb"/>
+  <text x="34" y="154" font-size="13" font-weight="600" fill="#333">stdio（コマンドで子プロセスを起動）</text>
+  <text x="34" y="176" font-size="12" fill="#444">仕様に守りは無い。登録の仕方を見る</text>
+  <rect x="34" y="188" width="282" height="24" rx="5" fill="#fff8e6" stroke="#e0c070"/>
+  <text x="44" y="204" font-size="12" fill="#7a5a00">UNPINNED  npx -y / uvx でバージョン未固定</text>
+  <rect x="34" y="218" width="282" height="24" rx="5" fill="#fff8e6" stroke="#e0c070"/>
+  <text x="44" y="234" font-size="12" fill="#7a5a00">SECRET_INLINE  env の秘密が平文（git 下は赤）</text>
+
+  <!-- http branch -->
+  <rect x="350" y="132" width="310" height="120" rx="8" fill="#fff" stroke="#bbb"/>
+  <text x="364" y="154" font-size="13" font-weight="600" fill="#333">HTTP（URL に繋ぎに行く）</text>
+  <text x="364" y="176" font-size="12" fill="#444">仕様 2026-07-28 の MUST / SHOULD で見る</text>
+  <rect x="364" y="188" width="282" height="24" rx="5" fill="#fdf2f2" stroke="#e0a0a0"/>
+  <text x="374" y="204" font-size="12" fill="#a33">PLAINTEXT_REMOTE  http:// で外のホストへ</text>
+  <text x="364" y="238" font-size="12" fill="#444">ループバック宛なら下の3判定へ</text>
+
+  <line x1="505" y1="252" x2="505" y2="284" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- local http checks -->
+  <rect x="350" y="286" width="310" height="114" rx="8" fill="#fff" stroke="#bbb"/>
+  <text x="364" y="308" font-size="13" font-weight="600" fill="#333">ローカル HTTP（前の道具と同じ手順）</text>
+  <rect x="364" y="318" width="282" height="22" rx="5" fill="#fdf2f2" stroke="#e0a0a0"/>
+  <text x="374" y="333" font-size="12" fill="#a33">LISTEN_ALL  全IFに束縛（SHOULD 違反）</text>
+  <rect x="364" y="345" width="282" height="22" rx="5" fill="#fdf2f2" stroke="#e0a0a0"/>
+  <text x="374" y="360" font-size="12" fill="#a33">REBIND_OPEN  偽装 Host を通す（MUST 違反）</text>
+  <rect x="364" y="372" width="282" height="22" rx="5" fill="#fff8e6" stroke="#e0c070"/>
+  <text x="374" y="387" font-size="12" fill="#7a5a00">AUTH_NONE  認証なしで応答（SHOULD 違反）</text>
+
+  <!-- legend -->
+  <text x="34" y="300" font-size="12" fill="#444">赤が1行でもあれば終了コード 1</text>
+  <rect x="34" y="312" width="12" height="12" rx="2" fill="#fdf2f2" stroke="#e0a0a0"/>
+  <text x="52" y="322" font-size="12" fill="#444">赤</text>
+  <rect x="84" y="312" width="12" height="12" rx="2" fill="#fff8e6" stroke="#e0c070"/>
+  <text x="102" y="322" font-size="12" fill="#444">黄（WARN）</text>
+  <text x="34" y="352" font-size="12" fill="#666">リモートの https:// には何も送らない</text>
+</svg>
