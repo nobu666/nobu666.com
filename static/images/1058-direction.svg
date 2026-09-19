@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" font-family="-apple-system, sans-serif">
+  <defs>
+    <marker id="arrowb" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowg" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+  </defs>
+  <rect width="680" height="330" rx="8" fill="#fafafa" stroke="#e0e0e0"/>
+
+  <!-- left: Basic Memory -->
+  <rect x="24" y="24" width="304" height="282" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="40" y="52" fill="#1e3a8a" font-size="15" font-weight="600">Basic Memory のプラグイン</text>
+  <text x="40" y="72" fill="#1e40af" font-size="12">AI が黙って書く量を増やして、落とさない</text>
+
+  <rect x="56" y="92" width="240" height="40" rx="6" fill="#fff" stroke="#93c5fd"/>
+  <text x="176" y="111" text-anchor="middle" fill="#1e3a8a" font-size="12" font-weight="600">SessionStart フック</text>
+  <text x="176" y="125" text-anchor="middle" fill="#3b82f6" font-size="11">直近3日のブリーフを自動で入れる</text>
+
+  <line x1="176" y1="132" x2="176" y2="154" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrowb)"/>
+
+  <rect x="56" y="156" width="240" height="40" rx="6" fill="#fff" stroke="#93c5fd"/>
+  <text x="176" y="175" text-anchor="middle" fill="#1e3a8a" font-size="12" font-weight="600">セッション</text>
+  <text x="176" y="189" text-anchor="middle" fill="#3b82f6" font-size="11">会話が進み、コンテキストが埋まる</text>
+
+  <line x1="176" y1="196" x2="176" y2="218" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrowb)"/>
+
+  <rect x="56" y="220" width="240" height="40" rx="6" fill="#fff" stroke="#93c5fd"/>
+  <text x="176" y="239" text-anchor="middle" fill="#1e3a8a" font-size="12" font-weight="600">PreCompact フック</text>
+  <text x="176" y="253" text-anchor="middle" fill="#3b82f6" font-size="11">圧縮の直前に要約ノートを自動で書く</text>
+
+  <!-- loop back -->
+  <path d="M 296 240 L 316 240 L 316 112 L 300 112" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrowb)"/>
+  <text x="176" y="290" text-anchor="middle" fill="#1e40af" font-size="12">ノートは毎セッション増える</text>
+
+  <!-- right: mine -->
+  <rect x="352" y="24" width="304" height="282" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="368" y="52" fill="#166534" font-size="15" font-weight="600">うちの外部脳</text>
+  <text x="368" y="72" fill="#15803d" font-size="12">手で書いて、腐ったところを手で直す</text>
+
+  <rect x="384" y="92" width="240" height="40" rx="6" fill="#fff" stroke="#86efac"/>
+  <text x="504" y="111" text-anchor="middle" fill="#166534" font-size="12" font-weight="600">作業ログ・判断・知見</text>
+  <text x="504" y="125" text-anchor="middle" fill="#16a34a" font-size="11">規約に沿って手で書く</text>
+
+  <line x1="504" y1="132" x2="504" y2="154" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrowg)"/>
+
+  <rect x="384" y="156" width="240" height="40" rx="6" fill="#fff" stroke="#86efac"/>
+  <text x="504" y="175" text-anchor="middle" fill="#166534" font-size="12" font-weight="600">vault</text>
+  <text x="504" y="189" text-anchor="middle" fill="#16a34a" font-size="11">時間が経つと実態からずれる</text>
+
+  <line x1="504" y1="196" x2="504" y2="218" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrowg)"/>
+
+  <rect x="384" y="220" width="240" height="40" rx="6" fill="#fff" stroke="#86efac"/>
+  <text x="504" y="239" text-anchor="middle" fill="#166534" font-size="12" font-weight="600">手入れ</text>
+  <text x="504" y="253" text-anchor="middle" fill="#16a34a" font-size="11">古い記述を見つけて、diff を見て直す</text>
+
+  <path d="M 624 240 L 644 240 L 644 176 L 628 176" fill="none" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrowg)"/>
+  <text x="504" y="290" text-anchor="middle" fill="#15803d" font-size="12">ノートは増やさず、ずれを戻す</text>
+</svg>
