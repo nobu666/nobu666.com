@@ -158,9 +158,13 @@ curl -s -o /dev/null -w "%{http_code}\n" http://localhost:1313/YYYY/MM/DD/NNNN.h
    - 冗長な言い回し（例: "already X before" の "before" が不要など）が無いか
    - 見つかった場合のみ最小限の修正をする。無ければ変更しない（変更のための変更はしない）
 
-3. **ビルド確認**: `hugo --minify` でエラーが無いこと、`public/en/YYYY/MM/DD/NNNN.html` が生成されていることを確認する
+3. **OGP と図の英語版**: 日本語版の OGP・SVG を流用せず、英語版を別ファイルで作って `.en.md` から参照する（記事1059で指摘され、1056〜1058は流用していた）。
+   - OGP: 採用案の HTML（手順6の `/tmp/ogp-NNNN/<案>.html`）のチップ・見出しを英訳して同じ手順で PNG 化し、`static/images/NNNN-ogp.en.png` に置く。`.en.md` の `images` をそれに変える。見出しが2行に収まるかを日本語版と同じく目視で確認する（英語は1行の文字数が増えて3行に折れやすい）
+   - 図: SVG のラベルを英訳した `static/images/NNNN-xxx.en.svg` を作り、`.en.md` の `<img src>` をそれに変える。`alt` も英語にする。描画して文字のはみ出しを確認する
 
-4. **ブラウザ確認**: 手順8で起動したサーバで `http://localhost:1313/en/YYYY/MM/DD/NNNN.html` を開き、ヘッダーの言語切替リンク（日本語/English）が表示され、正しく行き来できることを確認する
+4. **ビルド確認**: `hugo --minify` でエラーが無いこと、`public/en/YYYY/MM/DD/NNNN.html` が生成されていることを確認する
+
+5. **ブラウザ確認**: 手順8で起動したサーバで `http://localhost:1313/en/YYYY/MM/DD/NNNN.html` を開き、ヘッダーの言語切替リンク（日本語/English）が表示され、正しく行き来できることを確認する
 
 ### 10. SNS投稿文の提案
 
